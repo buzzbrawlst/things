@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tung Tung Engine</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161a22;
+    --border: #252b38;
+    --accent: #4f8ef7;
+    --accent2: #7c5cfc;
+    --text: #e8ecf4;
+    --muted: #6b7590;
+    --danger: #e05c5c;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    width: 100%;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .logo {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    white-space: nowrap;
+  }
+
+  .header-search {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    max-width: 640px;
+  }
+
+  .header-search input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .header-search input:focus { border-color: var(--accent); }
+
+  .btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    transition: opacity 0.15s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+
+  .btn-icon {
+    background: var(--border);
+    border: none;
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 8px 12px;
+    transition: background 0.15s;
+  }
+  .btn-icon:hover { background: #2e3547; }
+
+  /* ── Hero (shown on home) ── */
+  #hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px 40px;
+    width: 100%;
+    flex: 1;
+  }
+
+  .hero-logo {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+
+  .hero-tagline {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+  }
+
+  .search-bar {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 580px;
+  }
+
+  .search-bar input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 1rem;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-bar input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+  }
+  .search-bar .btn { padding: 14px 22px; font-size: 0.95rem; }
+
+  /* ── Results frame ── */
+  #results-section {
+    display: none;
+    width: 100%;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  #proxy-frame {
+    width: 100%;
+    flex: 1;
+    border: none;
+    background: #fff;
+    min-height: calc(100vh - 57px);
+  }
+
+  /* ── Settings modal ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    animation: pop 0.18s ease;
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.93); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  .modal h2 {
+    font-size: 1.15rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .field-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .proxy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .proxy-option {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .proxy-option:hover { border-color: var(--accent); background: #1a1f2b; }
+  .proxy-option.selected { border-color: var(--accent); background: rgba(79,142,247,0.08); }
+  .proxy-option.selected .proxy-dot { background: var(--accent); }
+
+  .proxy-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    margin-top: 4px;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .proxy-info .proxy-name { font-weight: 600; font-size: 0.9rem; }
+  .proxy-info .proxy-url  { font-size: 0.75rem; color: var(--muted); margin-top: 2px; word-break: break-all; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  .custom-proxy-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .custom-proxy-row input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.85rem;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .custom-proxy-row input:focus { border-color: var(--accent); }
+  .custom-proxy-row .btn { padding: 9px 14px; font-size: 0.82rem; }
+
+  .custom-hint {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 9px 18px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-ghost:hover { border-color: var(--text); color: var(--text); }
+
+  .status-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--muted);
+    padding: 5px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4caf50;
+    flex-shrink: 0;
+  }
+
+  /* engine picker in hero */
+  .engine-pills {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.78rem;
+    padding: 5px 13px;
+    transition: all 0.15s;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--text); }
+  .pill.active { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,0.08); }
+</style>
+</head>
+<body>
+
+<!-- Header (shown when searching) -->
+<header id="top-bar" style="display:none">
+  <div class="logo">⚡ Tung Tung Engine</div>
+  <div class="header-search">
+    <input id="header-input" type="text" placeholder="Search…" autocomplete="off" />
+    <button class="btn" onclick="doSearch('header-input')">Search</button>
+  </div>
+  <button class="btn-icon" onclick="openSettings()" title="Settings">⚙</button>
+  <button class="btn-icon" onclick="goHome()" title="Home">🏠</button>
+</header>
+
+<!-- Hero Home -->
+<div id="hero">
+  <div class="hero-logo">⚡ Tung Tung Engine</div>
+  <div class="hero-tagline">Private search — routed through your chosen proxy</div>
+
+  <div class="search-bar">
+    <input id="hero-input" type="text" placeholder="Search the web…" autocomplete="off"
+           onkeydown="if(event.key==='Enter') doSearch('hero-input')" />
+    <button class="btn" onclick="doSearch('hero-input')">Search</button>
+  </div>
+
+  <div class="engine-pills">
+    <span class="pill" data-engine="google"   onclick="setEngine(this)">Google</span>
+    <span class="pill active" data-engine="brave"    onclick="setEngine(this)">Brave</span>
+    <span class="pill" data-engine="ddg"      onclick="setEngine(this)">DuckDuckGo</span>
+    <span class="pill" data-engine="bing"     onclick="setEngine(this)">Bing</span>
+    <span class="pill" data-engine="startpage" onclick="setEngine(this)">Startpage</span>
+  </div>
+
+  <div style="margin-top:28px">
+    <button class="btn-ghost" onclick="openSettings()">⚙ Proxy Settings</button>
+  </div>
+</div>
+
+<!-- Results (iframe) -->
+<div id="results-section">
+  <iframe id="proxy-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+  <div class="status-bar">
+    <span class="status-dot"></span>
+    <span id="status-text">Ready</span>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="overlay" id="settings-overlay" onclick="overlayClick(event)">
+  <div class="modal">
+    <h2>⚙ Proxy Settings</h2>
+
+    <div class="field-label">Choose a Proxy</div>
+    <div class="proxy-list" id="proxy-list"></div>
+
+    <hr class="divider" />
+
+    <div class="field-label">Custom Proxy URL</div>
+    <div class="custom-proxy-row">
+      <input id="custom-url" type="text" placeholder="https://your-proxy.example.com/?" />
+      <button class="btn" onclick="addCustom()">Add</button>
+    </div>
+    <div class="custom-hint">
+      The proxy URL will have the full destination URL appended to it.<br>
+      Example: <code style="color:var(--accent)">https://proxy.example.com/?url=</code>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeSettings()">Cancel</button>
+      <button class="btn" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────
+const STORAGE_KEY = 'tte_settings';
+
+const DEFAULT_PROXIES = [
+  { id: 'corsproxy',  name: 'CorsProxy.io',        url: 'https://corsproxy.io/?' },
+  { id: 'alloy',      name: 'Alloy Proxy',          url: 'https://alloy.rb.gy/' },
+  { id: 'htmlpreview',name: 'HTML Preview Proxy',   url: 'https://htmlpreview.github.io/?' },
+  { id: 'none',       name: 'No Proxy (direct)',    url: '' },
+];
+
+const SEARCH_ENGINES = {
+  google:    'https://www.google.com/search?q=',
+  brave:     'https://search.brave.com/search?q=',
+  ddg:       'https://duckduckgo.com/?q=',
+  bing:      'https://www.bing.com/search?q=',
+  startpage: 'https://www.startpage.com/search?q=',
+};
+
+let state = {
+  proxies: [...DEFAULT_PROXIES],
+  selectedProxy: 'none',
+  engine: 'brave',
+  customProxies: [],
+};
+
+// ─────────────────────────────────────────────
+//  PERSISTENCE
+// ─────────────────────────────────────────────
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      state.selectedProxy  = saved.selectedProxy  || 'none';
+      state.engine         = saved.engine         || 'brave';
+      state.customProxies  = saved.customProxies  || [];
+      if (state.customProxies.length) {
+        state.proxies = [...DEFAULT_PROXIES, ...state.customProxies];
+      }
+    }
+  } catch(e) {}
+}
+
+function persistState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      selectedProxy: state.selectedProxy,
+      engine: state.engine,
+      customProxies: state.customProxies,
+    }));
+  } catch(e) {}
+}
+
+// ─────────────────────────────────────────────
+//  ENGINE PICKER
+// ─────────────────────────────────────────────
+function setEngine(el) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  state.engine = el.dataset.engine;
+  persistState();
+}
+
+function syncEnginePills() {
+  document.querySelectorAll('.pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.engine === state.engine);
+  });
+}
+
+// ─────────────────────────────────────────────
+//  SEARCH
+// ─────────────────────────────────────────────
+function doSearch(inputId) {
+  const q = document.getElementById(inputId).value.trim();
+  if (!q) return;
+
+  const baseUrl   = SEARCH_ENGINES[state.engine] || SEARCH_ENGINES.brave;
+  const searchUrl = baseUrl + encodeURIComponent(q);
+  const proxy     = state.proxies.find(p => p.id === state.selectedProxy);
+  const finalUrl  = proxy && proxy.url ? proxy.url + encodeURIComponent(searchUrl) : searchUrl;
+
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('top-bar').style.display = 'flex';
+  const rs = document.getElementById('results-section');
+  rs.style.display = 'flex';
+
+  document.getElementById('header-input').value = q;
+  document.getElementById('status-text').textContent =
+    'Loading via ' + (proxy && proxy.url ? proxy.name : 'direct') + '…';
+
+  const frame = document.getElementById('proxy-frame');
+  frame.src = finalUrl;
+  frame.onload = () => {
+    document.getElementById('status-text').textContent =
+      'Loaded · ' + (proxy && proxy.url ? proxy.name : 'direct') + ' · ' + new Date().toLocaleTimeString();
+  };
+}
+
+// ─────────────────────────────────────────────
+//  NAVIGATION
+// ─────────────────────────────────────────────
+function goHome() {
+  document.getElementById('hero').style.display = 'flex';
+  document.getElementById('top-bar').style.display = 'none';
+  document.getElementById('results-section').style.display = 'none';
+  document.getElementById('hero-input').focus();
+}
+
+// ─────────────────────────────────────────────
+//  SETTINGS MODAL
+// ─────────────────────────────────────────────
+let tempSelected = '';
+
+function openSettings() {
+  tempSelected = state.selectedProxy;
+  renderProxyList();
+  document.getElementById('settings-overlay').classList.add('open');
+}
+
+function closeSettings() {
+  document.getElementById('settings-overlay').classList.remove('open');
+}
+
+function overlayClick(e) {
+  if (e.target === document.getElementById('settings-overlay')) closeSettings();
+}
+
+function renderProxyList() {
+  const list = document.getElementById('proxy-list');
+  list.innerHTML = '';
+  state.proxies.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'proxy-option' + (p.id === tempSelected ? ' selected' : '');
+    div.innerHTML = `
+      <div class="proxy-dot"></div>
+      <div class="proxy-info">
+        <div class="proxy-name">${escHtml(p.name)}</div>
+        <div class="proxy-url">${p.url ? escHtml(p.url) : 'No proxy — direct connection'}</div>
+      </div>`;
+    div.onclick = () => {
+      tempSelected = p.id;
+      document.querySelectorAll('#proxy-list .proxy-option').forEach(el => el.classList.remove('selected'));
+      div.classList.add('selected');
+      div.querySelector('.proxy-dot').style.background = 'var(--accent)';
+    };
+    list.appendChild(div);
+  });
+}
+
+function addCustom() {
+  const raw = document.getElementById('custom-url').value.trim();
+  if (!raw) return;
+  const url = raw.endsWith('?') || raw.endsWith('/') || raw.endsWith('=') ? raw : raw + '?';
+  const id  = 'custom_' + Date.now();
+  const name = new URL(url).hostname || 'Custom';
+  const proxy = { id, name, url };
+  state.customProxies.push(proxy);
+  state.proxies.push(proxy);
+  document.getElementById('custom-url').value = '';
+  renderProxyList();
+  // auto-select new proxy
+  tempSelected = id;
+  renderProxyList();
+}
+
+function saveSettings() {
+  state.selectedProxy = tempSelected;
+  persistState();
+  closeSettings();
+}
+
+// ─────────────────────────────────────────────
+//  UTIL
+// ─────────────────────────────────────────────
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────
+loadState();
+syncEnginePills();
+document.getElementById('hero-input').focus();
+</script>
+</body>
+</html>

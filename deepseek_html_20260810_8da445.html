@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockVerse - Create, Play, Share</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #0f3460;
+            --accent: #e94560;
+            --accent-hover: #ff6b6b;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --border: #2a2a4a;
+            --success: #00c853;
+            --warning: #ffd600;
+            --danger: #ff1744;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .nav-brand {
+            font-size: 24px;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .currency-display {
+            background: var(--bg-card);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        .currency-icon {
+            font-size: 20px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            border: 2px solid var(--accent);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .layout {
+            display: flex;
+            gap: 20px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+
+        .sidebar-item {
+            padding: 12px 16px;
+            margin: 4px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .sidebar-item:hover, .sidebar-item.active {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .sidebar-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .content-area {
+            flex: 1;
+        }
+
+        /* Cards */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .game-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid var(--border);
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+            border-color: var(--accent);
+        }
+
+        .game-thumbnail {
+            width: 100%;
+            height: 150px;
+            background: var(--gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 15px;
+        }
+
+        .game-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .player-count {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .play-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .play-button:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        /* Game Detail Page */
+        .game-detail {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .game-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .game-thumbnail-large {
+            width: 400px;
+            height: 250px;
+            border-radius: 12px;
+            background: var(--gradient);
+            overflow: hidden;
+        }
+
+        .game-thumbnail-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-details-info {
+            flex: 1;
+        }
+
+        .game-title-large {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .game-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        /* Avatar Editor */
+        .avatar-editor {
+            display: flex;
+            gap: 30px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .avatar-preview {
+            flex: 1;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .avatar-controls {
+            width: 300px;
+        }
+
+        .avatar-3d {
+            width: 200px;
+            height: 400px;
+            position: relative;
+            transform: rotateY(0deg);
+            transition: transform 0.3s;
+        }
+
+        .avatar-part {
+            position: absolute;
+            background: #f0c8a0;
+            border: 2px solid #d4a574;
+        }
+
+        .avatar-head {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            top: 0;
+            left: 70px;
+        }
+
+        .avatar-body {
+            width: 70px;
+            height: 100px;
+            top: 65px;
+            left: 65px;
+            border-radius: 10px;
+        }
+
+        .avatar-arm-left {
+            width: 25px;
+            height: 80px;
+            top: 70px;
+            left: 35px;
+            border-radius: 10px;
+        }
+
+        .avatar-arm-right {
+            width: 25px;
+            height: 80px;
+            top: 70px;
+            left: 140px;
+            border-radius: 10px;
+        }
+
+        .avatar-leg-left {
+            width: 30px;
+            height: 90px;
+            top: 165px;
+            left: 70px;
+            border-radius: 10px;
+        }
+
+        .avatar-leg-right {
+            width: 30px;
+            height: 90px;
+            top: 165px;
+            left: 100px;
+            border-radius: 10px;
+        }
+
+        .color-picker {
+            margin: 15px 0;
+        }
+
+        .color-picker label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .color-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .color-swatch:hover, .color-swatch.selected {
+            border-color: var(--accent);
+            transform: scale(1.2);
+        }
+
+        /* Catalog */
+        .catalog-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-button.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .filter-button:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            color: var(--text-primary);
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .item-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .item-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        .item-thumbnail {
+            width: 100%;
+            height: 150px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .item-info {
+            padding: 15px;
+        }
+
+        .item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Friends List */
+        .friend-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .friend-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .friend-card:hover {
+            background: var(--bg-card);
+        }
+
+        .friend-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .friend-info {
+            flex: 1;
+        }
+
+        .friend-name {
+            font-weight: bold;
+        }
+
+        .friend-status {
+            font-size: 12px;
+            color: var(--success);
+        }
+
+        .friend-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .status-online {
+            background: var(--success);
+        }
+
+        .status-offline {
+            background: var(--text-secondary);
+        }
+
+        /* Notifications */
+        .notification-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .notification-dropdown.show {
+            display: block;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .notification-item:hover {
+            background: var(--bg-card);
+        }
+
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Mini-game Canvas */
+        #game-canvas {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            width: 100%;
+            height: 500px;
+            cursor: crosshair;
+        }
+
+        .game-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* Achievements */
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-creator {
+            background: var(--accent);
+            color: white;
+        }
+
+        .badge-admin {
+            background: #ffd600;
+            color: #000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            .game-header {
+                flex-direction: column;
+            }
+            .game-thumbnail-large {
+                width: 100%;
+            }
+            .avatar-editor {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand" onclick="navigateTo('home')">🎮 BlockVerse</div>
+        <div class="nav-links">
+            <a class="nav-link active" onclick="navigateTo('home')" data-page="home">🏠 Home</a>
+            <a class="nav-link" onclick="navigateTo('discover')" data-page="discover">🔍 Discover</a>
+            <a class="nav-link" onclick="navigateTo('catalog')" data-page="catalog">🛒 Catalog</a>
+            <a class="nav-link" onclick="navigateTo('avatar')" data-page="avatar">👤 Avatar</a>
+            <a class="nav-link" onclick="navigateTo('friends')" data-page="friends">👥 Friends</a>
+            <a class="nav-link" onclick="navigateTo('studio')" data-page="studio">🔧 Studio</a>
+        </div>
+        <div class="nav-user">
+            <div class="currency-display">
+                <span class="currency-icon">💎</span>
+                <span id="currencyDisplay">1,250</span>
+            </div>
+            <div class="notification-bell" onclick="toggleNotifications()" style="cursor: pointer; font-size: 24px; position: relative;">
+                🔔
+                <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background: var(--accent); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; display: flex; align-items: center; justify-content: center;">3</span>
+            </div>
+            <div class="user-avatar" onclick="navigateTo('profile')">JD</div>
+        </div>
+    </nav>
+
+    <!-- Notifications Dropdown -->
+    <div class="notification-dropdown" id="notificationDropdown">
+        <div class="notification-item">
+            <div class="notification-title">🔔 Friend Request</div>
+            <div class="notification-message">Player123 wants to be your friend</div>
+        </div>
+        <div class="notification-item">
+            <div class="notification-title">💎 Item Purchased</div>
+            <div class="notification-message">You bought "Cool Hat" for 500 BlockCoins</div>
+        </div>
+        <div class="notification-item">
+            <div class="notification-title">⭐ Achievement Unlocked</div>
+            <div class="notification-message">You've played 10 games!</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Content will be dynamically loaded here -->
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Welcome Back!</h2>
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-input" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" placeholder="Enter password">
+            </div>
+            <button class="btn-primary" style="width: 100%;" onclick="login()">Login</button>
+            <p style="margin-top: 15px; text-align: center; color: var(--text-secondary);">
+                Don't have an account? <a href="#" style="color: var(--accent);" onclick="showRegister()">Register</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="modal" id="gameModal">
+        <div class="modal-content" style="max-width: 900px;">
+            <h2 class="modal-title" id="gameModalTitle">Playing Game</h2>
+            <div style="position: relative;">
+                <canvas id="game-canvas" width="800" height="500"></canvas>
+                <div class="game-ui">
+                    <div>Score: <span id="gameScore">0</span></div>
+                    <div>Players: <span id="gamePlayers">1</span></div>
+                </div>
+            </div>
+            <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn-secondary" onclick="closeGame()">Leave Game</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        const state = {
+            currentPage: 'home',
+            user: {
+                id: 'user_001',
+                username: 'JediDeveloper',
+                displayName: 'Jedi Dev',
+                avatarUrl: null,
+                currency: 1250,
+                role: 'CREATOR',
+                friends: [],
+                inventory: [],
+                equippedItems: {},
+                avatarColors: {
+                    head: '#f0c8a0',
+                    body: '#f0c8a0',
+                    leftArm: '#f0c8a0',
+                    rightArm: '#f0c8a0',
+                    leftLeg: '#f0c8a0',
+                    rightLeg: '#f0c8a0'
+                }
+            },
+            games: [
+                {
+                    id: 'game_001',
+                    title: 'Epic Obstacle Course',
+                    description: 'Navigate through challenging obstacles and reach the finish line! Compete with friends for the fastest time.',
+                    thumbnail: '🏃',
+                    creator: 'GameMaster42',
+                    players: 247,
+                    maxPlayers: 50,
+                    likes: 1523,
+                    dislikes: 87,
+                    rating: 4.7,
+                    category: 'Adventure',
+                    servers: 12,
+                    featured: true
+                },
+                {
+                    id: 'game_002',
+                    title: 'Space Tycoon',
+                    description: 'Build your own space empire! Mine asteroids, build stations, and trade resources.',
+                    thumbnail: '🚀',
+                    creator: 'CosmicBuilder',
+                    players: 189,
+                    maxPlayers: 100,
+                    likes: 2341,
+                    dislikes: 156,
+                    rating: 4.5,
+                    category: 'Tycoon',
+                    servers: 8
+                },
+                {
+                    id: 'game_003',
+                    title: 'Zombie Survival',
+                    description: 'Team up with friends to survive waves of zombies. Build defenses and find weapons!',
+                    thumbnail: '🧟',
+                    creator: 'SurvivalExpert',
+                    players: 567,
+                    maxPlayers: 30,
+                    likes: 3456,
+                    dislikes: 234,
+                    rating: 4.8,
+                    category: 'Survival',
+                    servers: 18,
+                    featured: true
+                },
+                {
+                    id: 'game_004',
+                    title: 'Racing Championship',
+                    description: 'Race against players worldwide on custom tracks. Upgrade your vehicles and become the champion!',
+                    thumbnail: '🏎️',
+                    creator: 'SpeedDemon',
+                    players: 423,
+                    maxPlayers: 20,
+                    likes: 2876,
+                    dislikes: 198,
+                    rating: 4.6,
+                    category: 'Racing',
+                    servers: 15
+                },
+                {
+                    id: 'game_005',
+                    title: 'Pet Simulator',
+                    description: 'Collect and raise adorable pets! Explore worlds, find rare eggs, and trade with friends.',
+                    thumbnail: '🐾',
+                    creator: 'PetLover99',
+                    players: 1234,
+                    maxPlayers: 200,
+                    likes: 5678,
+                    dislikes: 345,
+                    rating: 4.9,
+                    category: 'Simulator',
+                    servers: 45,
+                    featured: true
+                },
+                {
+                    id: 'game_006',
+                    title: 'Build & Battle',
+                    description: 'Construct amazing structures and battle other players in this creative combat game!',
+                    thumbnail: '⚔️',
+                    creator: 'MasterBuilder',
+                    players: 345,
+                    maxPlayers: 40,
+                    likes: 1987,
+                    dislikes: 123,
+                    rating: 4.4,
+                    category: 'Action',
+                    servers: 10
+                }
+            ],
+            catalogItems: [
+                { id: 'item_001', name: 'Crown of Legends', category: 'hat', price: 1500, icon: '👑', description: 'A majestic crown for true champions', creator: 'RoyalDesigns' },
+                { id: 'item_002', name: 'Dragon Wings', category: 'back', price: 2500, icon: '🦅', description: 'Soar through the skies with style', creator: 'MythicalCreations' },
+                { id: 'item_003', name: 'Neon Shades', category: 'face', price: 800, icon: '🕶️', description: 'Look cool with neon-lit sunglasses', creator: 'FutureFashion' },
+                { id: 'item_004', name: 'Knight Armor', category: 'shirt', price: 2000, icon: '🛡️', description: 'Protect yourself in medieval style', creator: 'MedievalCraft' },
+                { id: 'item_005', name: 'Cosmic Hair', category: 'hair', price: 1200, icon: '💫', description: 'Hair that sparkles like the cosmos', creator: 'StarStyle' },
+                { id: 'item_006', name: 'Golden Boots', category: 'shoes', price: 900, icon: '👢', description: 'Walk with golden elegance', creator: 'LuxurySteps' },
+                { id: 'item_007', name: 'Magic Staff', category: 'accessory', price: 3000, icon: '🪄', description: 'Cast spells with this enchanted staff', creator: 'WizardWorks' },
+                { id: 'item_008', name: 'Pirate Hat', category: 'hat', price: 600, icon: '🏴‍☠️', description: 'Ahoy! A classic pirate hat', creator: 'SeaTreasures' }
+            ],
+            notifications: [
+                { type: 'friend_request', title: 'Friend Request', message: 'Player123 wants to be your friend', read: false },
+                { type: 'purchase', title: 'Item Purchased', message: 'You bought "Cool Hat" for 500 BlockCoins', read: false },
+                { type: 'achievement', title: 'Achievement Unlocked', message: "You've played 10 games!", read: false }
+            ],
+            friends: [
+                { id: 'friend_001', name: 'GameMaster42', status: 'online', avatar: 'GM' },
+                { id: 'friend_002', name: 'CosmicBuilder', status: 'online', avatar: 'CB' },
+                { id: 'friend_003', name: 'PetLover99', status: 'offline', avatar: 'PL' },
+                { id: 'friend_004', name: 'SpeedDemon', status: 'online', avatar: 'SD' },
+                { id: 'friend_005', name: 'MasterBuilder', status: 'offline', avatar: 'MB' }
+            ],
+            activeGame: null,
+            gameScore: 0
+        };
+
+        // Navigation
+        function navigateTo(page) {
+            state.currentPage = page;
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === page) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Load page content
+            switch(page) {
+                case 'home':
+                    loadHomePage();
+                    break;
+                case 'discover':
+                    loadDiscoverPage();
+                    break;
+                case 'catalog':
+                    loadCatalogPage();
+                    break;
+                case 'avatar':
+                    loadAvatarPage();
+                    break;
+                case 'friends':
+                    loadFriendsPage();
+                    break;
+                case 'profile':
+                    loadProfilePage();
+                    break;
+                case 'studio':
+                    loadStudioPage();
+                    break;
+                default:
+                    loadHomePage();
+            }
+        }
+
+        function loadHomePage() {
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <h1 style="font-size: 36px; margin-bottom: 10px;">Welcome back, ${state.user.displayName}! 👋</h1>
+                    <p style="color: var(--text-secondary); margin-bottom: 30px;">Discover amazing games and experiences</p>
+                    
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchHomeTab('featured')">⭐ Featured</div>
+                        <div class="tab" onclick="switchHomeTab('popular')">🔥 Popular</div>
+                        <div class="tab" onclick="switchHomeTab('recent')">🕒 Recent</div>
+                        <div class="tab" onclick="switchHomeTab('recommended')">👍 Recommended</div>
+                    </div>
+
+                    <input type="text" class="search-bar" placeholder="🔍 Search games..." onkeyup="searchGames(this.value)">
+                    
+                    <div class="game-grid" id="gameGrid">
+                        ${renderGameCards(state.games)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGameCards(games) {
+            return games.map(game => `
+                <div class="game-card fade-in" onclick="openGameDetail('${game.id}')">
+                    <div class="game-thumbnail" style="font-size: 64px; display: flex; align-items: center; justify-content: center;">
+                        ${game.thumbnail}
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">${game.title}</div>
+                        <div class="game-meta">
+                            <span style="color: var(--accent);">${game.creator}</span>
+                            <span class="player-count">
+                                <span>👤</span> ${game.players.toLocaleString()}
+                            </span>
+                        </div>
+                        <div class="game-meta" style="margin-top: 5px;">
+                            <span class="rating">⭐ ${game.rating}</span>
+                            <span>👍 ${game.likes}</span>
+                        </div>
+                        <button class="play-button" onclick="event.stopPropagation(); startGame('${game.id}')">▶ PLAY</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchHomeTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            let filteredGames;
+            switch(tab) {
+                case 'featured':
+                    filteredGames = state.games.filter(g => g.featured);
+                    break;
+                case 'popular':
+                    filteredGames = [...state.games].sort((a, b) => b.players - a.players);
+                    break;
+                case 'recent':
+                    filteredGames = [...state.games].slice(-3);
+                    break;
+                case 'recommended':
+                    filteredGames = [...state.games].sort((a, b) => b.rating - a.rating);
+                    break;
+                default:
+                    filteredGames = state.games;
+            }
+            
+            document.getElementById('gameGrid').innerHTML = renderGameCards(filteredGames);
+        }
+
+        function searchGames(query) {
+            const filtered = state.games.filter(game => 
+                game.title.toLowerCase().includes(query.toLowerCase()) ||
+                game.creator.toLowerCase().includes(query.toLowerCase()) ||
+                game.category.toLowerCase().includes(query.toLowerCase())
+            );
+            document.getElementById('gameGrid').innerHTML = renderGameCards(filtered);
+        }
+
+        function openGameDetail(gameId) {
+            const game = state.games.find(g => g.id === gameId);
+            if (!game) return;
+
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <button class="btn-secondary" onclick="navigateTo('home')" style="margin-bottom: 20px;">← Back to Games</button>
+                    
+                    <div class="game-detail">
+                        <div class="game-header">
+                            <div class="game-thumbnail-large" style="font-size: 120px; display: flex; align-items: center; justify-content: center;">
+                                ${game.thumbnail}
+                            </div>
+                            <div class="game-details-info">
+                                <h1 class="game-title-large">${game.title}</h1>
+                                <p style="color: var(--accent); margin-bottom: 10px;">By ${game.creator}</p>
+                                <p class="game-description">${game.description}</p>
+                                
+                                <div class="game-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value">${game.players.toLocaleString()}</div>
+                                        <div class="stat-label">Active Players</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">${game.likes.toLocaleString()}</div>
+                                        <div class="stat-label">Likes</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">${game.rating}</div>
+                                        <div class="stat-label">Rating</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">${game.servers}</div>
+                                        <div class="stat-label">Servers</div>
+                                    </div>
+                                </div>
+
+                                <div class="game-actions">
+                                    <button class="btn-primary" onclick="startGame('${game.id}')">▶ PLAY NOW</button>
+                                    <button class="btn-secondary" onclick="likeGame('${game.id}')">👍 Like</button>
+                                    <button class="btn-secondary">👎 Dislike</button>
+                                    <button class="btn-secondary">📤 Share</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h2 style="margin-bottom: 15px;">🌍 Active Servers</h2>
+                            <div style="display: grid; gap: 10px;">
+                                ${Array.from({length: Math.min(game.servers, 5)}, (_, i) => `
+                                    <div style="background: var(--bg-primary); padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong>Server #${i + 1}</strong>
+                                            <span style="color: var(--text-secondary); margin-left: 10px;">${Math.floor(Math.random() * game.maxPlayers)}/${game.maxPlayers} Players</span>
+                                        </div>
+                                        <button class="btn-primary" onclick="startGame('${game.id}')">Join</button>
+                                    </div>
+                                `).join('')}
+                                ${game.servers > 5 ? `<p style="color: var(--text-secondary); text-align: center; margin-top: 10px;">+ ${game.servers - 5} more servers</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadDiscoverPage() {
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <h1 style="margin-bottom: 20px;">🔍 Discover Games</h1>
+                    
+                    <div class="catalog-filters">
+                        <button class="filter-button active" onclick="filterDiscover('all', this)">All</button>
+                        <button class="filter-button" onclick="filterDiscover('Adventure', this)">🏃 Adventure</button>
+                        <button class="filter-button" onclick="filterDiscover('Tycoon', this)">💰 Tycoon</button>
+                        <button class="filter-button" onclick="filterDiscover('Survival', this)">🧟 Survival</button>
+                        <button class="filter-button" onclick="filterDiscover('Racing', this)">🏎️ Racing</button>
+                        <button class="filter-button" onclick="filterDiscover('Simulator', this)">🐾 Simulator</button>
+                        <button class="filter-button" onclick="filterDiscover('Action', this)">⚔️ Action</button>
+                    </div>
+
+                    <input type="text" class="search-bar" placeholder="🔍 Search by name, creator, or category..." onkeyup="searchDiscover(this.value)">
+                    
+                    <div class="game-grid" id="discoverGrid">
+                        ${renderGameCards(state.games)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterDiscover(category, button) {
+            document.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filtered = category === 'all' 
+                ? state.games 
+                : state.games.filter(g => g.category === category);
+            
+            document.getElementById('discoverGrid').innerHTML = renderGameCards(filtered);
+        }
+
+        function searchDiscover(query) {
+            const filtered = state.games.filter(game => 
+                game.title.toLowerCase().includes(query.toLowerCase()) ||
+                game.creator.toLowerCase().includes(query.toLowerCase()) ||
+                game.category.toLowerCase().includes(query.toLowerCase())
+            );
+            document.getElementById('discoverGrid').innerHTML = renderGameCards(filtered);
+        }
+
+        function loadCatalogPage() {
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <h1 style="margin-bottom: 20px;">🛒 Catalog</h1>
+                    
+                    <div class="catalog-filters">
+                        <button class="filter-button active" onclick="filterCatalog('all', this)">All Items</button>
+                        <button class="filter-button" onclick="filterCatalog('hat', this)">👑 Hats</button>
+                        <button class="filter-button" onclick="filterCatalog('hair', this)">💇 Hair</button>
+                        <button class="filter-button" onclick="filterCatalog('face', this)">😎 Face</button>
+                        <button class="filter-button" onclick="filterCatalog('back', this)">🎒 Back</button>
+                        <button class="filter-button" onclick="filterCatalog('shirt', this)">👕 Shirts</button>
+                        <button class="filter-button" onclick="filterCatalog('shoes', this)">👟 Shoes</button>
+                        <button class="filter-button" onclick="filterCatalog('accessory', this)">✨ Accessories</button>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <input type="text" class="search-bar" placeholder="🔍 Search items..." onkeyup="searchCatalog(this.value)" style="margin-bottom: 0;">
+                        <select class="form-input" style="width: 200px;" onchange="sortCatalog(this.value)">
+                            <option value="default">Sort by: Default</option>
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_desc">Price: High to Low</option>
+                            <option value="name">Name</option>
+                        </select>
+                    </div>
+                    
+                    <div class="game-grid" id="catalogGrid">
+                        ${renderCatalogItems(state.catalogItems)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCatalogItems(items) {
+            return items.map(item => `
+                <div class="item-card fade-in" onclick="showItemDetail('${item.id}')">
+                    <div class="item-thumbnail">${item.icon}</div>
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div style="color: var(--text-secondary); font-size: 12px; margin-bottom: 8px;">${item.category} • By ${item.creator}</div>
+                        <div class="item-price">💎 ${item.price.toLocaleString()}</div>
+                        <button class="play-button" onclick="event.stopPropagation(); purchaseItem('${item.id}')">
+                            ${state.user.inventory.includes(item.id) ? '✅ Owned' : 'Buy Now'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCatalog(category, button) {
+            document.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filtered = category === 'all' 
+                ? state.catalogItems 
+                : state.catalogItems.filter(item => item.category === category);
+            
+            document.getElementById('catalogGrid').innerHTML = renderCatalogItems(filtered);
+        }
+
+        function searchCatalog(query) {
+            const filtered = state.catalogItems.filter(item => 
+                item.name.toLowerCase().includes(query.toLowerCase()) ||
+                item.category.toLowerCase().includes(query.toLowerCase())
+            );
+            document.getElementById('catalogGrid').innerHTML = renderCatalogItems(filtered);
+        }
+
+        function sortCatalog(sortBy) {
+            let sorted = [...state.catalogItems];
+            switch(sortBy) {
+                case 'price_asc':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price_desc':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name':
+                    sorted.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+            }
+            document.getElementById('catalogGrid').innerHTML = renderCatalogItems(sorted);
+        }
+
+        function showItemDetail(itemId) {
+            const item = state.catalogItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <button class="btn-secondary" onclick="navigateTo('catalog')" style="margin-bottom: 20px;">← Back to Catalog</button>
+                    
+                    <div class="game-detail">
+                        <div style="display: flex; gap: 30px;">
+                            <div style="font-size: 150px; width: 300px; height: 300px; background: var(--gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                ${item.icon}
+                            </div>
+                            <div>
+                                <h1 style="font-size: 32px;">${item.name}</h1>
+                                <p style="color: var(--accent); margin: 10px 0;">${item.category} • By ${item.creator}</p>
+                                <p style="color: var(--text-secondary); margin-bottom: 20px;">${item.description}</p>
+                                <p style="font-size: 24px; font-weight: bold; color: var(--accent);">💎 ${item.price.toLocaleString()}</p>
+                                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                                    <button class="btn-primary" onclick="purchaseItem('${item.id}')">
+                                        ${state.user.inventory.includes(item.id) ? '✅ Owned' : 'Buy Now'}
+                                    </button>
+                                    ${state.user.inventory.includes(item.id) ? '<button class="btn-secondary">👤 Equip</button>' : ''}
+                                    <button class="btn-secondary">❤️ Wishlist</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function purchaseItem(itemId) {
+            const item = state.catalogItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            if (state.user.inventory.includes(itemId)) {
+                alert('You already own this item!');
+                return;
+            }
+
+            if (state.user.currency < item.price) {
+                alert('Not enough BlockCoins! You need ' + item.price + ' 💎');
+                return;
+            }
+
+            if (confirm(`Buy "${item.name}" for 💎${item.price}?`)) {
+                state.user.currency -= item.price;
+                state.user.inventory.push(itemId);
+                updateCurrencyDisplay();
+                alert('Purchase successful! Item added to your inventory.');
+                navigateTo('catalog');
+            }
+        }
+
+        function loadAvatarPage() {
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <h1 style="margin-bottom: 20px;">👤 Avatar Editor</h1>
+                    
+                    <div class="avatar-editor">
+                        <div class="avatar-preview">
+                            <div class="avatar-3d" id="avatarPreview">
+                                <div class="avatar-part avatar-head" style="background: ${state.user.avatarColors.head};"></div>
+                                <div class="avatar-part avatar-body" style="background: ${state.user.avatarColors.body};"></div>
+                                <div class="avatar-part avatar-arm-left" style="background: ${state.user.avatarColors.leftArm};"></div>
+                                <div class="avatar-part avatar-arm-right" style="background: ${state.user.avatarColors.rightArm};"></div>
+                                <div class="avatar-part avatar-leg-left" style="background: ${state.user.avatarColors.leftLeg};"></div>
+                                <div class="avatar-part avatar-leg-right" style="background: ${state.user.avatarColors.rightLeg};"></div>
+                            </div>
+                            <div style="position: absolute; bottom: 20px;">
+                                <button class="btn-secondary" onclick="rotateAvatar(-45)">↺ Rotate Left</button>
+                                <button class="btn-secondary" onclick="rotateAvatar(45)">↻ Rotate Right</button>
+                                <button class="btn-secondary" onclick="resetAvatar()">↻ Reset</button>
+                            </div>
+                        </div>
+                        
+                        <div class="avatar-controls">
+                            <h3 style="margin-bottom: 15px;">🎨 Colors</h3>
+                            
+                            <div class="color-picker">
+                                <label>Head Color</label>
+                                <div class="color-options">
+                                    ${renderColorSwatches('head')}
+                                </div>
+                            </div>
+                            
+                            <div class="color-picker">
+                                <label>Body Color</label>
+                                <div class="color-options">
+                                    ${renderColorSwatches('body')}
+                                </div>
+                            </div>
+                            
+                            <div class="color-picker">
+                                <label>Left Arm</label>
+                                <div class="color-options">
+                                    ${renderColorSwatches('leftArm')}
+                                </div>
+                            </div>
+                            
+                            <div class="color-picker">
+                                <label>Right Arm</label>
+                                <div class="color-options">
+                                    ${renderColorSwatches('rightArm')}
+                                </div>
+                            </div>
+                            
+                            <div class="color-picker">
+                                <label>Left Leg</label>
+                                <div class="color-options">
+                                    ${renderColorSwatches('leftLeg')}
+                                </div>
+                            </div>
+                            
+                            <div class="color-picker">
+                                <label>Right Leg</label>
+                                <div class="color-options">
+                                    ${renderColorSwatches('rightLeg')}
+                                </div>
+                            </div>
+                            
+                            <h3 style="margin: 20px 0 15px;">🎒 Equipped Items</h3>
+                            <div id="equippedItems">
+                                ${Object.keys(state.user.equippedItems).length === 0 
+                                    ? '<p style="color: var(--text-secondary);">No items equipped</p>'
+                                    : Object.entries(state.user.equippedItems).map(([slot, item]) => `
+                                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--bg-primary); border-radius: 8px; margin-bottom: 5px;">
+                                            <span>${slot}: ${item}</span>
+                                            <button class="btn-secondary" style="padding: 5px 10px;" onclick="unequipItem('${slot}')">Remove</button>
+                                        </div>
+                                    `).join('')}
+                            </div>
+                            
+                            <button class="btn-primary" style="width: 100%; margin-top: 20px;" onclick="saveAvatar()">💾 Save Avatar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderColorSwatches(part) {
+            const colors = ['#f0c8a0', '#d4a574', '#8d5524', '#c68642', '#e0ac69', '#ffdbac', '#ffcc00', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dfe6e9', '#74b9ff', '#a29bfe'];
+            return colors.map(color => `
+                <div class="color-swatch ${state.user.avatarColors[part] === color ? 'selected' : ''}" 
+                     style="background: ${color};" 
+                     onclick="changeAvatarColor('${part}', '${color}')"></div>
+            `).join('');
+        }
+
+        function changeAvatarColor(part, color) {
+            state.user.avatarColors[part] = color;
+            loadAvatarPage();
+        }
+
+        function rotateAvatar(degrees) {
+            const avatar = document.getElementById('avatarPreview');
+            const currentRotation = avatar.style.transform ? 
+                parseInt(avatar.style.transform.replace('rotateY(', '').replace('deg)', '')) || 0 : 0;
+            avatar.style.transform = `rotateY(${currentRotation + degrees}deg)`;
+        }
+
+        function resetAvatar() {
+            state.user.avatarColors = {
+                head: '#f0c8a0',
+                body: '#f0c8a0',
+                leftArm: '#f0c8a0',
+                rightArm: '#f0c8a0',
+                leftLeg: '#f0c8a0',
+                rightLeg: '#f0c8a0'
+            };
+            loadAvatarPage();
+        }
+
+        function unequipItem(slot) {
+            delete state.user.equippedItems[slot];
+            loadAvatarPage();
+        }
+
+        function saveAvatar() {
+            alert('Avatar saved successfully!');
+            navigateTo('home');
+        }
+
+        function loadFriendsPage() {
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h1>👥 Friends</h1>
+                        <div>
+                            <input type="text" class="form-input" placeholder="Search users..." style="width: 300px; display: inline-block; margin-right: 10px;">
+                            <button class="btn-primary">🔍 Search</button>
+                        </div>
+                    </div>
+
+                    <div class="tabs">
+                        <div class="tab active" onclick="switchFriendsTab('all')">All Friends (${state.friends.length})</div>
+                        <div class="tab" onclick="switchFriendsTab('online')">Online (${state.friends.filter(f => f.status === 'online').length})</div>
+                        <div class="tab" onclick="switchFriendsTab('requests')">Requests (2)</div>
+                    </div>
+                    
+                    <div class="friend-list" id="friendsList">
+                        ${renderFriends(state.friends)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFriends(friends) {
+            return friends.map(friend => `
+                <div class="friend-card fade-in">
+                    <div class="friend-avatar">${friend.avatar}</div>
+                    <div class="friend-info">
+                        <div class="friend-name">${friend.name}</div>
+                        <div class="friend-status">
+                            <span class="status-dot ${friend.status === 'online' ? 'status-online' : 'status-offline'}"></span>
+                            ${friend.status}
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="btn-secondary" onclick="viewProfile('${friend.id}')">👤 Profile</button>
+                        <button class="btn-secondary" onclick="sendMessage('${friend.id}')">💬 Message</button>
+                        <button class="btn-secondary" onclick="removeFriend('${friend.id}')">❌ Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchFriendsTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            let filtered;
+            switch(tab) {
+                case 'online':
+                    filtered = state.friends.filter(f => f.status === 'online');
+                    break;
+                case 'requests':
+                    filtered = [];
+                    document.getElementById('friendsList').innerHTML = `
+                        <div class="friend-card">
+                            <div class="friend-avatar">PX</div>
+                            <div class="friend-info">
+                                <div class="friend-name">PlayerX</div>
+                                <div class="friend-status">Wants to be your friend</div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn-primary">✅ Accept</button>
+                                <button class="btn-secondary">❌ Reject</button>
+                            </div>
+                        </div>
+                        <div class="friend-card">
+                            <div class="friend-avatar">GZ</div>
+                            <div class="friend-info">
+                                <div class="friend-name">GameZone</div>
+                                <div class="friend-status">Wants to be your friend</div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn-primary">✅ Accept</button>
+                                <button class="btn-secondary">❌ Reject</button>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                default:
+                    filtered = state.friends;
+            }
+            
+            document.getElementById('friendsList').innerHTML = renderFriends(filtered);
+        }
+
+        function viewProfile(friendId) {
+            const friend = state.friends.find(f => f.id === friendId);
+            if (friend) {
+                alert(`Viewing ${friend.name}'s profile`);
+                navigateTo('profile');
+            }
+        }
+
+        function sendMessage(friendId) {
+            const friend = state.friends.find(f => f.id === friendId);
+            if (friend) {
+                alert(`Message sent to ${friend.name}!`);
+            }
+        }
+
+        function removeFriend(friendId) {
+            const friend = state.friends.find(f => f.id === friendId);
+            if (friend && confirm(`Remove ${friend.name} from friends?`)) {
+                state.friends = state.friends.filter(f => f.id !== friendId);
+                loadFriendsPage();
+            }
+        }
+
+        function loadProfilePage() {
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <div class="game-detail">
+                        <div style="display: flex; gap: 30px; align-items: start;">
+                            <div class="user-avatar" style="width: 100px; height: 100px; font-size: 40px;">${state.user.username.substring(0, 2).toUpperCase()}</div>
+                            <div>
+                                <h1>${state.user.displayName}</h1>
+                                <p style="color: var(--text-secondary);">@${state.user.username}</p>
+                                <span class="badge badge-creator">Creator</span>
+                                <p style="margin-top: 15px; color: var(--text-secondary);">Joined BlockVerse 3 months ago</p>
+                            </div>
+                        </div>
+
+                        <div class="game-stats" style="margin-top: 30px;">
+                            <div class="stat-item">
+                                <div class="stat-value">${state.friends.length}</div>
+                                <div class="stat-label">Friends</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${state.games.filter(g => g.creator === state.user.username).length}</div>
+                                <div class="stat-label">Games Created</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${state.user.inventory.length}</div>
+                                <div class="stat-label">Items Owned</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">💎 ${state.user.currency.toLocaleString()}</div>
+                                <div class="stat-label">BlockCoins</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3 style="margin-bottom: 15px;">🎮 My Games</h3>
+                            <div class="game-grid">
+                                ${state.games
+                                    .filter(g => g.creator === state.user.username)
+                                    .map(game => `
+                                        <div class="game-card" onclick="openGameDetail('${game.id}')">
+                                            <div class="game-thumbnail" style="font-size: 48px; display: flex; align-items: center; justify-content: center;">
+                                                ${game.thumbnail}
+                                            </div>
+                                            <div class="game-info">
+                                                <div class="game-title">${game.title}</div>
+                                                <div class="game-meta">
+                                                    <span>👤 ${game.players}</span>
+                                                    <span>⭐ ${game.rating}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3 style="margin-bottom: 15px;">🎒 Inventory</h3>
+                            <div class="game-grid">
+                                ${state.catalogItems
+                                    .filter(item => state.user.inventory.includes(item.id))
+                                    .map(item => `
+                                        <div class="item-card">
+                                            <div class="item-thumbnail">${item.icon}</div>
+                                            <div class="item-info">
+                                                <div class="item-name">${item.name}</div>
+                                                <button class="play-button">Equip</button>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                            </div>
+                        </div>
+
+                        <button class="btn-secondary" style="margin-top: 20px;" onclick="navigateTo('avatar')">Edit Avatar</button>
+                        <button class="btn-secondary" style="margin-top: 20px; margin-left: 10px;">Edit Profile</button>
+                        <button class="btn-secondary" style="margin-top: 20px; margin-left: 10px;">⚙️ Settings</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadStudioPage() {
+            const main = document.getElementById('mainContent');
+            main.innerHTML = `
+                <div class="fade-in">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h1>🔧 BlockVerse Studio</h1>
+                        <div>
+                            <button class="btn-secondary" onclick="playtestGame()">▶ Playtest</button>
+                            <button class="btn-primary" onclick="publishGame()">📤 Publish</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 20px;">
+                        <div style="width: 250px; background: var(--bg-secondary); border-radius: 12px; padding: 15px;">
+                            <h3 style="margin-bottom: 15px;">📁 Explorer</h3>
+                            <div style="margin-bottom: 20px;">
+                                <div style="padding: 8px; background: var(--bg-card); border-radius: 4px; margin-bottom: 5px;">🌍 Workspace</div>
+                                <div style="padding: 8px; padding-left: 20px;">📦 Part 1</div>
+                                <div style="padding: 8px; padding-left: 20px;">📦 Part 2</div>
+                                <div style="padding: 8px; padding-left: 20px;">📍 SpawnPoint</div>
+                                <div style="padding: 8px; padding-left: 20px;">💡 Light</div>
+                            </div>
+                            
+                            <h3 style="margin-bottom: 15px;">🔧 Tools</h3>
+                            <div class="sidebar-item">↕️ Move</div>
+                            <div class="sidebar-item">🔄 Rotate</div>
+                            <div class="sidebar-item">📏 Scale</div>
+                            <div class="sidebar-item" onclick="addPart()">➕ Add Part</div>
+                            <div class="sidebar-item">🗑️ Delete</div>
+                        </div>
+
+                        <div style="flex: 1;">
+                            <canvas id="studioCanvas" width="800" height="500" style="background: #1a1a2e; border-radius: 12px; width: 100%;"></canvas>
+                            <p style="text-align: center; color: var(--text-secondary); margin-top: 10px;">3D Viewport - Drag to rotate, scroll to zoom</p>
+                        </div>
+
+                        <div style="width: 250px; background: var(--bg-secondary); border-radius: 12px; padding: 15px;">
+                            <h3 style="margin-bottom: 15px;">📋 Properties</h3>
+                            <div class="form-group">
+                                <label class="form-label">Part Name</label>
+                                <input type="text" class="form-input" value="Part 1">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Position</label>
+                                <input type="text" class="form-input" value="0, 10, 0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Size</label>
+                                <input type="text" class="form-input" value="4, 4, 4">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Color</label>
+                                <input type="color" class="form-input" value="#e94560" style="height: 40px;">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Material</label>
+                                <select class="form-input">
+                                    <option>Smooth Plastic</option>
+                                    <option>Wood</option>
+                                    <option>Metal</option>
+                                    <option>Glass</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; background: var(--bg-secondary); border-radius: 12px; padding: 15px;">
+                        <h3 style="margin-bottom: 15px;">📜 Script Editor</h3>
+                        <textarea class="form-input" style="height: 200px; font-family: monospace;" placeholder="Write your game script here...">
+-- Example Script
+function onPlayerJoin(player)
+    print("Welcome, " .. player.name .. "!")
+    player:giveItem("StarterSword")
+end
+
+function onTouched(object, player)
+    if object.name == "Coin" then
+        player:addCoins(10)
+        object:destroy()
+    end
+end
+                        </textarea>
+                        <button class="btn-primary" style="margin-top: 10px;">▶ Run Script</button>
+                    </div>
+                </div>
+            `;
+
+            // Initialize studio canvas
+            setTimeout(initStudioCanvas, 100);
+        }
+
+        function initStudioCanvas() {
+            const canvas = document.getElementById('studioCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Draw grid
+            ctx.strokeStyle = '#2a2a4a';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < canvas.width; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+            }
+            
+            for (let i = 0; i < canvas.height; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+
+            // Draw some sample parts
+            ctx.fillStyle = '#e94560';
+            ctx.fillRect(350, 200, 100, 100);
+            
+            ctx.fillStyle = '#4ecdc4';
+            ctx.fillRect(450, 300, 80, 80);
+            
+            ctx.fillStyle = '#ffd600';
+            ctx.beginPath();
+            ctx.arc(300, 350, 40, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Draw spawn point
+            ctx.fillStyle = '#00c853';
+            ctx.beginPath();
+            ctx.arc(500, 200, 20, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = 'white';
+            ctx.font = '12px Arial';
+            ctx.fillText('Spawn', 485, 205);
+        }
+
+        function addPart() {
+            alert('New part added to workspace!');
+        }
+
+        function playtestGame() {
+            alert('Starting playtest... This would launch your game in a test environment.');
+            startGame('game_001');
+        }
+
+        function publishGame() {
+            const gameName = prompt('Enter game name:');
+            if (gameName) {
+                state.games.push({
+                    id: 'game_' + Date.now(),
+                    title: gameName,
+                    description: 'My awesome new game!',
+                    thumbnail: '🎮',
+                    creator: state.user.username,
+                    players: 0,
+                    maxPlayers: 20,
+                    likes: 0,
+                    dislikes: 0,
+                    rating: 0,
+                    category: 'Adventure',
+                    servers: 1
+                });
+                alert('Game published successfully!');
+                navigateTo('home');
+            }
+        }
+
+        // Mini-game Implementation
+        function startGame(gameId) {
+            const game = state.games.find(g => g.id === gameId);
+            if (!game) return;
+
+            state.activeGame = game;
+            state.gameScore = 0;
+            
+            document.getElementById('gameModalTitle').textContent = `🎮 ${game.title}`;
+            document.getElementById('gameModal').classList.add('show');
+            
+            initGameCanvas();
+        }
+
+        function initGameCanvas() {
+            const canvas = document.getElementById('game-canvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const player = {
+                x: canvas.width / 2,
+                y: canvas.height / 2,
+                size: 30,
+                color: state.user.avatarColors.body,
+                speed: 5
+            };
+
+            const coins = [];
+            const obstacles = [];
+            const otherPlayers = [];
+            
+            // Generate coins
+            for (let i = 0; i < 10; i++) {
+                coins.push({
+                    x: Math.random() * (canvas.width - 20) + 10,
+                    y: Math.random() * (canvas.height - 20) + 10,
+                    size: 15,
+                    collected: false
+                });
+            }
+
+            // Generate obstacles
+            for (let i = 0; i < 5; i++) {
+                obstacles.push({
+                    x: Math.random() * (canvas.width - 60) + 30,
+                    y: Math.random() * (canvas.height - 60) + 30,
+                    width: 60,
+                    height: 60,
+                    color: '#e94560'
+                });
+            }
+
+            // Generate other players
+            for (let i = 0; i < 3; i++) {
+                otherPlayers.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: 30,
+                    color: '#4ecdc4',
+                    dx: (Math.random() - 0.5) * 4,
+                    dy: (Math.random() - 0.5) * 4
+                });
+            }
+
+            const keys = {};
+            
+            document.addEventListener('keydown', (e) => {
+                keys[e.key] = true;
+            });
+
+            document.addEventListener('keyup', (e) => {
+                keys[e.key] = false;
+            });
+
+            function gameLoop() {
+                if (!state.activeGame) return;
+
+                // Clear canvas
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw grid
+                ctx.strokeStyle = '#2a2a4a';
+                ctx.lineWidth = 1;
+                for (let i = 0; i < canvas.width; i += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, canvas.height);
+                    ctx.stroke();
+                }
+                for (let i = 0; i < canvas.height; i += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, i);
+                    ctx.lineTo(canvas.width, i);
+                    ctx.stroke();
+                }
+
+                // Move player
+                if (keys['ArrowUp'] || keys['w']) player.y -= player.speed;
+                if (keys['ArrowDown'] || keys['s']) player.y += player.speed;
+                if (keys['ArrowLeft'] || keys['a']) player.x -= player.speed;
+                if (keys['ArrowRight'] || keys['d']) player.x += player.speed;
+
+                // Keep player in bounds
+                player.x = Math.max(player.size, Math.min(canvas.width - player.size, player.x));
+                player.y = Math.max(player.size, Math.min(canvas.height - player.size, player.y));
+
+                // Check coin collisions
+                coins.forEach(coin => {
+                    if (!coin.collected) {
+                        const dx = player.x - coin.x;
+                        const dy = player.y - coin.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < player.size + coin.size) {
+                            coin.collected = true;
+                            state.gameScore += 100;
+                            document.getElementById('gameScore').textContent = state.gameScore;
+                        }
+                    }
+                });
+
+                // Check obstacle collisions
+                obstacles.forEach(obstacle => {
+                    if (player.x > obstacle.x - player.size &&
+                        player.x < obstacle.x + obstacle.width + player.size &&
+                        player.y > obstacle.y - player.size &&
+                        player.y < obstacle.y + obstacle.height + player.size) {
+                        // Push player out of obstacle
+                        player.x = Math.max(obstacle.x + obstacle.width + player.size, 
+                                   Math.min(obstacle.x - player.size, player.x));
+                        player.y = Math.max(obstacle.y + obstacle.height + player.size,
+                                   Math.min(obstacle.y - player.size, player.y));
+                    }
+                });
+
+                // Move other players
+                otherPlayers.forEach(other => {
+                    other.x += other.dx;
+                    other.y += other.dy;
+                    
+                    if (other.x < 0 || other.x > canvas.width) other.dx *= -1;
+                    if (other.y < 0 || other.y > canvas.height) other.dy *= -1;
+                    
+                    // Draw other player
+                    ctx.fillStyle = other.color;
+                    ctx.beginPath();
+                    ctx.arc(other.x, other.y, other.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                });
+
+                // Draw coins
+                coins.forEach(coin => {
+                    if (!coin.collected) {
+                        ctx.fillStyle = '#ffd600';
+                        ctx.beginPath();
+                        ctx.arc(coin.x, coin.y, coin.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.strokeStyle = '#ffaa00';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                });
+
+                // Draw obstacles
+                obstacles.forEach(obstacle => {
+                    ctx.fillStyle = obstacle.color;
+                    ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                });
+
+                // Draw player
+                ctx.fillStyle = player.color;
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Draw player name
+                ctx.fillStyle = '#fff';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(state.user.username, player.x, player.y - player.size - 10);
+
+                // Check if all coins collected
+                if (coins.every(c => c.collected)) {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 48px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('YOU WIN!', canvas.width / 2, canvas.height / 2);
+                    ctx.font = '24px Arial';
+                    ctx.fillText(`Score: ${state.gameScore}`, canvas.width / 2, canvas.height / 2 + 50);
+                }
+
+                requestAnimationFrame(gameLoop);
+            }
+
+            gameLoop();
+        }
+
+        function closeGame() {
+            state.activeGame = null;
+            document.getElementById('gameModal').classList.remove('show');
+        }
+
+        function likeGame(gameId) {
+            const game = state.games.find(g => g.id === gameId);
+            if (game) {
+                game.likes++;
+                alert('Game liked! 👍');
+            }
+        }
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function login() {
+            alert('Login successful! Welcome back!');
+            document.getElementById('loginModal').classList.remove('show');
+        }
+
+        function showRegister() {
+            alert('Registration form would appear here');
+        }
+
+        function updateCurrencyDisplay() {
+            document.getElementById('currencyDisplay').textContent = state.user.currency.toLocaleString();
+        }
+
+        // Close notifications when clicking outside
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('notificationDropdown');
+            const bell = document.querySelector('.notification-bell');
+            
+            if (dropdown && bell && !bell.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeGame();
+                document.querySelectorAll('.modal').forEach(m => m.classList.remove('show'));
+            }
+        });
+
+        // Initialize
+        navigateTo('home');
+        updateCurrencyDisplay();
+
+        console.log('🎮 BlockVerse Platform Initialized!');
+        console.log('📊 Features Available:');
+        console.log('  - Game Discovery & Playing');
+        console.log('  - Avatar Customization');
+        console.log('  - Item Catalog & Purchasing');
+        console.log('  - Friend System');
+        console.log('  - Game Studio');
+        console.log('  - Real-time Mini-games');
+        console.log('  - Notifications System');
+        console.log('  - User Profiles');
+        console.log('💡 Try playing a game, customizing your avatar, or exploring the catalog!');
+    </script>
+</body>
+</html>

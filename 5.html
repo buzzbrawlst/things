@@ -1,0 +1,76 @@
+<!-- Cloudflare Worker HTML file! --><!DOCTYPE html><html lang="en"><head>
+    <script type="text/javascript">(function(window, document, undefined){
+'use strict';
+window.__sparxweb = {
+  urls: {
+    api: 'https://api.sparx-learning.com',
+    altApi: 'https://studentapi.api.sparxmaths.uk',
+    auth: 'https://api.sparx-learning.com',
+    contentAssets: 'https://cdn.sparx-learning.com',
+    staticAssets: 'https://static.sparx-learning.com',
+    interactionGateway: 'https://api.sparx-learning.com/interaction',
+    feedbackGateway: 'https://api.sparx-learning.com',
+    selectSchool: 'https://selectschool.sparx-learning.com',
+    selectSystem: 'https://app.sparx-learning.com',
+    // We need www here as otherwise there is a CORS preflight error when the request is redirected to www
+    indexWeaver: 'https://www.sparxmaths.uk',
+    readerApp: 'https://reader.sparx-learning.com',
+    scienceApp: 'https://science.sparx-learning.com',
+  },
+  serveRoot: '/student',
+  environment: 'spx001',
+  GAProperty: 'G-G8SNQZC2LY',
+  teacherPortalPath: 'https://maths.sparx-learning.com/teacher/',
+
+  // TODO SPL-194: Show variant served in header on single domain
+  variant: '',
+
+  csrfCookieName: 'unused_on_single_domain',
+  isSingleDomain: true,
+};
+
+})(window, document)</script><script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/assets/polyfills-BTBIeLS9.js"></script>
+
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sparx Maths</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap" rel="stylesheet"/>
+
+    <link rel="icon" href="https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/favicon.ico" sizes="32x32"/>
+    <link rel="icon" href="https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/icon.svg" type="image/svg+xml"/>
+    <link rel="apple-touch-icon" href="https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/apple-touch-icon.png"/>
+    <link rel="manifest" href="https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/site.webmanifest"/>
+    <!--[settings]-->
+    <script type="text/javascript">
+      window.__assetPath = function (path) {
+        return 'https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/' + path;
+      };
+      // Polyfill for games (to resolve "ReferenceError: global is not defined")
+      if (typeof window.global === 'undefined') {
+        window.global = window;
+      }
+    </script>
+    <!-- Sparx Status Embed -->
+    <script type="text/javascript">
+      window.spxStatusEmbedComponentIDs = [
+        '01HY0PXS8YQ7PNP64WS2CF59B4', // Maths - Students
+      ];
+    </script>
+    <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/da9e80d134a9631024e924c0aff851ba.js"></script>
+    <script src="https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/cookies.js"></script>
+    <script>
+      GA(window.__sparxweb.GAProperty);
+      HJ();
+    </script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/assets/main-CRMSqOK6.js"></script>
+    <link rel="stylesheet" crossorigin="" href="https://static.sparx-learning.com/maths/d669f5841e4247d101599856b59fe3a8d77f53b8/assets/main-CiWHpAFm.css"/>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script defer="" src="https://status-widget.sparx-learning.com/"></script>
+  
+
+</body></html>

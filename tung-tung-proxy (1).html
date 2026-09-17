@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Tung Tung Engine</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#1a0c04;
+  --bar-bg:#150a02;
+  --bar-border:#2e1a08;
+  --input-bg:#0e0702;
+  --input-border:#3a2010;
+  --gold:#c89a20;
+  --gold2:#e0b030;
+  --gold-btn:#c07c10;
+  --text:#e8d5b0;
+  --muted:#7a5e3a;
+  --pill-bg:#1f1108;
+  --pill-border:#3a2010;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+button{cursor:pointer;border:none;background:none;color:inherit;font-family:inherit}
+
+/* chrome bar */
+#chrome{display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--bar-bg);border-bottom:1px solid var(--bar-border);flex-shrink:0;height:42px}
+.nav-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:5px;color:var(--muted);font-size:14px;transition:background .12s,color .12s}
+.nav-btn:hover:not(:disabled){background:var(--pill-bg);color:var(--text)}
+.nav-btn:disabled{opacity:.3;pointer-events:none}
+#url-bar{flex:1;display:flex;align-items:center;gap:6px;padding:5px 10px;background:var(--input-bg);border:1px solid var(--input-border);border-radius:6px;min-width:0}
+#url-bar:focus-within{border-color:rgba(200,154,32,.5)}
+#chrome-input{flex:1;background:transparent;border:none;outline:none;font-size:12px;color:var(--text);min-width:0}
+#chrome-input::placeholder{color:var(--muted)}
+#go-btn{padding:5px 14px;border-radius:5px;font-size:12px;font-weight:700;letter-spacing:.3px;color:#0e0702;background:linear-gradient(135deg,var(--gold2),var(--gold-btn));flex-shrink:0}
+#go-btn:hover{filter:brightness(1.1)}
+#status-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:5px;background:var(--pill-bg);border:1px solid var(--pill-border);font-size:11px;color:var(--muted);flex-shrink:0;white-space:nowrap}
+#status-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:background .3s}
+#settings-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:5px;color:var(--muted);font-size:14px;transition:background .12s,color .12s}
+#settings-btn:hover,#settings-btn.open{background:var(--pill-bg);color:var(--text)}
+
+/* home */
+#home{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;overflow:hidden;position:relative}
+#home::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 65%,rgba(140,70,0,.1) 0%,transparent 60%);pointer-events:none}
+#mascot{height:200px;object-fit:contain;filter:drop-shadow(0 8px 32px rgba(160,90,0,.45));transition:transform .25s;cursor:default}
+#mascot:hover{transform:scale(1.04) rotate(-1deg)}
+.tt-title{font-size:26px;font-weight:900;letter-spacing:-.5px;background:linear-gradient(90deg,var(--gold2) 0%,var(--gold) 60%,#a06820 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:flex;align-items:center;gap:8px}
+.tt-sub{font-size:12.5px;color:var(--muted);letter-spacing:.2px}
+
+/* search */
+#search-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:480px;padding:0 16px}
+#search-row{display:flex;align-items:stretch;width:100%;border-radius:8px;overflow:hidden;border:1px solid var(--input-border);background:var(--input-bg)}
+#search-row:focus-within{border-color:rgba(200,154,32,.45);box-shadow:0 0 0 2px rgba(200,154,32,.1)}
+#main-input{flex:1;padding:11px 16px;background:transparent;border:none;outline:none;font-size:14px;color:var(--text)}
+#main-input::placeholder{color:var(--muted)}
+#tung-btn{padding:11px 22px;background:linear-gradient(135deg,var(--gold2),var(--gold-btn));color:#0e0702;font-size:14px;font-weight:900;letter-spacing:.5px;flex-shrink:0;transition:filter .12s}
+#tung-btn:hover{filter:brightness(1.12)}
+#mode-row{display:flex;gap:8px}
+.mode-pill{display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;border:1px solid var(--pill-border);background:var(--pill-bg);font-size:12px;color:var(--muted);transition:all .15s;white-space:nowrap}
+.mode-pill.active{border-color:var(--gold);background:rgba(200,154,32,.08);color:var(--gold)}
+.mode-pill:hover:not(.active){color:var(--text);border-color:var(--muted)}
+
+/* iframe */
+#frame-wrap{flex:1;display:none;position:relative}
+#proxy-frame{width:100%;height:100%;border:0}
+#loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--bg);z-index:5}
+#loading .ld-img{width:70px;height:70px;object-fit:contain;animation:bob .7s ease-in-out infinite alternate}
+#loading p{font-size:13px;color:var(--muted)}
+@keyframes bob{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-12px) rotate(2deg)}}
+
+/* settings */
+#settings-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200}
+#settings-overlay.open{display:block}
+#settings-panel{position:fixed;top:0;right:0;width:290px;height:100%;background:var(--bar-bg);border-left:1px solid var(--bar-border);z-index:201;padding:20px;display:flex;flex-direction:column;gap:0;overflow-y:auto}
+#settings-panel h2{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:16px}
+.sp-x{position:absolute;top:14px;right:14px;font-size:18px;color:var(--muted);line-height:1}
+.sp-x:hover{color:var(--text)}
+.sp-lbl{font-size:11px;color:var(--muted);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.6px}
+.sp-inp{width:100%;padding:8px 10px;border-radius:6px;background:var(--input-bg);border:1px solid var(--input-border);color:var(--text);font-size:12px;outline:none;font-family:inherit}
+.sp-inp:focus{border-color:var(--gold)}
+.sp-save{width:100%;margin-top:10px;padding:9px;border-radius:6px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gold2),var(--gold-btn));color:#0e0702}
+.sp-save:hover{filter:brightness(1.1)}
+.sp-sep{height:1px;background:var(--bar-border);margin:16px 0}
+.eng-btn{width:100%;text-align:left;padding:8px 12px;border-radius:6px;border:1px solid var(--pill-border);background:var(--input-bg);color:var(--muted);font-size:12px;margin-bottom:7px;display:flex;align-items:center;gap:8px;transition:all .12s}
+.eng-btn.active{border-color:var(--gold);background:rgba(200,154,32,.1);color:var(--text)}
+.eng-dot{width:7px;height:7px;border-radius:50%;background:var(--pill-border);flex-shrink:0;transition:background .2s}
+.eng-btn.active .eng-dot{background:var(--gold)}
+.sp-hint{font-size:10.5px;color:var(--muted);line-height:1.6}
+.sp-hint a{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- chrome bar -->
+<div id="chrome">
+  <button class="nav-btn" id="btn-back"   onclick="histBack()"    title="Back"   >&#9664;</button>
+  <button class="nav-btn" id="btn-fwd"    onclick="histFwd()"     title="Forward">&#9654;</button>
+  <button class="nav-btn" id="btn-reload" onclick="reloadFrame()" title="Refresh">&#10227;</button>
+  <button class="nav-btn" id="btn-home"   onclick="goHome()"      title="Home"   >&#8962;</button>
+  <div id="url-bar">
+    <span id="lock-icon" style="font-size:11px;color:var(--muted)">&#127760;</span>
+    <input id="chrome-input" type="text" placeholder="Search or enter a URL&#8230;" autocomplete="off"
+           onkeydown="if(event.key==='Enter')doNav(false)"/>
+  </div>
+  <button id="go-btn" onclick="doNav(false)">Go</button>
+  <div id="status-pill">
+    <span id="status-dot"></span>
+    <span id="status-label">Idle</span>
+  </div>
+  <button id="settings-btn" onclick="toggleSettings()" title="Settings">&#9881;</button>
+</div>
+
+<!-- home -->
+<div id="home">
+  <div id="mascot" style="font-size:80px;line-height:1;text-align:center">🥁</div>
+  <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px">
+    <div class="tt-title">&#9889; Tung Tung Engine</div>
+    <div class="tt-sub">He searches. He proxies. He tung tungs.</div>
+  </div>
+  <div id="search-wrap">
+    <div id="search-row">
+      <input id="main-input" type="text" placeholder="What do you need, tung tung?"
+             onkeydown="if(event.key==='Enter')doNav(true)"/>
+      <button id="tung-btn" onclick="doNav(true)">TUNG</button>
+    </div>
+    <div id="mode-row">
+      <button class="mode-pill active" id="pill-search" onclick="setMode('search')">&#128269; Search</button>
+      <button class="mode-pill"        id="pill-url"    onclick="setMode('url')"   >&#128279; Direct URL</button>
+    </div>
+  </div>
+</div>
+
+<!-- proxy iframe -->
+<div id="frame-wrap">
+  <div id="loading">
+    <div style="font-size:64px;animation:bob .7s ease-in-out infinite alternate;display:inline-block">&#127941;</div>
+    <p>Tung Tung is tunneling&#8230;</p>
+  </div>
+  <iframe id="proxy-frame" title="Tung Tung Engine" allow="fullscreen;autoplay"></iframe>
+</div>
+
+<!-- settings overlay + panel -->
+<div id="settings-overlay" onclick="toggleSettings()"></div>
+<div id="settings-panel">
+  <h2>&#9881; Engine Settings</h2>
+  <button class="sp-x" onclick="toggleSettings()">&#10005;</button>
+
+  <label class="sp-lbl">Proxy Server URL</label>
+  <input class="sp-inp" id="sp-server" type="url" placeholder="https://your-stellar-app.replit.app"/>
+  <button class="sp-save" onclick="saveSettings()">Save &amp; Reconnect</button>
+  <div class="sp-hint" style="margin-top:8px">
+    Point to any running Stellar deployment.<br>
+    <a href="https://replit.com" target="_blank">Deploy one on Replit &#8594;</a>
+  </div>
+
+  <div class="sp-sep"></div>
+  <label class="sp-lbl" style="margin-bottom:8px">Proxy Engine</label>
+  <button class="eng-btn active" id="eng-uv"   onclick="setEngine('ultraviolet')">
+    <span class="eng-dot"></span>Ultraviolet
+    <span style="margin-left:auto;font-size:10px;color:var(--gold)">Recommended</span>
+  </button>
+  <button class="eng-btn" id="eng-rh"   onclick="setEngine('rammerhead')">
+    <span class="eng-dot"></span>Rammerhead
+  </button>
+  <button class="eng-btn" id="eng-bare" onclick="setEngine('bare')">
+    <span class="eng-dot"></span>Bare (direct fetch)
+  </button>
+
+  <div class="sp-sep"></div>
+  <div class="sp-hint">
+    <strong style="color:var(--gold)">Google Sites:</strong> Host this file on GitHub Pages or any HTTPS server,
+    then embed that URL via <em>Insert &#8594; Embed</em>.
+  </div>
+  
+</div>
+
+<script>
+(function(){
+  var KEY="stlr2024",SVC="/uv/service/";
+  function enc(s){var b="";for(var i=0;i<s.length;i++)b+=String.fromCharCode(s.charCodeAt(i)^KEY.charCodeAt(i%KEY.length));return btoa(b).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"");}
+
+  var cfg={server:window.location.origin,engine:"ultraviolet",mode:"search"};
+  try{Object.assign(cfg,JSON.parse(localStorage.getItem("tt3_cfg")||"{}"));}catch(e){}
+  if(!cfg.server)cfg.server=window.location.origin;
+  function save(){localStorage.setItem("tt3_cfg",JSON.stringify(cfg));}
+
+  /* mode */
+  window.setMode=function(m){
+    cfg.mode=m;save();
+    document.getElementById("pill-search").classList.toggle("active",m==="search");
+    document.getElementById("pill-url").classList.toggle("active",m==="url");
+    document.getElementById("main-input").placeholder=m==="search"?"What do you need, tung tung?":"Enter a URL to visit…";
+  };
+  setMode(cfg.mode);
+
+  /* engine */
+  window.setEngine=function(e){
+    cfg.engine=e;save();
+    ["eng-uv","eng-rh","eng-bare"].forEach(function(id){document.getElementById(id).classList.remove("active");});
+    var map={ultraviolet:"eng-uv",rammerhead:"eng-rh",bare:"eng-bare"};
+    document.getElementById(map[e]||"eng-uv").classList.add("active");
+  };
+  setEngine(cfg.engine);
+
+  /* settings */
+  window.toggleSettings=function(){
+    var open=document.getElementById("settings-overlay").classList.toggle("open");
+    document.getElementById("settings-btn").classList.toggle("open",open);
+    if(open)document.getElementById("sp-server").value=cfg.server;
+  };
+  window.saveSettings=function(){
+    var v=document.getElementById("sp-server").value.trim().replace(/\/$/,"");
+    if(v)cfg.server=v;
+    save();toggleSettings();ping();
+  };
+
+  /* status */
+  function setStatus(state,label){
+    var dot=document.getElementById("status-dot");
+    var lbl=document.getElementById("status-label");
+    dot.style.background=state==="ok"?"#6ee7a0":state==="err"?"#f87171":"#c89a20";
+    lbl.textContent=label;
+  }
+  function ping(){
+    setStatus("chk","Connecting…");
+    fetch(cfg.server+"/api/healthz",{method:"GET",signal:AbortSignal.timeout(6000)})
+      .then(function(r){return r.ok?setStatus("ok","Active"):setStatus("err","Offline");})
+      .catch(function(){setStatus("err","Idle");});
+  }
+  ping();
+
+  /* navigation */
+  function toUrl(q){
+    var t=q.trim();
+    if(!t)return "";
+    if(t.startsWith("http://")||t.startsWith("https://"))return t;
+    if(cfg.mode==="url"&&t.includes(".")&&!t.includes(" "))return "https://"+t;
+    if(cfg.mode==="url")return "https://"+t;
+    if(!t.includes(" ")&&t.includes(".")&&!t.startsWith(" "))return "https://"+t;
+    return "https://www.google.com/search?q="+encodeURIComponent(t);
+  }
+  var hist=[],histIdx=-1;
+  function updNav(){
+    document.getElementById("btn-back").disabled=histIdx<=0;
+    document.getElementById("btn-fwd").disabled=histIdx>=hist.length-1;
+  }
+  function loadUrl(url){
+    if(!url)return;
+    var proxied=cfg.server+SVC+enc(url);
+    document.getElementById("chrome-input").value=url;
+    document.getElementById("lock-icon").textContent="🔒";
+    document.getElementById("home").style.display="none";
+    var fw=document.getElementById("frame-wrap");
+    fw.style.display="block";
+    document.getElementById("loading").style.display="flex";
+    var fr=document.getElementById("proxy-frame");
+    fr.src=proxied;
+    fr.onload=function(){document.getElementById("loading").style.display="none";};
+    fr.onerror=function(){document.getElementById("loading").style.display="none";};
+    if(histIdx<hist.length-1)hist.splice(histIdx+1);
+    hist.push(url);histIdx=hist.length-1;
+    updNav();
+  }
+  window.doNav=function(fromMain){
+    var q=fromMain?document.getElementById("main-input").value:document.getElementById("chrome-input").value;
+    var url=toUrl(q);
+    if(url)loadUrl(url);
+  };
+  window.histBack=function(){if(histIdx>0){histIdx--;loadUrl(hist[histIdx]);}};
+  window.histFwd=function(){if(histIdx<hist.length-1){histIdx++;loadUrl(hist[histIdx]);}};
+  window.reloadFrame=function(){
+    var fr=document.getElementById("proxy-frame");
+    if(fr.src&&fr.src!==location.href){document.getElementById("loading").style.display="flex";fr.src=fr.src;}
+  };
+  window.goHome=function(){
+    document.getElementById("proxy-frame").src="about:blank";
+    document.getElementById("home").style.display="flex";
+    document.getElementById("frame-wrap").style.display="none";
+    document.getElementById("chrome-input").value="";
+    document.getElementById("lock-icon").textContent="🌐";
+    hist.length=0;histIdx=-1;updNav();
+  };
+  updNav();
+
+  /* sync main-input to chrome-input */
+  document.getElementById("main-input").addEventListener("input",function(){
+    document.getElementById("chrome-input").value=this.value;
+  });
+})();
+</script>
+<script src="https://replit-cdn.com/replit-pill/replit-pill.global.js" data-repl-id="1e480619-41e4-46b4-b2ed-03b498240148"></script></body>
+</html>

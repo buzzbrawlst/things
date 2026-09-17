@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Games Hub | 300+ Unblocked Games</title>
+    <meta name="description" content="Play 300+ unblocked games from Zap Games, Crazy Games, and Poki Games. Features cloud saving, accounts, and online chat.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'space-blue': '#0a0e29',
+                        'nebula-purple': '#4a1e7c',
+                        'star-yellow': '#ffd700',
+                        'planet-teal': '#00c9c9',
+                        'cosmic-pink': '#ff00ff',
+                        'dark-space': '#050716',
+                        'galaxy-indigo': '#2a1b5f'
+                    },
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'exo': ['Exo 2', 'sans-serif']
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'twinkle': 'twinkle 3s infinite'
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0.7 }
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        'twinkle': {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0.3 }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0e29 0%, #050716 50%, #2a1b5f 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+        }
+        
+        .chat-message {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .gradient-border {
+            border: 2px solid transparent;
+            background: linear-gradient(#0a0e29, #0a0e29) padding-box,
+                        linear-gradient(45deg, #00c9c9, #ff00ff) border-box;
+        }
+    </style>
+</head>
+<body class="text-white font-exo">
+    <!-- Background Stars -->
+    <div id="stars-container"></div>
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-space-blue/90 backdrop-blur-md border-b border-planet-teal/30">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-planet-teal to-cosmic-pink flex items-center justify-center animate-pulse-glow">
+                        <i class="fas fa-gamepad text-xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-orbitron font-bold bg-gradient-to-r from-star-yellow to-planet-teal bg-clip-text text-transparent">
+                        Space Games Hub
+                    </h1>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-6">
+                    <div id="nav-container" class="flex space-x-6"></div>
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="Search 300+ games..." 
+                               class="bg-dark-space/50 border border-planet-teal/30 rounded-full px-4 py-2 pl-10 w-64 focus:outline-none focus:ring-2 focus:ring-planet-teal">
+                        <i class="fas fa-search absolute left-3 top-3 text-planet-teal"></i>
+                    </div>
+                    <div id="auth-buttons" class="flex space-x-3"></div>
+                </div>
+                
+                <button id="mobile-menu-btn" class="md:hidden text-star-yellow">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-galaxy-indigo/95 backdrop-blur-md px-4 py-6">
+            <div class="space-y-4">
+                <div id="mobile-nav"></div>
+                <input type="text" placeholder="Search games..." 
+                       class="w-full bg-dark-space/50 border border-planet-teal/30 rounded-full px-4 py-2 pl-10 focus:outline-none">
+                <div id="mobile-auth" class="space-y-3"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-12 relative">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-orbitron font-bold mb-4 animate-float">
+                    <span class="bg-gradient-to-r from-star-yellow via-planet-teal to-cosmic-pink bg-clip-text text-transparent">
+                        300+ Unblocked Games
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-300 mb-8">
+                    Play games from Zap Games, Crazy Games, Poki Games & more. 
+                    <span class="text-planet-teal font-semibold">Cloud saving • Accounts • Online Chat</span>
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="trending-btn" class="px-6 py-3 bg-gradient-to-r from-planet-teal to-cosmic-pink rounded-full font-semibold hover:opacity-90 transition">
+                        <i class="fas fa-fire mr-2"></i>Trending Games
+                    </button>
+                    <button id="random-btn" class="px-6 py-3 gradient-border rounded-full font-semibold hover:bg-dark-space/50 transition">
+                        <i class="fas fa-random mr-2"></i>Random Game
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Categories -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-orbitron font-bold">
+                    <i class="fas fa-layer-group mr-2 text-planet-teal"></i>
+                    Game Categories
+                </h3>
+                <div id="category-filters" class="flex space-x-2"></div>
+            </div>
+            <div id="categories-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+        </section>
+
+        <!-- Featured Games -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-orbitron font-bold">
+                    <i class="fas fa-star mr-2 text-star-yellow"></i>
+                    Featured Games
+                </h3>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-400">Source:</span>
+                    <div id="source-filters" class="flex space-x-2"></div>
+                </div>
+            </div>
+            <div id="featured-games" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </section>
+
+        <!-- Game Player & Chat -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Game Player -->
+            <div class="lg:col-span-2">
+                <div class="gradient-border rounded-xl p-1">
+                    <div class="bg-dark-space rounded-xl p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-orbitron font-bold">
+                                <i class="fas fa-play-circle mr-2 text-planet-teal"></i>
+                                Game Player
+                            </h3>
+                            <div class="flex items-center space-x-3">
+                                <button id="save-game" class="px-4 py-2 bg-nebula-purple rounded-lg text-sm hover:bg-opacity-80 transition">
+                                    <i class="fas fa-cloud-upload-alt mr-2"></i>Save Progress
+                                </button>
+                                <button id="fullscreen" class="px-4 py-2 bg-space-blue border border-planet-teal rounded-lg text-sm hover:bg-planet-teal/20 transition">
+                                    <i class="fas fa-expand mr-2"></i>Fullscreen
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="game-frame-container" class="relative rounded-lg overflow-hidden bg-black">
+                            <div class="aspect-video bg-gradient-to-br from-space-blue to-galaxy-indigo flex items-center justify-center">
+                                <div class="text-center">
+                                    <i class="fas fa-gamepad text-6xl text-planet-teal mb-4"></i>
+                                    <p class="text-xl font-semibold mb-2">Select a game to play</p>
+                                    <p class="text-gray-400">Click any game card to start playing</p>
+                                </div>
+                            </div>
+                            <iframe id="game-frame" class="absolute inset-0 w-full h-full hidden" 
+                                    frameborder="0" allowfullscreen 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                            </iframe>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-heart text-cosmic-pink"></i>
+                                    <span id="like-count" class="font-semibold">0</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-play text-planet-teal"></i>
+                                    <span id="play-count" class="font-semibold">0</span>
+                                </div>
+                            </div>
+                            <div id="game-info" class="text-right">
+                                <p class="text-sm text-gray-400">No game selected</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Online Chat -->
+            <div>
+                <div class="gradient-border rounded-xl p-1 h-full">
+                    <div class="bg-dark-space rounded-xl p-6 h-full flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-orbitron font-bold">
+                                <i class="fas fa-comments mr-2 text-cosmic-pink"></i>
+                                Space Chat
+                            </h3>
+                            <div class="flex items-center space-x-2">
+                                <span id="online-count" class="px-3 py-1 bg-nebula-purple rounded-full text-sm">
+                                    <i class="fas fa-user mr-1"></i><span>0</span> online
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div id="chat-messages" class="flex-1 overflow-y-auto mb-4 space-y-3 max-h-96">
+                            <!-- Messages will be loaded here -->
+                            <div class="text-center text-gray-500 py-8">
+                                <i class="fas fa-comment-slash text-3xl mb-2"></i>
+                                <p>No messages yet. Start chatting!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-800 pt-4">
+                            <div class="flex space-x-2">
+                                <input type="text" id="chat-input" 
+                                       placeholder="Type your message..." 
+                                       class="flex-1 bg-space-blue border border-planet-teal/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-planet-teal">
+                                <button id="send-chat" class="px-4 py-2 bg-gradient-to-r from-cosmic-pink to-planet-teal rounded-lg font-semibold hover:opacity-90 transition">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Chat is moderated. Be respectful to other players.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Games Grid -->
+        <section class="mt-12">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-orbitron font-bold">
+                    <i class="fas fa-th-large mr-2 text-star-yellow"></i>
+                    All Games (300+)
+                </h3>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <select id="sort-select" class="bg-space-blue border border-planet-teal/30 rounded-lg px-4 py-2 pr-8 appearance-none focus:outline-none">
+                            <option value="popular">Most Popular</option>
+                            <option value="newest">Newest First</option>
+                            <option value="rating">Highest Rated</option>
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-3 top-3 text-planet-teal"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="games-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+            
+            <div class="text-center mt-8">
+                <button id="load-more" class="px-6 py-3 gradient-border rounded-lg font-semibold hover:bg-dark-space/50 transition">
+                    <i class="fas fa-plus mr-2"></i>Load More Games
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-space border-t border-gray-800 mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-planet-teal to-cosmic-pink flex items-center justify-center">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h4 class="text-xl font-orbitron font-bold">Space Games Hub</h4>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Your portal to 300+ unblocked games from top gaming sites. Play anywhere, anytime.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-space-blue flex items-center justify-center hover:bg-planet-teal transition">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-space-blue flex items-center justify-center hover:bg-cosmic-pink transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-space-blue flex items-center justify-center hover:bg-star-yellow transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h5 class="font-orbitron font-bold text-lg mb-4">Game Sources</h5>
+                    <ul id="sources-list" class="space-y-2"></ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-orbitron font-bold text-lg mb-4">Features</h5>
+                    <ul id="features-list" class="space-y-2"></ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-orbitron font-bold text-lg mb-4">Legal</h5>
+                    <ul id="legal-list" class="space-y-2"></ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>© 2024 Space Games Hub. All games belong to their respective owners. This site embeds games from external sources.</p>
+                <p class="mt-2 text-sm">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    All games are unblocked and school-friendly
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4">
+        <div class="bg-dark-space rounded-xl max-w-md w-full p-6 gradient-border">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-orbitron font-bold">
+                    <i class="fas fa-user-astronaut mr-2 text-planet-teal"></i>
+                    Space Account
+                </h3>
+                <button id="close-auth" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="auth-forms">
+                <!-- Forms will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== DATA LAYER ==========
+        const navigationItems = [
+            { "label": "Home", "icon": "fas fa-home", "href": "#home" },
+            { "label": "Trending", "icon": "fas fa-fire", "href": "#trending" },
+            { "label": "Action", "icon": "fas fa-fighter-jet", "href": "#action" },
+            { "label": "Puzzle", "icon": "fas fa-puzzle-piece", "href": "#puzzle" },
+            { "label": "Multiplayer", "icon": "fas fa-users", "href": "#multiplayer" },
+            { "label": "Favorites", "icon": "fas fa-heart", "href": "#favorites" }
+        ];
+
+        const authButtons = [
+            { "label": "Sign In", "type": "login", "class": "gradient-border px-4 py-2 rounded-lg hover:bg-dark-space/50 transition" },
+            { "label": "Sign Up", "type": "register", "class": "px-4 py-2 bg-gradient-to-r from-planet-teal to-cosmic-pink rounded-lg font-semibold hover:opacity-90 transition" }
+        ];
+
+        const categories = [
+            { "name": "Action", "icon": "fas fa-fighter-jet", "count": 45, "color": "from-red-500 to-orange-500" },
+            { "name": "Adventure", "icon": "fas fa-map", "count": 32, "color": "from-green-500 to-emerald-500" },
+            { "name": "Puzzle", "icon": "fas fa-puzzle-piece", "count": 67, "color": "from-blue-500 to-cyan-500" },
+            { "name": "Racing", "icon": "fas fa-car", "count": 28, "color": "from-purple-500 to-pink-500" },
+            { "name": "Sports", "icon": "fas fa-basketball-ball", "count": 23, "color": "from-yellow-500 to-orange-500" },
+            { "name": "Strategy", "icon": "fas fa-chess", "count": 41, "color": "from-indigo-500 to-purple-500" },
+            { "name": "Shooter", "icon": "fas fa-crosshairs", "count": 38, "color": "from-red-600 to-pink-600" },
+            { "name": "Arcade", "icon": "fas fa-gamepad", "count": 56, "color": "from-teal-500 to-blue-500" },
+            { "name": "Simulation", "icon": "fas fa-cogs", "count": 19, "color": "from-gray-500 to-blue-gray-500" },
+            { "name": "Multiplayer", "icon": "fas fa-users", "count": 74, "color": "from-pink-500 to-rose-500" },
+            { "name": "Retro", "icon": "fas fa-ghost", "count": 42, "color": "from-amber-500 to-yellow-500" },
+            { "name": "All Games", "icon": "fas fa-th-large", "count": 312, "color": "from-star-yellow to-planet-teal" }
+        ];
+
+        const gameSources = [
+            { "name": "Zap Games", "icon": "fas fa-bolt", "color": "text-yellow-400" },
+            { "name": "Crazy Games", "icon": "fas fa-meteor", "color": "text-orange-500" },
+            { "name": "Poki Games", "icon": "fas fa-paw", "color": "text-green-400" },
+            { "name": "Kongregate", "icon": "fas fa-crown", "color": "text-purple-400" },
+            { "name": "Y8 Games", "icon": "fas fa-8", "color": "text-blue-400" }
+        ];
+
+        // Sample games data (in real implementation, this would be 300+ games)
+        const games = [
+            { 
+                "id": 1, 
+                "title": "Space Invaders Extreme", 
+                "category": "Arcade", 
+                "source": "Zap Games", 
+                "players": 12540, 
+                "likes": 892, 
+                "rating": 4.8, 
+                "url": "https://example.com/game1", 
+                "thumbnail": "https://picsum.photos/300/200?random=1",
+                "description": "Classic arcade shooter with modern graphics"
+            },
+            { 
+                "id": 2, 
+                "title": "Galaxy Racing 3D", 
+                "category": "Racing", 
+                "source": "Crazy Games", 
+                "players": 8432, 
+                "likes": 654, 
+                "rating": 4.5, 
+                "url": "https://example.com/game2", 
+                "thumbnail": "https://picsum.photos/300/200?random=2",
+                "description": "High-speed racing through alien planets"
+            },
+            { 
+                "id": 3, 
+                "title": "Cosmic Puzzle Quest", 
+                "category": "Puzzle", 
+                "source": "Poki Games", 
+                "players": 19234, 
+                "likes": 1243, 
+                "rating": 4.9, 
+                "url": "https://example.com/game3", 
+                "thumbnail": "https://picsum.photos/300/200?random=3",
+                "description": "Match gems in this addictive space puzzle"
+            },
+            { 
+                "id": 4, 
+                "title": "Alien Defense TD", 
+                "category": "Strategy", 
+                "source": "Kongregate", 
+                "players": 6721, 
+                "likes": 543, 
+                "rating": 4.6, 
+                "url": "https://example.com/game4", 
+                "thumbnail": "https://picsum.photos/300/200?random=4",
+                "description": "Tower defense against alien invasions"
+            },
+            { 
+                "id": 5, 
+                "title": "Zero Gravity Soccer", 
+                "category": "Sports", 
+                "source": "Y8 Games", 
+                "players": 4321, 
+                "likes": 321, 
+                "rating": 4.3, 
+                "url": "https://example.com/game5", 
+                "thumbnail": "https://picsum.photos/300/200?random=5",
+                "description": "Soccer in zero gravity space stadium"
+            },
+            { 
+                "id": 6, 
+                "title": "Star Fighter Assault", 
+                "category": "Action", 
+                "source": "Zap Games", 
+                "players": 15678, 
+                "likes": 987, 
+                "rating": 4.7, 
+                "url": "https://example.com/game6", 
+                "thumbnail": "https://picsum.photos/300/200?random=6",
+                "description": "Epic space dogfighting action"
+            },
+            { 
+                "id": 7, 
+                "title": "Planet Explorer", 
+                "category": "Adventure", 
+                "source": "Crazy Games", 
+                "players": 7890, 
+                "likes": 654, 
+                "rating": 4.4, 
+                "url": "https://example.com/game7", 
+                "thumbnail": "https://picsum.photos/300/200?random=7",
+                "description": "Explore mysterious alien planets"
+            },
+            { 
+                "id": 8, 
+                "title": "Space Chess Pro", 
+                "category": "Strategy", 
+                "source": "Poki Games", 
+                "players": 3456, 
+                "likes": 234, 
+                "rating": 4.2, 
+                "url": "https://example.com/game8", 
+                "thumbnail": "https://picsum.photos/300/200?random=8",
+                "description": "3D chess with space-themed pieces"
+            }
+        ];
+
+        const footerSources = [
+            { "label": "Zap Games", "href": "https://zapgames.com" },
+            { "label": "Crazy Games", "href": "https://crazygames.com" },
+            { "label": "Poki Games", "href": "https://poki.com" },
+            { "label": "Kongregate", "href": "https://kongregate.com" },
+            { "label": "Y8 Games", "href": "https://y8.com" }
+        ];
+
+        const footerFeatures = [
+            { "label": "Cloud Saving", "icon": "fas fa-cloud" },
+            { "label": "Online Chat", "icon": "fas fa-comments" },
+            { "label": "User Accounts", "icon": "fas fa-user-astronaut" },
+            { "label": "Game Progress", "icon": "fas fa-chart-line" },
+            { "label": "Favorites", "icon": "fas fa-heart" }
+        ];
+
+        const footerLegal = [
+            { "label": "Privacy Policy", "href": "#privacy" },
+            { "label": "Terms of Service", "href": "#terms" },
+            { "label": "DMCA", "href": "#dmca" },
+            { "label": "Contact", "href": "#contact" },
+            { "label": "FAQ", "href": "#faq" }
+        ];
+
+        // Chat messages (initial)
+        const initialChatMessages = [
+            { "user": "SpaceExplorer42", "message": "Anyone playing Galaxy Racing?", "time": "2 min ago" },
+            { "user": "CosmicGamer", "message": "Just got high score on Space Invaders!", "time": "5 min ago" },
+            { "user": "NebulaQueen", "message": "Looking for puzzle game recommendations", "time": "12 min ago" },
+            { "user": "StarLord", "message": "Cloud save working perfectly!", "time": "20 min ago" }
+        ];
+
+        // ========== RENDER FUNCTIONS ==========
+        function renderNavigation(items) {
+            return items.map(item => 
+                `<a href="${item.href}" class="flex items-center space-x-2 text-gray-300 hover:text-planet-teal transition nav-link">
+                    <i class="${item.icon}"></i>
+                    <span>${item.label}</span>
+                </a>`
+            ).join("");
+        }
+
+        function renderAuthButtons(buttons) {
+            return buttons.map(button => 
+                `<button class="${button.class}" data-type="${button.type}">
+                    ${button.label}
+                </button>`
+            ).join("");
+        }
+
+        function renderCategories(cats) {
+            return cats.map(cat => 
+                `<div class="bg-dark-space/50 rounded-xl p-4 text-center hover:bg-dark-space transition cursor-pointer category-card" data-category="${cat.name}">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r ${cat.color} mx-auto flex items-center justify-center mb-3">
+                        <i class="${cat.icon} text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold mb-1">${cat.name}</h4>
+                    <p class="text-sm text-gray-400">${cat.count} games</p>
+                </div>`
+            ).join("");
+        }
+
+        function renderSourceFilters(sources) {
+            return sources.map(source => 
+                `<button class="px-3 py-1 rounded-full bg-space-blue border border-gray-700 text-sm hover:border-planet-teal transition source-filter" data-source="${source.name}">
+                    <i class="${source.icon} ${source.color} mr-1"></i>
+                    ${source.name}
+                </button>`
+            ).join("");
+        }
+
+        function renderGameCard(game) {
+            return `
+                <div class="game-card bg-dark-space/50 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer" data-game-id="${game.id}">
+                    <div class="relative">
+                        <img src="${game.thumbnail}" alt="${game.title}" class="w-full h-40 object-cover" loading="lazy">
+                        <div class="absolute top-2 right-2 px-2 py-1 bg-black/70 rounded text-xs">
+                            ${game.source}
+                        </div>
+                        <div class="absolute bottom-2 left-2 flex items-center space-x-2">
+                            <span class="px-2 py-1 bg-nebula-purple/80 rounded text-xs">
+                                ${game.category}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-semibold mb-2 truncate">${game.title}</h4>
+                        <p class="text-sm text-gray-400 mb-3 line-clamp-2">${game.description}</p>
+                        <div class="flex justify-between items-center text-sm">
+                            <div class="flex items-center space-x-3">
+                                <span class="flex items-center">
+                                    <i class="fas fa-play text-planet-teal mr-1"></i>
+                                    ${game.players.toLocaleString()}
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-heart text-cosmic-pink mr-1"></i>
+                                    ${game.likes}
+                                </span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-star-yellow mr-1"></i>
+                                ${game.rating}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderChatMessage(msg) {
+            return `
+                <div class="chat-message bg-space-blue/50 rounded-lg p-3">
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="font-semibold text-planet-teal">${msg.user}</span>
+                        <span class="text-xs text-gray-500">${msg.time}</span>
+                    </div>
+                    <p class="text-gray-300">${msg.message}</p>
+                </div>
+            `;
+        }
+
+        function renderFooterList(items, isLinks = true) {
+            return items.map(item => {
+                if (isLinks) {
+                    return `<li><a href="${item.href}" class="text-gray-400 hover:text-planet-teal transition">${item.icon ? `<i class="${item.icon} mr-2"></i>` : ''}${item.label}</a></li>`;
+                } else {
+                    return `<li class="text-gray-400"><i class="${item.icon} mr-2"></i>${item.label}</li>`;
+                }
+            }).join("");
+        }
+
+        function renderAuthForm(type) {
+            if (type === 'login') {
+                return `
+                    <form id="login-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm mb-2">Username or Email</label>
+                            <input type="text" class="w-full bg-space-blue border border-planet-teal/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-planet-teal" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm mb-2">Password</label>
+                            <input type="password" class="w-full bg-space-blue border border-planet-teal/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-planet-teal" required>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2">
+                                <span class="text-sm">Remember me</span>
+                            </label>
+                            <a href="#" class="text-sm text-planet-teal hover:underline">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-planet-teal to-cosmic-pink rounded-lg font-semibold hover:opacity-90 transition">
+                            Sign In
+                        </button>
+                        <p class="text-center text-sm text-gray-400">
+                            Don't have an account? 
+                            <button type="button" class="text-planet-teal hover:underline switch-auth" data-type="register">Sign Up</button>
+                        </p>
+                    </form>
+                `;
+            } else {
+                return `
+                    <form id="register-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm mb-2">Username</label>
+                            <input type="text" class="w-full bg-space-blue border border-planet-teal/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-planet-teal" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm mb-2">Email</label>
+                            <input type="email" class="w-full bg-space-blue border border-planet-teal/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-planet-teal" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm mb-2">Password</label>
+                            <input type="password" class="w-full bg-space-blue border border-planet-teal/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-planet-teal" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm mb-2">Confirm Password</label>
+                            <input type="password" class="w-full bg-space-blue border border-planet-teal/30 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-planet-teal" required>
+                        </div>
+                        <label class="flex items-start">
+                            <input type="checkbox" class="mr-2 mt-1" required>
+                            <span class="text-sm">I agree to the Terms of Service and Privacy Policy</span>
+                        </label>
+                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-cosmic-pink to-planet-teal rounded-lg font-semibold hover:opacity-90 transition">
+                            Create Account
+                        </button>
+                        <p class="text-center text-sm text-gray-400">
+                            Already have an account? 
+                            <button type="button" class="text-planet-teal hover:underline switch-auth" data-type="login">Sign In</button>
+                        </p>
+                    </form>
+                `;
+            }
+        }
+
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render navigation
+            document.getElementById('nav-container').innerHTML = renderNavigation(navigationItems);
+            document.getElementById('mobile-nav').innerHTML = renderNavigation(navigationItems);
+            
+            // Render auth buttons
+            document.getElementById('auth-buttons').innerHTML = renderAuthButtons(authButtons);
+            document.getElementById('mobile-auth').innerHTML = renderAuthButtons(authButtons);
+            
+            // Render categories
+            document.getElementById('categories-grid').innerHTML = renderCategories(categories);
+            
+            // Render source filters
+            document.getElementById('source-filters').innerHTML = renderSourceFilters(gameSources);
+            
+            // Render featured games (first 4)
+            document.getElementById('featured-games').innerHTML = games.slice(0, 4).map(renderGameCard).join("");
+            
+            // Render all games
+            document.getElementById('games-grid').innerHTML = games.map(renderGameCard).join("");
+            
+            // Render footer lists
+            document.getElementById('sources-list').innerHTML = renderFooterList(footerSources);
+            document.getElementById('features-list').innerHTML = renderFooterList(footerFeatures, false);
+            document.getElementById('legal-list').innerHTML = renderFooterList(footerLegal);
+            
+            // Render initial chat messages
+            const chatContainer = document.getElementById('chat-messages');
+            chatContainer.innerHTML = initialChatMessages.map(renderChatMessage).join("");
+            
+            // Create background stars
+            createStars();
+            
+            // Initialize event listeners
+            initializeEventListeners();
+            
+            // Simulate online users
+            updateOnlineCount();
+        });
+
+        // ========== UTILITY FUNCTIONS ==========
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.opacity = Math.random() * 0.8 + 0.2;
+                container.appendChild(star);
+            }
+        }
+
+        function updateOnlineCount() {
+            const count = Math.floor(Math.random() * 100) + 50;
+            document.querySelector('#online-count span').textContent = count;
+        }
+
+        function loadGame(game) {
+            const frame = document.getElementById('game-frame');
+            const container = document.getElementById('game-frame-container');
+            const placeholder = container.querySelector('div');
+            
+            // Show iframe, hide placeholder
+            placeholder.classList.add('hidden');
+            frame.classList.remove('hidden');
+            frame.src = game.url;
+            
+            // Update game info
+            document.getElementById('like-count').textContent = game.likes;
+            document.getElementById('play-count').textContent = game.players.toLocaleString();
+            document.getElementById('game-info').innerHTML = `
+                <h4 class="font-semibold">${game.title}</h4>
+                <p class="text-sm">${game.source} • ${game.category}</p>
+            `;
+            
+            // Increment play count (simulated)
+            game.players++;
+            
+            // Save to recent games (simulated cloud save)
+            saveToRecentGames(game);
+        }
+
+        function saveToRecentGames(game) {
+            // In real implementation, this would save to cloud/local storage
+            console.log('Saving game progress:', game.title);
+            // Show save notification
+            showNotification('Game progress saved to cloud!');
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-gradient-to-r from-planet-teal to-cosmic-pink text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slideIn';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // ========== EVENT LISTENERS ==========
+        function initializeEventListeners() {
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+
+            // Navigation links (prevent default)
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.nav-link')) {
+                    e.preventDefault();
+                    const href = e.target.closest('.nav-link').getAttribute('href');
+                    if (href.startsWith('#')) {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                }
+            });
+
+            // Game card clicks
+            document.addEventListener('click', function(e) {
+                const gameCard = e.target.closest('.game-card');
+                if (gameCard) {
+                    const gameId = parseInt(gameCard.dataset.gameId);
+                    const game = games.find(g => g.id === gameId);
+                    if (game) {
+                        loadGame(game);
+                    }
+                }
+            });
+
+            // Category filter
+            document.addEventListener('click', function(e) {
+                const categoryCard = e.target.closest('.category-card');
+                if (categoryCard) {
+                    const category = categoryCard.dataset.category;
+                    // Filter games by category
+                    const filteredGames = games.filter(g => g.category === category);
+                    document.getElementById('games-grid').innerHTML = filteredGames.map(renderGameCard).join("");
+                    showNotification(`Showing ${category} games`);
+                }
+            });
+
+            // Source filter
+            document.addEventListener('click', function(e) {
+                const sourceFilter = e.target.closest('.source-filter');
+                if (sourceFilter) {
+                    const source = sourceFilter.dataset.source;
+                    const filteredGames = games.filter(g => g.source === source);
+                    document.getElementById('featured-games').innerHTML = filteredGames.map(renderGameCard).join("");
+                    showNotification(`Games from ${source}`);
+                }
+            });
+
+            // Auth buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-type]')) {
+                    const type = e.target.closest('[data-type]').dataset.type;
+                    showAuthModal(type);
+                }
+            });
+
+            // Close auth modal
+            document.getElementById('close-auth').addEventListener('click', function() {
+                document.getElementById('auth-modal').classList.add('hidden');
+            });
+
+            // Auth modal background click
+            document.getElementById('auth-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                }
+            });
+
+            // Switch between login/register
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('switch-auth')) {
+                    const type = e.target.dataset.type;
+                    document.getElementById('auth-forms').innerHTML = renderAuthForm(type);
+                }
+            });
+
+            // Save game button
+            document.getElementById('save-game').addEventListener('click', function() {
+                showNotification('Game progress saved to your cloud account!');
+            });
+
+            // Fullscreen button
+            document.getElementById('fullscreen').addEventListener('click', function() {
+                const container = document.getElementById('game-frame-container');
+                if (!document.fullscreenElement) {
+                    container.requestFullscreen().catch(err => {
+                        console.log('Fullscreen error:', err);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // Send chat message
+            document.getElementById('send-chat').addEventListener('click', sendChatMessage);
+            document.getElementById('chat-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+
+            // Load more games
+            document.getElementById('load-more').addEventListener('click', function() {
+                // Simulate loading more games
+                const moreGames = [...games].map((game, i) => ({
+                    ...game,
+                    id: game.id + i + 8,
+                    thumbnail: `https://picsum.photos/300/200?random=${game.id + i + 20}`
+                }));
+                
+                document.getElementById('games-grid').innerHTML += moreGames.map(renderGameCard).join("");
+                showNotification('Loaded more games!');
+            });
+
+            // Trending games
+            document.getElementById('trending-btn').addEventListener('click', function() {
+                const trending = [...games].sort((a, b) => b.players - a.players);
+                document.getElementById('games-grid').innerHTML = trending.map(renderGameCard).join("");
+                showNotification('Showing trending games');
+            });
+
+            // Random game
+            document.getElementById('random-btn').addEventListener('click', function() {
+                const randomGame = games[Math.floor(Math.random() * games.length)];
+                loadGame(randomGame);
+                showNotification('Loaded random game: ' + randomGame.title);
+            });
+
+            // Sort games
+            document.getElementById('sort-select').addEventListener('change', function(e) {
+                let sortedGames = [...games];
+                switch(e.target.value) {
+                    case 'newest':
+                        sortedGames.sort((a, b) => b.id - a.id);
+                        break;
+                    case 'rating':
+                        sortedGames.sort((a, b) => b.rating - a.rating);
+                        break;
+                    default:
+                        sortedGames.sort((a, b) => b.players - a.players);
+                }
+                document.getElementById('games-grid').innerHTML = sortedGames.map(renderGameCard).join("");
+            });
+
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                if (searchTerm.length > 2) {
+                    const filtered = games.filter(game => 
+                        game.title.toLowerCase().includes(searchTerm) ||
+                        game.description.toLowerCase().includes(searchTerm) ||
+                        game.category.toLowerCase().includes(searchTerm)
+                    );
+                    document.getElementById('games-grid').innerHTML = filtered.map(renderGameCard).join("");
+                } else if (searchTerm.length === 0) {
+                    document.getElementById('games-grid').innerHTML = games.map(renderGameCard).join("");
+                }
+            });
+        }
+
+        function showAuthModal(type) {
+            document.getElementById('auth-forms').innerHTML = renderAuthForm(type);
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const chatMessage = {
+                    user: 'Guest' + Math.floor(Math.random() * 1000),
+                    message: message,
+                    time: 'Just now'
+                };
+                
+                const chatContainer = document.getElementById('chat-messages');
+                if (chatContainer.children.length === 1 && chatContainer.children[0].classList.contains('text-center')) {
+                    chatContainer.innerHTML = '';
+                }
+                
+                chatContainer.innerHTML += renderChatMessage(chatMessage);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                input.value = '';
+                
+                // Simulate response
+                setTimeout(() => {
+                    const responses = [
+                        'Nice!',
+                        'I love that game too!',
+                        'Anyone want to play multiplayer?',
+                        'Great choice!',
+                        'The cloud save feature is awesome'
+                    ];
+                    const botMessage = {
+                        user: 'SpaceBot',
+                        message: responses[Math.floor(Math.random() * responses.length)],
+                        time: 'Just now'
+                    };
+                    chatContainer.innerHTML += renderChatMessage(botMessage);
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        // Handle auth forms
+        document.addEventListener('submit', function(e) {
+            if (e.target.id === 'login-form' || e.target.id === 'register-form') {
+                e.preventDefault();
+                showNotification(e.target.id === 'login-form' ? 'Successfully signed in!' : 'Account created successfully!');
+                document.getElementById('auth-modal').classList.add('hidden');
+                
+                // Update auth buttons to show user is logged in
+                document.getElementById('auth-buttons').innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-planet-teal to-cosmic-pink flex items-center justify-center">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span>SpaceGamer</span>
+                        <button class="text-sm text-gray-400 hover:text-white">Logout</button>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tung Tung Engine</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161a22;
+    --border: #252b38;
+    --accent: #4f8ef7;
+    --accent2: #7c5cfc;
+    --text: #e8ecf4;
+    --muted: #6b7590;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+  }
+
+  /* ── Navbar ── */
+  nav {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 0 0;
+    gap: 8px;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.82rem;
+    padding: 7px 14px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-ghost:hover { border-color: var(--text); color: var(--text); }
+
+  /* ── Hero ── */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 0 32px;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .logo {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .tagline {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-bottom: 36px;
+    text-align: center;
+  }
+
+  /* ── Search bar ── */
+  .search-wrap {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+  }
+
+  .search-bar {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-bar:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+  }
+
+  .search-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 1rem;
+    outline: none;
+    padding: 14px 20px;
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+
+  .btn-search {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 0 50px 50px 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0 24px;
+    transition: opacity 0.15s;
+  }
+  .btn-search:hover { opacity: 0.85; }
+
+  /* ── Proxy badge ── */
+  .proxy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.78rem;
+    padding: 5px 12px;
+    transition: border-color 0.15s, color 0.15s;
+    align-self: flex-start;
+    margin-left: 12px;
+  }
+  .proxy-badge:hover { border-color: var(--accent); color: var(--accent); }
+  .proxy-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #4caf50;
+  }
+
+  /* ── Quick links (engine selector) ── */
+  .engine-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.78rem;
+    padding: 5px 14px;
+    transition: all 0.15s;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--text); }
+  .pill.active { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,0.09); }
+
+  /* ── Recent searches ── */
+  .recent-section {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 36px;
+  }
+
+  .recent-title {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 10px;
+  }
+
+  .recent-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .recent-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    padding: 9px 14px;
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .recent-item:hover { border-color: var(--border); background: #1a1f2b; }
+  .recent-item .ri-icon { color: var(--muted); font-size: 0.85rem; }
+  .recent-item .ri-clear {
+    margin-left: auto;
+    color: var(--muted);
+    opacity: 0;
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: opacity 0.12s;
+  }
+  .recent-item:hover .ri-clear { opacity: 1; }
+  .recent-item .ri-clear:hover { background: rgba(255,255,255,0.07); }
+
+  /* ── Settings modal ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+    animation: pop 0.17s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.94); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  .modal h2 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  .field-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 8px;
+  }
+
+  .proxy-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+
+  .proxy-option {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 14px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .proxy-option:hover { border-color: #3a4257; background: #161b27; }
+  .proxy-option.selected { border-color: var(--accent); background: rgba(79,142,247,0.07); }
+
+  .p-radio {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: border-color 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .proxy-option.selected .p-radio {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: inset 0 0 0 3px var(--bg);
+  }
+
+  .p-name { font-weight: 600; font-size: 0.88rem; }
+  .p-desc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+  .p-url  { font-size: 0.72rem; color: #3e5080; margin-top: 3px; word-break: break-all; }
+
+  .tag {
+    display: inline-block;
+    background: rgba(79,142,247,0.12);
+    color: var(--accent);
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    padding: 1px 6px;
+    text-transform: uppercase;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .tag.green { background: rgba(76,175,80,0.12); color: #4caf50; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+  .custom-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .custom-row input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.85rem;
+    outline: none;
+    padding: 9px 12px;
+    transition: border-color 0.15s;
+  }
+  .custom-row input:focus { border-color: var(--accent); }
+
+  .hint { font-size: 0.73rem; color: var(--muted); line-height: 1.5; margin-bottom: 20px; }
+  .hint code { color: var(--accent); background: rgba(79,142,247,0.1); border-radius: 3px; padding: 0 4px; }
+
+  .modal-footer { display: flex; justify-content: flex-end; gap: 10px; padding-top: 4px; }
+
+  .btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 9px 20px;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+
+  .btn-sm {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 9px 14px;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .btn-sm:hover { opacity: 0.85; }
+
+  .info-box {
+    background: rgba(79,142,247,0.07);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 8px;
+    color: #8ab4f8;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    color: var(--muted);
+    font-size: 0.72rem;
+    margin-top: auto;
+    padding: 24px 0 16px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="btn-ghost" onclick="clearHistory()">Clear History</button>
+  <button class="btn-ghost" onclick="openSettings()">⚙ Settings</button>
+</nav>
+
+<div class="hero">
+  <div class="logo">⚡ Tung Tung Engine</div>
+  <div class="tagline">Private search — routed through your chosen proxy</div>
+
+  <div class="search-wrap">
+    <div class="search-bar">
+      <input id="q" type="text" placeholder="Search the web…" autocomplete="off"
+             onkeydown="if(event.key==='Enter') search()" />
+      <button class="btn-search" onclick="search()">Search</button>
+    </div>
+    <div class="proxy-badge" onclick="openSettings()">
+      <span class="dot"></span>
+      <span id="badge-text">Loading…</span>
+    </div>
+  </div>
+
+  <div class="engine-row" id="engine-row"></div>
+
+  <div class="recent-section" id="recent-section" style="display:none">
+    <div class="recent-title">Recent searches</div>
+    <div class="recent-list" id="recent-list"></div>
+  </div>
+</div>
+
+<footer>Tung Tung Engine · Results open in a new tab via your selected proxy</footer>
+
+<!-- Settings overlay -->
+<div class="overlay" id="overlay" onclick="bgClick(event)">
+  <div class="modal" id="modal">
+    <h2>⚙ Proxy & Settings</h2>
+
+    <div class="info-box">
+      Results open in a <strong>new tab</strong> through your chosen proxy.
+      Search engines block iframe embedding — this is the only reliable approach.
+    </div>
+
+    <div class="field-label">Search Proxy</div>
+    <div class="proxy-list" id="proxy-list"></div>
+
+    <hr class="divider" />
+
+    <div class="field-label">Add Custom Proxy</div>
+    <div class="custom-row">
+      <input id="custom-name" type="text" placeholder="Name" style="max-width:120px" />
+      <input id="custom-url" type="text" placeholder="https://proxy.example.com/search?q=" />
+      <button class="btn-sm" onclick="addCustom()">Add</button>
+    </div>
+    <div class="hint">
+      Enter the proxy's search URL up to and including the query parameter.<br>
+      Your search term will be appended automatically.<br>
+      Example: <code>https://searx.be/search?q=</code>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="field-label">Search Engine (fallback / direct)</div>
+    <div class="proxy-list" id="engine-list"></div>
+
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeSettings()">Cancel</button>
+      <button class="btn" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ──────────────────────────────────────────
+//  DATA
+// ──────────────────────────────────────────
+const SK = 'tte2';
+
+const PROXIES = [
+  {
+    id: 'searx_be',
+    name: 'SearXNG · searx.be',
+    desc: 'Open-source meta search engine. Aggregates Google, Bing, DDG & more privately.',
+    url: 'https://searx.be/search?q=',
+    tag: 'Recommended', tagClass: 'green',
+  },
+  {
+    id: 'searx_mdosch',
+    name: 'SearXNG · search.mdosch.de',
+    desc: 'Another public SearXNG instance — use as a backup if the first is slow.',
+    url: 'https://search.mdosch.de/search?q=',
+    tag: 'Backup',
+  },
+  {
+    id: 'searx_tiekoetter',
+    name: 'SearXNG · searx.tiekoetter.com',
+    desc: 'Community SearXNG instance, no tracking, no logs.',
+    url: 'https://searx.tiekoetter.com/search?q=',
+  },
+  {
+    id: 'whoogle',
+    name: 'Whoogle Search',
+    desc: 'Google results without the tracking. Strips ads and JavaScript.',
+    url: 'https://whoogle-search-e79x.onrender.com/search?q=',
+    tag: 'Google Results',
+  },
+  {
+    id: 'brave',
+    name: 'Brave Search (direct)',
+    desc: 'Privacy-first search engine with its own independent index.',
+    url: 'https://search.brave.com/search?q=',
+    tag: 'No Proxy',
+  },
+  {
+    id: 'ddg',
+    name: 'DuckDuckGo (direct)',
+    desc: 'Popular private search engine — no cross-site tracking.',
+    url: 'https://duckduckgo.com/?q=',
+    tag: 'No Proxy',
+  },
+  {
+    id: 'startpage',
+    name: 'Startpage (direct)',
+    desc: 'Google results via a privacy-respecting proxy layer.',
+    url: 'https://www.startpage.com/search?q=',
+    tag: 'No Proxy',
+  },
+];
+
+const ENGINES = [
+  { id: 'searx',      name: 'SearXNG',      url: 'https://searx.be/search?q=' },
+  { id: 'brave',      name: 'Brave',        url: 'https://search.brave.com/search?q=' },
+  { id: 'ddg',        name: 'DuckDuckGo',   url: 'https://duckduckgo.com/?q=' },
+  { id: 'google',     name: 'Google',       url: 'https://www.google.com/search?q=' },
+  { id: 'bing',       name: 'Bing',         url: 'https://www.bing.com/search?q=' },
+  { id: 'startpage',  name: 'Startpage',    url: 'https://www.startpage.com/search?q=' },
+];
+
+let state = {
+  proxy:   'searx_be',
+  engine:  'searx',
+  custom:  [],
+  history: [],
+};
+
+let allProxies = [...PROXIES];
+let tempProxy  = '';
+let tempEngine = '';
+
+// ──────────────────────────────────────────
+//  PERSIST
+// ──────────────────────────────────────────
+function save() {
+  try { localStorage.setItem(SK, JSON.stringify(state)); } catch(e) {}
+}
+
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem(SK) || '{}');
+    state.proxy   = d.proxy   || 'searx_be';
+    state.engine  = d.engine  || 'searx';
+    state.custom  = d.custom  || [];
+    state.history = d.history || [];
+    allProxies = [...PROXIES, ...state.custom];
+  } catch(e) {}
+}
+
+// ──────────────────────────────────────────
+//  SEARCH
+// ──────────────────────────────────────────
+function search(term) {
+  const q = term || document.getElementById('q').value.trim();
+  if (!q) return;
+
+  const proxy = allProxies.find(p => p.id === state.proxy);
+  const url   = proxy ? proxy.url + encodeURIComponent(q) : ENGINES.find(e => e.id === state.engine)?.url + encodeURIComponent(q);
+  window.open(url, '_blank', 'noopener');
+
+  // save history
+  state.history = [q, ...state.history.filter(h => h !== q)].slice(0, 8);
+  save();
+  renderHistory();
+}
+
+// ──────────────────────────────────────────
+//  ENGINE PILLS
+// ──────────────────────────────────────────
+function renderEnginePills() {
+  const row = document.getElementById('engine-row');
+  row.innerHTML = '';
+  ENGINES.forEach(e => {
+    const btn = document.createElement('button');
+    btn.className = 'pill' + (e.id === state.engine ? ' active' : '');
+    btn.textContent = e.name;
+    btn.onclick = () => { state.engine = e.id; save(); renderEnginePills(); };
+    row.appendChild(btn);
+  });
+}
+
+// ──────────────────────────────────────────
+//  HISTORY
+// ──────────────────────────────────────────
+function renderHistory() {
+  const sec  = document.getElementById('recent-section');
+  const list = document.getElementById('recent-list');
+  if (!state.history.length) { sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  list.innerHTML = '';
+  state.history.forEach((h, i) => {
+    const row = document.createElement('div');
+    row.className = 'recent-item';
+    row.innerHTML = `<span class="ri-icon">🔍</span><span>${esc(h)}</span><span class="ri-clear" data-i="${i}">✕</span>`;
+    row.addEventListener('click', e => {
+      if (e.target.classList.contains('ri-clear')) {
+        state.history.splice(i, 1); save(); renderHistory();
+      } else {
+        document.getElementById('q').value = h;
+        search(h);
+      }
+    });
+    list.appendChild(row);
+  });
+}
+
+function clearHistory() {
+  state.history = []; save(); renderHistory();
+}
+
+// ──────────────────────────────────────────
+//  BADGE
+// ──────────────────────────────────────────
+function renderBadge() {
+  const p = allProxies.find(x => x.id === state.proxy);
+  document.getElementById('badge-text').textContent = p ? p.name : 'No proxy';
+}
+
+// ──────────────────────────────────────────
+//  SETTINGS MODAL
+// ──────────────────────────────────────────
+function openSettings() {
+  tempProxy  = state.proxy;
+  tempEngine = state.engine;
+  renderModalProxies();
+  renderModalEngines();
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeSettings() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+function bgClick(e) {
+  if (e.target === document.getElementById('overlay')) closeSettings();
+}
+
+function saveSettings() {
+  state.proxy  = tempProxy;
+  state.engine = tempEngine;
+  save();
+  renderBadge();
+  renderEnginePills();
+  closeSettings();
+}
+
+function renderModalProxies() {
+  const el = document.getElementById('proxy-list');
+  el.innerHTML = '';
+  allProxies.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'proxy-option' + (p.id === tempProxy ? ' selected' : '');
+    div.innerHTML = `
+      <div class="p-radio"></div>
+      <div>
+        <div class="p-name">${esc(p.name)}${p.tag ? `<span class="tag ${p.tagClass||''}">${p.tag}</span>` : ''}</div>
+        ${p.desc ? `<div class="p-desc">${esc(p.desc)}</div>` : ''}
+        <div class="p-url">${esc(p.url)}</div>
+      </div>`;
+    div.onclick = () => {
+      tempProxy = p.id;
+      renderModalProxies();
+    };
+    el.appendChild(div);
+  });
+}
+
+function renderModalEngines() {
+  const el = document.getElementById('engine-list');
+  el.innerHTML = '';
+  ENGINES.forEach(e => {
+    const div = document.createElement('div');
+    div.className = 'proxy-option' + (e.id === tempEngine ? ' selected' : '');
+    div.innerHTML = `<div class="p-radio"></div><div><div class="p-name">${esc(e.name)}</div><div class="p-url">${esc(e.url)}</div></div>`;
+    div.onclick = () => { tempEngine = e.id; renderModalEngines(); };
+    el.appendChild(div);
+  });
+}
+
+function addCustom() {
+  const name = document.getElementById('custom-name').value.trim();
+  const url  = document.getElementById('custom-url').value.trim();
+  if (!name || !url) return;
+  const id = 'c_' + Date.now();
+  const proxy = { id, name, url: url.endsWith('=') || url.endsWith('?') ? url : url + '=', desc: 'Custom proxy', tag: 'Custom' };
+  state.custom.push(proxy);
+  allProxies = [...PROXIES, ...state.custom];
+  save();
+  document.getElementById('custom-name').value = '';
+  document.getElementById('custom-url').value = '';
+  tempProxy = id;
+  renderModalProxies();
+}
+
+// ──────────────────────────────────────────
+//  UTIL
+// ──────────────────────────────────────────
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ──────────────────────────────────────────
+//  INIT
+// ──────────────────────────────────────────
+load();
+renderBadge();
+renderEnginePills();
+renderHistory();
+document.getElementById('q').focus();
+</script>
+</body>
+</html>

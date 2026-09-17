@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tung Tung Engine</title>
+<style>
+:root{
+  --bg:#0d0f14;--surface:#161a22;--border:#252b38;
+  --accent:#4f8ef7;--accent2:#7c5cfc;--text:#e8ecf4;
+  --muted:#6b7590;--green:#4ade80;--red:#f87171;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Segoe UI',system-ui,sans-serif;
+  display:flex;flex-direction:column;
+}
+
+/* ── TOP BAR ── */
+#topbar{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:6px;
+  padding:7px 10px;flex-shrink:0;
+  z-index:10;
+}
+.nav-btn{
+  background:none;border:1px solid var(--border);border-radius:7px;
+  color:var(--muted);cursor:pointer;font-size:1rem;
+  padding:5px 9px;transition:all .13s;flex-shrink:0;
+}
+.nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--text);}
+.nav-btn:disabled{opacity:.3;cursor:default;}
+
+.url-wrap{
+  flex:1;display:flex;align-items:center;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;
+  transition:border-color .15s,box-shadow .15s;
+}
+.url-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,142,247,.12);}
+.url-wrap input{
+  flex:1;background:transparent;border:none;
+  color:var(--text);font-size:.88rem;outline:none;
+  padding:7px 12px;
+}
+.url-wrap input::placeholder{color:var(--muted);}
+.url-go{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;color:#fff;cursor:pointer;
+  font-size:.8rem;font-weight:700;padding:7px 14px;
+  transition:opacity .13s;flex-shrink:0;
+}
+.url-go:hover{opacity:.83;}
+.settings-btn{
+  background:none;border:1px solid var(--border);border-radius:7px;
+  color:var(--muted);cursor:pointer;font-size:.95rem;
+  padding:5px 10px;transition:all .13s;flex-shrink:0;
+}
+.settings-btn:hover{border-color:var(--accent);color:var(--text);}
+
+/* status pill */
+#status-pill{
+  font-size:.7rem;padding:3px 10px;border-radius:20px;
+  border:1px solid var(--border);color:var(--muted);
+  white-space:nowrap;flex-shrink:0;
+  transition:all .2s;
+}
+#status-pill.loading{border-color:var(--accent);color:var(--accent);}
+#status-pill.ok{border-color:rgba(74,222,128,.3);color:var(--green);}
+#status-pill.err{border-color:rgba(248,113,113,.3);color:var(--red);}
+
+/* ── HOME PAGE ── */
+#home{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-start;
+  padding:50px 16px 32px;overflow-y:auto;
+}
+.logo{
+  font-size:2.5rem;font-weight:800;letter-spacing:-1px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:8px;
+}
+.tagline{color:var(--muted);font-size:.85rem;margin-bottom:30px;}
+
+.quick-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:8px;width:100%;max-width:580px;margin-top:28px;
+}
+.q-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;gap:9px;
+  padding:11px 13px;font-size:.84rem;
+  transition:border-color .13s,background .13s;
+}
+.q-card:hover{border-color:var(--accent);background:#191e2b;}
+
+.sect{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:9px;}
+.hist-section{width:100%;max-width:580px;margin-top:26px;}
+.hist-item{
+  display:flex;align-items:center;gap:9px;
+  background:var(--surface);border:1px solid transparent;
+  border-radius:8px;cursor:pointer;font-size:.85rem;
+  padding:8px 13px;margin-bottom:4px;
+  transition:border-color .12s,background .12s;
+}
+.hist-item:hover{border-color:var(--border);background:#191e2b;}
+.hist-rm{margin-left:auto;color:var(--muted);opacity:0;font-size:.75rem;padding:2px 7px;border-radius:4px;transition:opacity .12s;}
+.hist-item:hover .hist-rm{opacity:1;}
+.hist-rm:hover{background:rgba(255,255,255,.07);}
+
+/* ── IFRAME VIEW ── */
+#frame-view{flex:1;display:none;flex-direction:column;position:relative;}
+#proxy-frame{flex:1;border:none;width:100%;background:#fff;}
+
+/* error overlay */
+#err-overlay{
+  display:none;position:absolute;inset:0;
+  background:var(--bg);z-index:5;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:24px;text-align:center;
+}
+#err-overlay.show{display:flex;}
+.err-icon{font-size:2.8rem;}
+.err-title{font-size:1.1rem;font-weight:700;}
+.err-msg{font-size:.82rem;color:var(--muted);max-width:400px;line-height:1.6;}
+.err-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px;}
+
+/* ── MODALS ── */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.7);z-index:200;
+  align-items:center;justify-content:center;padding:16px;
+}
+.overlay.open{display:flex;}
+.modal{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:26px;width:100%;
+  max-width:500px;max-height:88vh;overflow-y:auto;
+  box-shadow:0 24px 64px rgba(0,0,0,.6);
+  animation:pop .16s ease;
+}
+@keyframes pop{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h2{font-size:1.05rem;margin-bottom:16px;}
+.flabel{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px;}
+.proxy-list{display:flex;flex-direction:column;gap:5px;margin-bottom:16px;}
+.p-opt{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:9px;cursor:pointer;
+  display:flex;align-items:flex-start;gap:9px;
+  padding:10px 13px;transition:border-color .13s,background .13s;
+}
+.p-opt:hover{border-color:#3a4460;background:#13172060;}
+.p-opt.sel{border-color:var(--accent);background:rgba(79,142,247,.07);}
+.p-radio{
+  width:15px;height:15px;border-radius:50%;
+  border:2px solid var(--border);flex-shrink:0;margin-top:2px;
+}
+.p-opt.sel .p-radio{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--bg);}
+.p-name{font-weight:600;font-size:.86rem;}
+.p-desc{font-size:.73rem;color:var(--muted);margin-top:2px;line-height:1.4;}
+.p-url{font-size:.68rem;color:#3e5080;margin-top:2px;word-break:break-all;}
+.tag{display:inline-block;border-radius:3px;font-size:.6rem;font-weight:700;letter-spacing:.4px;padding:1px 5px;text-transform:uppercase;margin-left:5px;vertical-align:middle;}
+.tg{background:rgba(74,222,128,.12);color:var(--green);}
+.tb{background:rgba(79,142,247,.12);color:var(--accent);}
+.tw{background:rgba(251,191,36,.12);color:#fbbf24;}
+.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+.row{display:flex;gap:8px;margin-bottom:8px;}
+.row input,.modal input[type=text]{
+  flex:1;background:var(--bg);border:1px solid var(--border);
+  border-radius:7px;color:var(--text);font-size:.83rem;
+  outline:none;padding:8px 11px;transition:border-color .13s;
+}
+.row input:focus,.modal input[type=text]:focus{border-color:var(--accent);}
+.hint{font-size:.72rem;color:var(--muted);line-height:1.55;margin-bottom:16px;}
+.hint code{color:var(--accent);background:rgba(79,142,247,.1);border-radius:3px;padding:0 3px;}
+.mfoot{display:flex;justify-content:flex-end;gap:8px;padding-top:4px;}
+.btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:7px;color:#fff;cursor:pointer;font-size:.83rem;font-weight:700;padding:8px 20px;transition:opacity .13s;}
+.btn:hover{opacity:.84;}
+.btn-sm{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:7px;color:#fff;cursor:pointer;font-size:.77rem;font-weight:700;padding:8px 12px;white-space:nowrap;transition:opacity .13s;}
+.btn-sm:hover{opacity:.84;}
+.btn-ghost{background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--muted);cursor:pointer;font-size:.82rem;padding:8px 16px;transition:border-color .13s,color .13s;}
+.btn-ghost:hover{border-color:var(--text);color:var(--text);}
+.info-box{background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.18);border-radius:8px;color:#8ab4f8;font-size:.76rem;line-height:1.55;padding:9px 13px;margin-bottom:16px;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <button class="nav-btn" id="btn-back"    onclick="navBack()"    disabled title="Back">◀</button>
+  <button class="nav-btn" id="btn-forward" onclick="navForward()" disabled title="Forward">▶</button>
+  <button class="nav-btn" id="btn-refresh" onclick="navRefresh()"          title="Refresh">↺</button>
+  <button class="nav-btn"                  onclick="showHome()"            title="Home">⌂</button>
+
+  <div class="url-wrap">
+    <input id="url-bar" type="text" placeholder="Search or enter a URL…" autocomplete="off"
+           onkeydown="if(event.key==='Enter') navigate()" />
+    <button class="url-go" onclick="navigate()">Go</button>
+  </div>
+
+  <div id="status-pill">Idle</div>
+  <button class="settings-btn" onclick="openSettings()">⚙</button>
+</div>
+
+<!-- HOME -->
+<div id="home">
+  <div class="logo">⚡ Tung Tung Engine</div>
+  <div class="tagline">Embedded proxy — content loads right here, no redirects</div>
+
+  <div class="quick-grid" id="quick-grid"></div>
+
+  <div class="hist-section" id="hist-section" style="display:none">
+    <div class="sect">Recent</div>
+    <div id="hist-list"></div>
+  </div>
+</div>
+
+<!-- IFRAME VIEW -->
+<div id="frame-view">
+  <iframe id="proxy-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-top-navigation-by-user-activation"></iframe>
+  <div id="err-overlay">
+    <div class="err-icon">🚫</div>
+    <div class="err-title" id="err-title">Page blocked embedding</div>
+    <div class="err-msg" id="err-msg">This site refused to load inside a frame. Try switching to a different CORS relay in settings, or try a direct link for this site.</div>
+    <div class="err-actions">
+      <button class="btn" onclick="retryWithNextRelay()">Try next relay</button>
+      <button class="btn-ghost" onclick="openSettings()">Change relay</button>
+      <button class="btn-ghost" onclick="showHome()">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="overlay" id="settings-overlay" onclick="bgClick(event,'settings-overlay')">
+<div class="modal">
+  <h2>⚙ Proxy Settings</h2>
+  <div class="info-box">
+    Content is fetched by a <strong>CORS relay</strong> server-side, so <code>X-Frame-Options</code> headers are stripped before reaching your browser. The page renders inside this iframe — no proxy domain ever appears in your tab's address bar.
+  </div>
+
+  <div class="flabel">CORS Relay</div>
+  <div class="proxy-list" id="relay-list"></div>
+
+  <hr class="divider"/>
+
+  <div class="flabel">Add Custom Relay</div>
+  <div class="row">
+    <input id="cn" type="text" placeholder="Name" style="max-width:110px;flex:unset"/>
+    <input id="cu" type="text" placeholder="https://relay.example.com/?url="/>
+    <button class="btn-sm" onclick="addCustomRelay()">Add</button>
+  </div>
+  <div class="hint">
+    The relay must forward the full URL you append. Your destination URL will be encoded and appended after the <code>=</code>.<br>
+    Works with any <a style="color:var(--accent)" href="https://corsproxy.io" target="_blank">corsproxy.io</a>-compatible relay.
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="flabel">Search Engine (used when you type a query)</div>
+  <div class="proxy-list" id="engine-list"></div>
+
+  <div class="mfoot">
+    <button class="btn-ghost" onclick="closeSettings()">Cancel</button>
+    <button class="btn" onclick="saveSettings()">Save</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  CORS RELAYS
+//  These fetch remote pages server-side, stripping
+//  X-Frame-Options so we can inject via blob URL.
+// ══════════════════════════════════════════════
+const RELAYS = [
+  {
+    id:'cors1', name:'corsproxy.io',
+    desc:'Primary relay. Returns raw response with headers stripped.',
+    url:'https://corsproxy.io/?url=', tag:'Default', tc:'tg',
+  },
+  {
+    id:'cors2', name:'api.allorigins.win',
+    desc:'Returns JSON wrapper with raw HTML body. Very reliable.',
+    url:'https://api.allorigins.win/raw?url=', tag:'Reliable', tc:'tb',
+  },
+  {
+    id:'cors3', name:'cors.sh (public)',
+    desc:'Open CORS proxy — good fallback.',
+    url:'https://proxy.cors.sh/', tag:'Fallback', tc:'',
+  },
+  {
+    id:'cors4', name:'thingproxy.freeboard.io',
+    desc:'Simple fetch proxy, no API key needed.',
+    url:'https://thingproxy.freeboard.io/fetch/', tc:'',
+  },
+];
+
+const ENGINES = [
+  { id:'google',    name:'Google',      q:'https://www.google.com/search?q=' },
+  { id:'ddg',       name:'DuckDuckGo',  q:'https://duckduckgo.com/?q=' },
+  { id:'brave',     name:'Brave Search',q:'https://search.brave.com/search?q=' },
+  { id:'bing',      name:'Bing',        q:'https://www.bing.com/search?q=' },
+];
+
+const QUICK = [
+  { icon:'🎥', label:'YouTube',   url:'https://www.youtube.com' },
+  { icon:'🔍', label:'Google',    url:'https://www.google.com' },
+  { icon:'📸', label:'Instagram', url:'https://www.instagram.com' },
+  { icon:'🐦', label:'Twitter',   url:'https://www.twitter.com' },
+  { icon:'🎮', label:'Roblox',    url:'https://www.roblox.com' },
+  { icon:'💬', label:'Discord',   url:'https://discord.com/app' },
+  { icon:'🔴', label:'Reddit',    url:'https://www.reddit.com' },
+  { icon:'🌐', label:'Wikipedia', url:'https://en.wikipedia.org' },
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+const SK = 'tte4';
+let state = { relay:'cors1', engine:'google', custom:[], history:[] };
+let allRelays  = [...RELAYS];
+let tempRelay  = '';
+let tempEngine = '';
+let currentUrl = '';
+let relayIndex = 0; // for auto-try-next
+
+function load(){
+  try{
+    const d = JSON.parse(localStorage.getItem(SK)||'{}');
+    state.relay   = d.relay   || 'cors1';
+    state.engine  = d.engine  || 'google';
+    state.custom  = d.custom  || [];
+    state.history = d.history || [];
+    allRelays = [...RELAYS, ...state.custom];
+  }catch(e){}
+}
+function persist(){ try{localStorage.setItem(SK,JSON.stringify(state));}catch(e){} }
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function navigate(urlOverride){
+  let raw = urlOverride || document.getElementById('url-bar').value.trim();
+  if(!raw) return;
+
+  // decide if it's a URL or search query
+  let dest;
+  const looksLikeUrl = /^https?:\/\//i.test(raw) || /^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/.test(raw);
+  if(looksLikeUrl){
+    dest = /^https?:\/\//i.test(raw) ? raw : 'https://'+raw;
+  } else {
+    const eng = ENGINES.find(e=>e.id===state.engine) || ENGINES[0];
+    dest = eng.q + encodeURIComponent(raw);
+  }
+
+  loadUrl(dest);
+}
+
+async function loadUrl(dest){
+  currentUrl = dest;
+  document.getElementById('url-bar').value = dest;
+
+  // push to history
+  state.history = [dest,...state.history.filter(h=>h!==dest)].slice(0,12);
+  persist();
+  renderHistory();
+
+  showFrameView();
+  setStatus('loading','Loading…');
+  hideError();
+
+  const relay = allRelays.find(r=>r.id===state.relay) || allRelays[0];
+  const fetchUrl = relay.url + encodeURIComponent(dest);
+
+  try{
+    const resp = await fetch(fetchUrl, {signal: AbortSignal.timeout(15000)});
+    if(!resp.ok) throw new Error('Relay returned '+resp.status);
+
+    const contentType = resp.headers.get('content-type') || '';
+    const text = await resp.text();
+
+    // Rewrite HTML so relative links/assets go through our relay
+    const rewritten = rewriteHtml(text, dest, relay.url);
+
+    const blob = new Blob([rewritten], {type:'text/html'});
+    const blobUrl = URL.createObjectURL(blob);
+
+    const frame = document.getElementById('proxy-frame');
+    // revoke old blob URLs to free memory
+    if(frame._lastBlob) URL.revokeObjectURL(frame._lastBlob);
+    frame._lastBlob = blobUrl;
+    frame.src = blobUrl;
+
+    frame.onload = () => setStatus('ok','Loaded');
+    frame.onerror = () => showError('Load error','The page could not be rendered. Try a different relay.');
+
+    updateNavButtons();
+  } catch(err){
+    console.error(err);
+    showError('Failed to fetch', err.message + '\n\nThe relay may be blocked on this network. Try switching relay in settings.');
+    setStatus('err','Error');
+  }
+}
+
+// Rewrite all resource/link URLs in the HTML to go through our relay
+function rewriteHtml(html, base, relayUrl){
+  // Inject a <base> tag so relative URLs resolve correctly
+  // Then rewrite absolute links to also go through relay
+  const baseTag = `<base href="${base}">`;
+  const script = `
+<script>
+(function(){
+  var RELAY = ${JSON.stringify(relayUrl)};
+  var BASE  = ${JSON.stringify(base)};
+  // intercept link clicks to stay in our iframe
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a');
+    if(!a) return;
+    var href = a.getAttribute('href');
+    if(!href || href.startsWith('#') || href.startsWith('javascript')) return;
+    e.preventDefault();
+    try{
+      var abs = new URL(href, BASE).href;
+      window.parent.postMessage({type:'nav',url:abs},'*');
+    }catch(err){}
+  }, true);
+  // intercept form submissions
+  document.addEventListener('submit', function(e){
+    var form = e.target;
+    var action = form.getAttribute('action') || BASE;
+    var method = (form.getAttribute('method')||'GET').toUpperCase();
+    if(method==='GET'){
+      e.preventDefault();
+      try{
+        var fd = new FormData(form);
+        var abs = new URL(action, BASE);
+        fd.forEach(function(v,k){ abs.searchParams.append(k,v); });
+        window.parent.postMessage({type:'nav',url:abs.href},'*');
+      }catch(err){}
+    }
+  }, true);
+})();
+<\/script>`;
+
+  // inject base tag right after <head> (or at start)
+  if(/<head[\s>]/i.test(html)){
+    html = html.replace(/(<head[^>]*>)/i, '$1' + baseTag + script);
+  } else {
+    html = baseTag + script + html;
+  }
+  return html;
+}
+
+// listen for in-frame nav messages
+window.addEventListener('message', function(e){
+  if(e.data && e.data.type==='nav' && e.data.url){
+    loadUrl(e.data.url);
+  }
+});
+
+// ══════════════════════════════════════════════
+//  NAV BUTTONS (back/forward via history stack)
+// ══════════════════════════════════════════════
+let navStack = [];
+let navPos   = -1;
+
+function showFrameView(){
+  document.getElementById('home').style.display='none';
+  const fv = document.getElementById('frame-view');
+  fv.style.display='flex';
+}
+function showHome(){
+  document.getElementById('home').style.display='flex';
+  document.getElementById('frame-view').style.display='none';
+  document.getElementById('url-bar').value='';
+  setStatus('idle','Idle');
+}
+function navBack(){
+  const frame = document.getElementById('proxy-frame');
+  try{ frame.contentWindow.history.back(); }catch(e){}
+}
+function navForward(){
+  const frame = document.getElementById('proxy-frame');
+  try{ frame.contentWindow.history.forward(); }catch(e){}
+}
+function navRefresh(){
+  if(currentUrl) loadUrl(currentUrl);
+}
+function updateNavButtons(){
+  // basic enable (actual state depends on frame history)
+  document.getElementById('btn-back').disabled    = false;
+  document.getElementById('btn-forward').disabled = false;
+}
+function retryWithNextRelay(){
+  const ids = allRelays.map(r=>r.id);
+  const curr = ids.indexOf(state.relay);
+  const next = ids[(curr+1) % ids.length];
+  state.relay = next;
+  persist();
+  hideError();
+  if(currentUrl) loadUrl(currentUrl);
+}
+
+// ══════════════════════════════════════════════
+//  STATUS
+// ══════════════════════════════════════════════
+function setStatus(type, msg){
+  const el = document.getElementById('status-pill');
+  el.textContent = msg;
+  el.className='';
+  if(type==='loading') el.classList.add('loading');
+  else if(type==='ok')  el.classList.add('ok');
+  else if(type==='err') el.classList.add('err');
+}
+function showError(title, msg){
+  document.getElementById('err-title').textContent = title;
+  document.getElementById('err-msg').textContent   = msg;
+  document.getElementById('err-overlay').classList.add('show');
+}
+function hideError(){
+  document.getElementById('err-overlay').classList.remove('show');
+}
+
+// ══════════════════════════════════════════════
+//  QUICK SITES
+// ══════════════════════════════════════════════
+function renderQuick(){
+  const g = document.getElementById('quick-grid');
+  g.innerHTML='';
+  QUICK.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='q-card';
+    d.innerHTML=`<span>${s.icon}</span><span>${s.label}</span>`;
+    d.onclick=()=>{ document.getElementById('url-bar').value=s.url; navigate(s.url); };
+    g.appendChild(d);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  HISTORY
+// ══════════════════════════════════════════════
+function renderHistory(){
+  const sec  = document.getElementById('hist-section');
+  const list = document.getElementById('hist-list');
+  if(!state.history.length){ sec.style.display='none'; return; }
+  sec.style.display='';
+  list.innerHTML='';
+  state.history.forEach((h,i)=>{
+    const d=document.createElement('div');
+    d.className='hist-item';
+    const label = h.length>60 ? h.slice(0,60)+'…' : h;
+    d.innerHTML=`<span style="color:var(--muted);font-size:.85rem">🕒</span><span>${esc(label)}</span><span class="hist-rm" data-i="${i}">✕</span>`;
+    d.addEventListener('click',e=>{
+      if(e.target.classList.contains('hist-rm')){
+        state.history.splice(+e.target.dataset.i,1); persist(); renderHistory();
+      } else {
+        navigate(h);
+      }
+    });
+    list.appendChild(d);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════════════
+function openSettings(){
+  tempRelay  = state.relay;
+  tempEngine = state.engine;
+  renderRelayList();
+  renderEngineList();
+  document.getElementById('settings-overlay').classList.add('open');
+}
+function closeSettings(){ document.getElementById('settings-overlay').classList.remove('open'); }
+function bgClick(e,id){ if(e.target.id===id) closeSettings(); }
+
+function saveSettings(){
+  state.relay  = tempRelay;
+  state.engine = tempEngine;
+  persist();
+  closeSettings();
+}
+
+function renderRelayList(){
+  const el=document.getElementById('relay-list');
+  el.innerHTML='';
+  allRelays.forEach(r=>{
+    const d=document.createElement('div');
+    d.className='p-opt'+(r.id===tempRelay?' sel':'');
+    d.innerHTML=`
+      <div class="p-radio"></div>
+      <div>
+        <div class="p-name">${esc(r.name)}${r.tag?`<span class="tag ${r.tc||''}">${r.tag}</span>`:''}</div>
+        ${r.desc?`<div class="p-desc">${esc(r.desc)}</div>`:''}
+        <div class="p-url">${esc(r.url)}</div>
+      </div>`;
+    d.onclick=()=>{ tempRelay=r.id; renderRelayList(); };
+    el.appendChild(d);
+  });
+}
+
+function renderEngineList(){
+  const el=document.getElementById('engine-list');
+  el.innerHTML='';
+  ENGINES.forEach(e=>{
+    const d=document.createElement('div');
+    d.className='p-opt'+(e.id===tempEngine?' sel':'');
+    d.innerHTML=`<div class="p-radio"></div><div><div class="p-name">${esc(e.name)}</div><div class="p-url">${esc(e.q)}</div></div>`;
+    d.onclick=()=>{ tempEngine=e.id; renderEngineList(); };
+    el.appendChild(d);
+  });
+}
+
+function addCustomRelay(){
+  const name=document.getElementById('cn').value.trim();
+  const url =document.getElementById('cu').value.trim();
+  if(!name||!url) return;
+  const id='cx_'+Date.now();
+  const norm = url.endsWith('=')||url.endsWith('?')||url.endsWith('/') ? url : url+'=';
+  const r={id,name,url:norm,desc:'Custom relay',tag:'Custom',tc:'tb'};
+  state.custom.push(r);
+  allRelays=[...RELAYS,...state.custom];
+  persist();
+  document.getElementById('cn').value='';
+  document.getElementById('cu').value='';
+  tempRelay=id;
+  renderRelayList();
+}
+
+// ══════════════════════════════════════════════
+//  UTIL
+// ══════════════════════════════════════════════
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+load();
+renderQuick();
+renderHistory();
+document.getElementById('url-bar').focus();
+</script>
+</body>
+</html>

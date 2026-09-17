@@ -1,0 +1,99 @@
+<!-- Cloudflare Worker HTML file! --><!DOCTYPE html><html lang="en"><head>
+    <script type="text/javascript">(function(window, document, undefined){
+'use strict';
+window.__sparxweb = {
+  urls: {
+    api: 'https://api.sparx-learning.com',
+    altApi: 'https://studentapi.api.sparxmaths.uk',
+    auth: 'https://api.sparx-learning.com',
+    contentAssets: 'https://cdn.sparx-learning.com',
+    staticAssets: 'https://static.sparx-learning.com',
+    interactionGateway: 'https://api.sparx-learning.com/interaction',
+    feedbackGateway: 'https://api.sparx-learning.com',
+    selectSchool: 'https://selectschool.sparx-learning.com',
+    selectSystem: 'https://app.sparx-learning.com',
+    readerApp: 'https://reader.sparx-learning.com',
+    scienceApp: 'https://science.sparx-learning.com',
+  },
+  serveRoot: '/student',
+  environment: 'spx001',
+  GAProperty: 'G-G8SNQZC2LY',
+  teacherPortalPath: 'https://maths.sparx-learning.com/teacher/',
+
+  // TODO SPL-194: Show variant served in header on single domain
+  variant: '',
+
+  csrfCookieName: 'unused_on_single_domain',
+  isSingleDomain: true,
+};
+
+})(window, document)</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&amp;features=structuredClone%2Cdefault%2Ces2023&amp;flags=gated"></script>
+
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sparx Maths</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap" rel="stylesheet"/>
+
+    <link rel="icon" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/favicon.ico" sizes="32x32"/>
+    <link rel="icon" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/icon.svg" type="image/svg+xml"/>
+    <link rel="apple-touch-icon" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/apple-touch-icon.png"/>
+    <link rel="manifest" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/site.webmanifest"/>
+    <!--[settings]-->
+    <script type="text/javascript">
+      window.__assetPath = function (path) {
+        return 'https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/' + path;
+      };
+      // Polyfill for games (to resolve "ReferenceError: global is not defined")
+      if (typeof window.global === 'undefined') {
+        window.global = window;
+      }
+    </script>
+    <!-- Sparx Status Embed -->
+    <script type="text/javascript">
+      window.spxStatusEmbedComponentIDs = [
+        '01HY0PXS8YQ7PNP64WS2CF59B4', // Maths - Students
+      ];
+    </script>
+    <script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/da9e80d134a9631024e924c0aff851ba.js"></script>
+    <script src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/cookies.js"></script>
+    <script>
+      GA(window.__sparxweb.GAProperty);
+      HJ();
+    </script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/chunk-C1LxuacS.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/preload-helper-CpkKPBBr.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/react-iw-3Q0r-.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/react-utils-Dwg63K7q.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/exports-CKXHtLCM.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/react-dom-C1BflWua.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/leaguetablegame-ygb51alF.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/locked-game-icon-D0cREvJ7.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/studentrewards-BDfBvt84.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/isAfter-DshJrGdf.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/videoNudgeTaskItem-8l_4yZn9.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/paths-lOO2cGGx.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/components-Cbzg21_W.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/independentLearning-wyP2FMrP.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/moment-DD7CWDio.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/utils-I1RU1jac.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/independentlearning-DD_wupA-.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/urls-C8d5R1m2.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/alert-modal-DEAhJbOf.js"></script>
+    <script type="module" crossorigin="" src="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/main-CRVExkfh.js"></script>
+    <link rel="stylesheet" crossorigin="" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/locked-game-icon-BP6k1UVt.css"/>
+    <link rel="stylesheet" crossorigin="" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/videoNudgeTaskItem-B-gU0up4.css"/>
+    <link rel="stylesheet" crossorigin="" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/components-CoRwCyb5.css"/>
+    <link rel="stylesheet" crossorigin="" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/independentLearning-CJwJwk8S.css"/>
+    <link rel="stylesheet" crossorigin="" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/utils-CtKd5MAY.css"/>
+    <link rel="stylesheet" crossorigin="" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/alert-modal-DtYhdR4u.css"/>
+    <link rel="stylesheet" crossorigin="" href="https://static.sparx-learning.com/maths/e567914c9d805d6d440f552ae55c1249bde05cd9/assets/main-Rd9FnKfM.css"/>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script defer="" src="https://status-widget.sparx-learning.com/"></script>
+  
+
+</body></html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Tung Tung Engine</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#05071a;color:#e2e8f0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;color:inherit;font-family:inherit}
+
+/* ── top bar ── */
+#topbar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#0f172a;border-bottom:1px solid #1e293b;flex-shrink:0}
+#topbar button{padding:6px;border-radius:6px;color:#94a3b8;transition:background .15s}
+#topbar button:hover{background:#1e293b;color:#e2e8f0}
+#urlrow{flex:1;display:flex;align-items:center;gap:8px;padding:6px 10px;background:#05071a;border:1px solid #1e293b;border-radius:8px;transition:border-color .15s}
+#urlrow:focus-within{border-color:rgba(180,83,9,.6)}
+#urlinput{flex:1;background:transparent;border:none;outline:none;font-size:13px;color:#e2e8f0}
+#urlinput::placeholder{color:#64748b}
+#gobtn{padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;color:#fef3c7;background:linear-gradient(135deg,#b45309,#92400e);white-space:nowrap}
+#gobtn:hover{opacity:.9}
+#settingsbtn{padding:6px;border-radius:6px;color:#94a3b8;font-size:16px;transition:background .15s}
+#settingsbtn:hover{background:#1e293b;color:#e2e8f0}
+#statusdot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0}
+#statusdot.error{background:#f87171}
+
+/* ── home ── */
+#home{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px;overflow-y:auto;position:relative}
+#home::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(120,60,10,.15) 0%,transparent 70%);pointer-events:none}
+.mascot-wrap{position:relative;display:flex;flex-direction:column;align-items:center}
+.mascot-wrap img{height:180px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(180,83,9,.55));transition:transform .3s}
+.mascot-wrap img:hover{transform:scale(1.05)}
+.bubble{position:absolute;top:-8px;right:-16px;background:rgba(120,53,15,.9);border:1px solid rgba(217,119,6,.5);border-radius:14px 14px 14px 2px;padding:6px 10px;font-size:11px;font-weight:700;color:#fef3c7;white-space:nowrap}
+.title{font-size:24px;font-weight:900;background:linear-gradient(90deg,#f59e0b,#d97706,#92400e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px}
+.subtitle{color:#64748b;font-size:13px;text-align:center;max-width:300px}
+.quick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;width:100%;max-width:420px}
+.qbtn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border-radius:10px;background:#0f172a;border:1px solid #1e293b;transition:all .2s;font-size:10px;color:#94a3b8}
+.qbtn:hover{border-color:rgba(180,83,9,.5);box-shadow:0 0 14px rgba(180,83,9,.2);transform:translateY(-2px);color:#e2e8f0}
+.qbtn .qi{font-size:20px}
+.note{display:flex;align-items:flex-start;gap:10px;background:rgba(120,53,15,.2);border:1px solid rgba(120,53,15,.3);border-radius:10px;padding:10px 14px;max-width:400px;font-size:11px;color:#94a3b8;line-height:1.5}
+.note strong{color:#f59e0b}
+.note img{width:22px;height:22px;object-fit:contain;flex-shrink:0;margin-top:2px;opacity:.8}
+
+/* ── settings panel ── */
+#settings-panel{display:none;position:fixed;top:0;right:0;width:280px;height:100%;background:#0f172a;border-left:1px solid #1e293b;z-index:100;flex-direction:column;padding:20px}
+#settings-panel.open{display:flex}
+.sp-title{font-size:15px;font-weight:700;margin-bottom:16px;color:#f59e0b}
+.sp-close{position:absolute;top:14px;right:14px;font-size:18px;color:#64748b}
+.sp-close:hover{color:#e2e8f0}
+label.sp-label{font-size:12px;color:#94a3b8;margin-bottom:4px;display:block}
+input.sp-input{width:100%;padding:8px 10px;border-radius:8px;background:#05071a;border:1px solid #1e293b;color:#e2e8f0;font-size:12px;outline:none}
+input.sp-input:focus{border-color:rgba(217,119,6,.5)}
+.sp-save{margin-top:12px;width:100%;padding:8px;border-radius:8px;background:linear-gradient(135deg,#b45309,#92400e);color:#fef3c7;font-size:13px;font-weight:700}
+.sp-save:hover{opacity:.9}
+.sp-hint{margin-top:8px;font-size:10px;color:#475569;line-height:1.5}
+.sp-hint a{color:#f59e0b}
+.sp-section{margin-top:16px;padding-top:16px;border-top:1px solid #1e293b}
+.sp-engine-btn{width:100%;text-align:left;padding:8px 10px;border-radius:8px;border:1px solid #1e293b;background:#05071a;color:#94a3b8;font-size:12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;transition:all .15s}
+.sp-engine-btn.active{border-color:rgba(217,119,6,.6);background:rgba(120,53,15,.3);color:#fef3c7}
+.sp-engine-btn .dot{width:8px;height:8px;border-radius:50%;background:#1e293b;flex-shrink:0}
+.sp-engine-btn.active .dot{background:#f59e0b}
+
+/* ── browsing iframe ── */
+#iframe-wrap{flex:1;position:relative;display:none}
+#proxy-iframe{width:100%;height:100%;border:0}
+.loading-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(5,7,26,.85);z-index:10;pointer-events:none}
+.loading-overlay img{width:60px;height:60px;object-fit:contain;animation:bounce .6s infinite alternate}
+.loading-overlay p{font-size:13px;color:#94a3b8}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+</style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<div id="topbar">
+  <div id="urlrow">
+    <span id="lockicon" style="font-size:13px;color:#94a3b8">🌐</span>
+    <input id="urlinput" type="text" placeholder="Enter URL or search…" autocomplete="off"/>
+    <button id="clearbtn" style="display:none;color:#64748b;font-size:12px" onclick="clearUrl()">✕</button>
+  </div>
+  <button id="gobtn" onclick="go()">TUNG!</button>
+  <span id="statusdot" title="Engine status"></span>
+  <button id="settingsbtn" onclick="toggleSettings()" title="Settings">⚙️</button>
+</div>
+
+<!-- ── Home screen ── -->
+<div id="home">
+  <div class="mascot-wrap">
+    <div style="width:120px;height:180px;display:flex;align-items:center;justify-content:center;font-size:60px">🥁</div>
+    <div class="bubble">TUNG TUNG TUNG 🥁</div>
+  </div>
+
+  <div style="text-align:center">
+    <div class="title">Tung Tung Engine</div>
+    <div class="subtitle" style="margin-top:6px">He bangs. He tunnels. He gets you there.</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px">
+      <span id="home-statusdot" style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block"></span>
+      <span id="home-statuslabel" style="font-size:12px;color:#64748b">Checking engine…</span>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+    <button class="qbtn" onclick="go('https://www.google.com')"><span class="qi">🔍</span>Google</button>
+    <button class="qbtn" onclick="go('https://www.youtube.com')"><span class="qi">▶️</span>YouTube</button>
+    <button class="qbtn" onclick="go('https://en.wikipedia.org')"><span class="qi">📖</span>Wiki</button>
+    <button class="qbtn" onclick="go('https://github.com')"><span class="qi">💻</span>GitHub</button>
+    <button class="qbtn" onclick="go('https://www.reddit.com')"><span class="qi">🤖</span>Reddit</button>
+    <button class="qbtn" onclick="go('https://x.com')"><span class="qi">🐦</span>X</button>
+  </div>
+
+  <div class="note">
+    
+    <div><strong>For Google Sites:</strong> Host this file on GitHub Pages or any HTTPS host, then embed that URL in Google Sites via <em>Insert → Embed</em>. The proxy server URL can be changed in ⚙️ Settings.</div>
+  </div>
+</div>
+
+<!-- ── Iframe wrap ── -->
+<div id="iframe-wrap">
+  <div class="loading-overlay" id="loading">
+    <div style="font-size:48px">🥁</div>
+    <p>Tung Tung is on the way…</p>
+  </div>
+  <iframe id="proxy-iframe" title="Tung Tung Proxy" allow="fullscreen; autoplay"></iframe>
+</div>
+
+<!-- ── Settings panel ── -->
+<div id="settings-panel">
+  <div class="sp-title">⚙️ Engine Settings</div>
+  <button class="sp-close" onclick="toggleSettings()">✕</button>
+
+  <label class="sp-label">Proxy Server URL</label>
+  <input class="sp-input" id="server-input" type="url" placeholder="https://your-stellar-app.replit.app"/>
+  <button class="sp-save" onclick="saveSettings()">Save Settings</button>
+  <div class="sp-hint">
+    Point this to any running Stellar deployment.<br>
+    Need one? <a href="https://replit.com" target="_blank">Deploy on Replit →</a>
+  </div>
+
+  <div class="sp-section">
+    <label class="sp-label" style="margin-bottom:8px">Proxy Engine</label>
+    <button class="sp-engine-btn active" id="eng-uv" onclick="setEngine('ultraviolet')">
+      <span class="dot"></span>Ultraviolet <span style="margin-left:auto;font-size:10px;color:#f59e0b">Recommended</span>
+    </button>
+    <button class="sp-engine-btn" id="eng-bare" onclick="setEngine('bare')">
+      <span class="dot"></span>Bare (direct fetch)
+    </button>
+  </div>
+
+  
+</div>
+
+<script>
+(function(){
+  const KEY = "stlr2024";
+  const SW_PATH_PREFIX = "/uv/service/";
+
+  function xorEncode(str){
+    let b="";
+    for(let i=0;i<str.length;i++) b+=String.fromCharCode(str.charCodeAt(i)^KEY.charCodeAt(i%KEY.length));
+    return btoa(b).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"");
+  }
+
+  // ── Settings ──────────────────────────────────────────
+  let cfg = {server:"", engine:"ultraviolet"};
+  try{ cfg = {...cfg, ...JSON.parse(localStorage.getItem("tt_cfg")||"{}")}; }catch{}
+  if(!cfg.server) cfg.server = window.location.origin; // default: same origin
+
+  function saveCfg(){ localStorage.setItem("tt_cfg", JSON.stringify(cfg)); }
+
+  window.saveSettings = function(){
+    const v = document.getElementById("server-input").value.trim().replace(/\/$/,"");
+    if(v) cfg.server = v;
+    saveCfg();
+    toggleSettings();
+    checkEngine();
+  };
+
+  window.setEngine = function(e){
+    cfg.engine = e;
+    saveCfg();
+    document.querySelectorAll(".sp-engine-btn").forEach(b=>b.classList.remove("active"));
+    document.getElementById("eng-"+(e==="ultraviolet"?"uv":"bare")).classList.add("active");
+  };
+
+  window.toggleSettings = function(){
+    const p = document.getElementById("settings-panel");
+    const open = p.classList.toggle("open");
+    if(open){
+      document.getElementById("server-input").value = cfg.server;
+      document.getElementById("eng-uv").classList.toggle("active", cfg.engine==="ultraviolet");
+      document.getElementById("eng-bare").classList.toggle("active", cfg.engine==="bare");
+    }
+  };
+
+  // ── Engine status check ────────────────────────────────
+  function setStatus(ok, label){
+    ["statusdot","home-statusdot"].forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.style.background = ok===true?"#4ade80":ok===false?"#f87171":"#f59e0b";
+      if(id==="statusdot"){ el.className = ok===false?"error":""; }
+    });
+    const lbl = document.getElementById("home-statuslabel");
+    if(lbl) lbl.textContent = label;
+  }
+
+  function checkEngine(){
+    setStatus(null,"Checking engine…");
+    fetch(cfg.server+"/api/healthz",{method:"GET",signal:AbortSignal.timeout(5000)})
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(()=>setStatus(true,"Tung Tung Engine active ✓"))
+      .catch(()=>setStatus(false,"Engine offline — check Settings"));
+  }
+  checkEngine();
+
+  // ── Navigation ─────────────────────────────────────────
+  function normalizeUrl(input){
+    const t = input.trim();
+    if(!t) return "";
+    if(t.startsWith("http://") || t.startsWith("https://")) return t;
+    if(t.includes(".") && !t.includes(" ")) return "https://"+t;
+    return "https://www.google.com/search?q="+encodeURIComponent(t);
+  }
+
+  function buildProxyUrl(target){
+    const encoded = xorEncode(target);
+    return cfg.server + SW_PATH_PREFIX + encoded;
+  }
+
+  let currentTarget = "";
+
+  window.go = function(preset){
+    const input = preset || document.getElementById("urlinput").value;
+    const url = normalizeUrl(input);
+    if(!url) return;
+    currentTarget = url;
+    document.getElementById("urlinput").value = url;
+    document.getElementById("lockicon").textContent = "🔒";
+    document.getElementById("clearbtn").style.display = "";
+    document.getElementById("home").style.display = "none";
+    const wrap = document.getElementById("iframe-wrap");
+    wrap.style.display = "block";
+    document.getElementById("loading").style.display = "flex";
+    const iframe = document.getElementById("proxy-iframe");
+    iframe.src = buildProxyUrl(url);
+    iframe.onload = ()=>{ document.getElementById("loading").style.display="none"; };
+    iframe.onerror = ()=>{ document.getElementById("loading").style.display="none"; };
+  };
+
+  window.clearUrl = function(){
+    document.getElementById("urlinput").value = "";
+    document.getElementById("clearbtn").style.display = "none";
+    document.getElementById("lockicon").textContent = "🌐";
+    currentTarget = "";
+    document.getElementById("home").style.display = "flex";
+    document.getElementById("iframe-wrap").style.display = "none";
+  };
+
+  // ── URL input events ───────────────────────────────────
+  const inp = document.getElementById("urlinput");
+  inp.addEventListener("keydown", e=>{ if(e.key==="Enter") go(); });
+  inp.addEventListener("input", ()=>{
+    document.getElementById("clearbtn").style.display = inp.value?"":"none";
+  });
+})();
+</script>
+<script src="https://replit-cdn.com/replit-pill/replit-pill.global.js" data-repl-id="1e480619-41e4-46b4-b2ed-03b498240148"></script></body>
+</html>
