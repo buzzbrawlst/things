@@ -1,0 +1,1527 @@
+<html lang="en-us" id="mainhtml"><head><meta http-equiv="origin-trial" content="A7vZI3v+Gz7JfuRolKNM4Aff6zaGuT7X0mf3wtoZTnKv6497cVMnhy03KDqX7kBz/q/iidW7srW31oQbBt4VhgoAAACUeyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGUuY29tOjQ0MyIsImZlYXR1cmUiOiJEaXNhYmxlVGhpcmRQYXJ0eVN0b3JhZ2VQYXJ0aXRpb25pbmczIiwiZXhwaXJ5IjoxNzU3OTgwODAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- overtide VANILLA+CG VERSION -->
+
+    <!-- Google tag (gtag.js) -->
+    <script type="text/javascript" async="" src="https://ssl.cdne.cpmstar.com/cached/zonemasters/cpmstarjsgameapi.js?ver=1409"></script><script type="text/javascript" async="" src="https://ssl.cdne.cpmstar.com/cached/zonemasters/mobilemodules.js?ver=1409"></script><script type="text/javascript" async="" charset="utf-8" src="https://www.gstatic.com/recaptcha/releases/BnqMGSY_YP4cCmbNINHpJPkd/recaptcha__en.js" crossorigin="anonymous" integrity="sha384-K2jwPMs9YftFEp0qaOROfZXTsHoMnIVnis6njdSZtZdHgc1aczlv5Jty5/tSuqns"></script><script type="text/javascript" async="" src="https://server.cpmstar.com/cached/zonefiles/1137_54105_gameapi.js?rnd=567935"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5EPV6QRR3J"></script>
+    <script>
+        const isDiscord = window.location.hostname.includes('discord');
+        function getAssetUrl(path) {
+            return isDiscord ? '/.proxy/overtide/' + path : 'https://overtide.io/' + path;
+        }
+        if (isDiscord) {
+            const idsToRemove = ['data-link', 'framework-link', 'code-link'];
+            idsToRemove.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.parentNode.removeChild(el);
+                    console.log(`Removed preload tag: ${id}`);
+                }
+            });
+        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-5EPV6QRR3J');
+
+        var unityInstanceWrapper = {
+            sendMessage: function(objectName, methodName, message) {
+                if (typeof window.unityInstance !== 'undefined' && window.unityInstance !== null) {
+                    window.unityInstance.SendMessage(objectName, methodName, message);
+                } else {
+                    console.warn(`cannot call ${methodName}`);
+                }
+            }
+        };
+        
+        function hasQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.has(param) && urlParams.get(param) === 'true';
+        }
+        window.sdkVersion = hasQueryParam('cg') ? 'CrazyGames' : 'Vanilla';
+        
+        function requestNewVersion() {
+            location.reload(true);
+        }
+        window.alert = function () { };
+        function reportLoadingStart() {
+            //for cg - sdkGameLoadingStart is called right after the cg script initializes.
+            
+        }
+        function reportVideoAdSource(source) {
+        }
+        function reportLoadingFinished() {
+            var banrs = document.getElementById("fullscreen-banrs");
+            if (banrs)
+                banrs.style.display = "block";
+            try {
+                window.CrazyGames.SDK.game.loadingStop();
+            } catch { }
+        }
+        function reportCustom(reportEventName, sdkVersion) {
+            gtag('event', reportEventName, {
+                'event_category': 'interaction',
+                'event_label': sdkVersion
+            });
+        }
+    </script>
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&amp;display=swap" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Overtide.io | FPS io Game - Play Overtide io Online!</title>
+    <meta name="description" content="Overtide.io is a free Multiplayer Online FPS Game. No Download needed! Become the #1 Overtide player today in this first-person shooter IO Overtide game.">
+    <meta name="keywords" content="Overtide.io, battle royale, 3D game, online multiplayer, free game, brawl stars, browser-based, shooting game, battle royale game, IO game, tank game, online gaming, multiplayer game, friends, weapons, coins, action-packed">
+    <meta name="author" content="LEGiON Platforms">
+    <link id="data-link" rel="preload" href="https://overtide.io/Build/309b2ec14a70d7dfe85d2f3215ba99ef.data.br" as="fetch" type="application/octet-stream" crossorigin="">
+    <link id="framework-link" rel="preload" href="https://overtide.io/Build/fc0404ea8e3ae46326b9da00720426a1.framework.js.br" as="script">
+    <link id="code-link" rel="preload" href="https://overtide.io/Build/6bb51fbde1e87f0e5679d3d55976855c.wasm.br" as="fetch" type="application/wasm" crossorigin="">
+    <script>
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            document.getElementById('data-link').href = "https://overtide.io/mobile/Build/309b2ec14a70d7dfe85d2f3215ba99ef.data.br";
+            document.getElementById('framework-link').href = "https://overtide.io/mobile/Build/fc0404ea8e3ae46326b9da00720426a1.framework.js.br";
+            document.getElementById('code-link').href = "https://overtide.io/mobile/Build/6bb51fbde1e87f0e5679d3d55976855c.wasm.br";
+        }
+    </script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <meta content="Overtide.io | FPS io Game - Play Overtide io Online!" property="og:title">
+    <meta content="Overtide.io is a free Multiplayer Online FPS Game. No Download needed! Become the #1 Overtide player today in this first-person shooter IO Overtide game." property="og:description">
+    <meta content="https://overtide.io/TemplateData/background-og.webp" property="og:image">
+    <meta property="og:url" content="https://overtide.io">
+    <meta property="og:type" content="website">
+    <meta property="og:image:width" content="192">
+    <meta property="og:image:height" content="108">
+    <meta property="og:site_name" content="Overtide.io">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Overtide.io | FPS io Game - Play Overtide io Online!">
+    <meta name="twitter:description" content="Overtide.io is a free Multiplayer Online FPS Game. No Download needed! Become the #1 Overtide player today in this first-person shooter IO Overtide game.">
+    <meta name="twitter:image" content="https://overtide.io/TemplateData/background-og.webp">
+    <meta name="twitter:url" content="https://overtide.io">
+    <meta content="#ffd900" data-react-helmet="true" name="theme-color">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+    </style>
+    <meta name="apple-mobile-web-app-title" content="Overtide.io">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="preload" href="https://overtide.io/TemplateData/background.webp" as="image">
+    <meta itemprop="image primaryImageOfPage" content="https://overtide.io/TemplateData/background.webp">
+    <!-- Youtube Game Schema -->
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type":"VideoGame",
+            "publisher": "Legion Platforms",
+            "name":[
+                {
+                    "@language":"en",
+                    "@value":"Overtide.io"
+                }
+            ],
+            "description":[
+                {
+                    "@language":"en",
+                    "@value":"Overtide.io is a free Multiplayer Online FPS Game. No Download needed! Become the #1 Overtide player today in this first-person shooter IO Overtide game."
+                }
+            ],
+            "applicationCategory":[
+                "Game"
+            ],
+            "operatingSystem":[
+                "WEB"
+            ],
+            "genre":[
+                "Shooter",
+                "Multiplayer"
+                "FPS",
+                "CSGO",
+                "Battle Royale",
+                "Counter Strike"
+            ],
+            "url":"https://overtide.io/",
+            "image":"TemplateData/background.webp",
+            "screenshot":"TemplateData/background.webp"
+        }
+    </script>
+<script src="//api.adinplay.com/libs/aiptag/pub/LGP/overtide.io/tag.min.js" async=""></script><script type="text/javascript">
+                window.aiptag = window.aiptag || { cmd: [] };
+                aiptag.cmd.display = aiptag.cmd.display || [];
+                aiptag.cmd.player = aiptag.cmd.player || [];
+                aiptag.cmp = {
+                    show: false,
+                    position: "centered",
+                    button: false,
+                    buttonText: "Privacy settings",
+                    buttonPosition: "bottom-left"
+                }
+                aiptag.cmd.player.push(function () {
+                    aiptag.adplayer = new aipPlayer({
+                        AD_WIDTH: 960,
+                        AD_HEIGHT: 540,
+                        AD_DISPLAY: 'center',
+                        LOADING_TEXT: 'loading advertisement',
+                        PREROLL_ELEM: function () { return document.getElementById('videoad') },
+                        AIP_COMPLETE: function (state) {
+                            console.log("Video Ad Completed: " + state);
+                            // Check for failure conditions
+                            const lowerCaseState = state.toLowerCase();
+                            if (lowerCaseState.includes("adblock") || lowerCaseState.includes("failed") || lowerCaseState.includes("error")) {
+                                console.log("triggering fallbackToStar...");
+                                window.fallbackToStar();
+                            }
+                            else {
+                                //all good
+                                unityInstanceWrapper.sendMessage('MainManager', 'OnDaReveresedFinishedJS', state.toString());
+                            }
+                        }
+                    });
+                });
+            </script><script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script><script src="sdkManager.js" defer=""></script><style>.It9xAeq8bjIwRQ6F6LVq,.It9xAeq8bjIwRQ6F6LVq:before,.It9xAeq8bjIwRQ6F6LVq:after{border-radius:50%;width:2.5em;height:2.5em;animation-fill-mode:both;animation:yzIMaOqXQt0Qw0opdSpX 1.8s infinite ease-in-out}.It9xAeq8bjIwRQ6F6LVq{color:#9e0515;font-size:7px;position:absolute;text-indent:-9999em;transform:translateZ(0);animation-delay:-0.16s;top:calc(50% - 3.75em);left:calc(50% - 1.25em);display:block}.It9xAeq8bjIwRQ6F6LVq:before,.It9xAeq8bjIwRQ6F6LVq:after{content:"";position:absolute;top:0}.It9xAeq8bjIwRQ6F6LVq:before{left:-3.5em;animation-delay:-0.32s}.It9xAeq8bjIwRQ6F6LVq:after{left:3.5em}@keyframes yzIMaOqXQt0Qw0opdSpX{0%,80%,100%{box-shadow:0 2.5em 0 -1.3em}40%{box-shadow:0 2.5em 0 0}}</style><style>.mI58Gi15PAe8fqsHDOMI *{line-height:1.4em;vertical-align:middle}.mI58Gi15PAe8fqsHDOMI{display:flex;align-items:center;background-color:#f7fcff;box-shadow:0 0 3px rgba(0, 0, 0, 0.2);padding:0;border-radius:9px;position:fixed;z-index:999994;top:unset;bottom:5px;right:unset;left:5px;transition:background-color .3s ease,box-shadow .3s ease}.oSAXb5qPKj78_Sp8Oz9A{text-decoration:none;display:flex;align-items:center;padding:3px;border-radius:3px;transition:color .3s ease,transform .3s ease}.ciHgxN1orEDdqQlZUIRO{display:none;font-family:Arial,sans-serif;padding-right:5px;padding-left:2px;font-size:12px}.oSAXb5qPKj78_Sp8Oz9A:hover .ciHgxN1orEDdqQlZUIRO{display:inline;color:#3276ae}.uHNm6AHskWg7q6_iq6RI{top:unset;bottom:5px;right:5px;left:unset}.jbj_rARHnqU1Oj35bbgQ{top:unset;bottom:5px;right:unset;left:5px}.tXT909jFBi0yQpy3ku0Q{top:unset;bottom:5px;right:unset;left:50%;transform:translateX(-50%)}.ELiWH9h2FSasygiFrUsU{top:5px;bottom:unset;right:unset;left:50%;transform:translateX(-50%)}.EJLCLzR3Dm648i6W4F6I{top:5px;bottom:unset;right:5px;left:unset}.ou122XCMg9DfGPTD9R3w{top:5px;bottom:unset;right:unset;left:5px}</style><script type="text/javascript" async="" importance="high" fetchpriority="high" src="https://api.adinplay.com/v4/live/aip/ad-manager.js"></script><style>.OckdzH2HZ35tK3y7tXRa:before,.OckdzH2HZ35tK3y7tXRa:after{content:unset}.OckdzH2HZ35tK3y7tXRa{width:100%;height:100%}.OckdzH2HZ35tK3y7tXRa,.OckdzH2HZ35tK3y7tXRa:before,.OckdzH2HZ35tK3y7tXRa:after,.OckdzH2HZ35tK3y7tXRa *{hyphens:manual;font-size:16px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;color:inherit;background:0 0;border:0;border-radius:0;border-spacing:0;border-collapse:collapse;box-sizing:content-box;clear:none;float:none;font-variant:normal;font-weight:inherit;letter-spacing:normal;line-height:1.4;margin:0;max-height:none;max-width:none;min-height:0;min-width:0;outline:0;padding:0;position:static;text-align:left;text-decoration:none;text-indent:0;text-transform:none;vertical-align:baseline;visibility:inherit;word-spacing:normal}.OckdzH2HZ35tK3y7tXRa{display:inline-block}.SgWToQqFfGrcMwzkaW13{position:absolute;top:0;left:0;right:0;bottom:0;z-index:1;-webkit-user-select:none;-moz-user-select:none;user-select:none}.XEsSILaeeM5KintRuPQD{transition:opacity 250ms ease 0s,visibility 250ms ease 0s;opacity:.01;visibility:hidden}.XEsSILaeeM5KintRuPQD div.plUlYp04adKwyn0qvHdQ{position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.45) 40%, rgba(0, 0, 0, 0));pointer-events:none}.XEsSILaeeM5KintRuPQD div.nYN3g178d4YL2Vd4s6mA{position:absolute;bottom:0;left:0;right:0;height:66%;background:linear-gradient(0deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.45) 40%, rgba(0, 0, 0, 0));pointer-events:none}.Ad8QhrSE3GIISryPO9T7{position:absolute;top:50%;left:50%;margin:-25px 0 0 -25px;opacity:1;text-align:left;border:4px solid rgba(255,255,255,.5);box-sizing:border-box;background-clip:padding-box;width:50px;height:50px;border-radius:25px;visibility:hidden;display:none}.Ad8QhrSE3GIISryPO9T7:before,.Ad8QhrSE3GIISryPO9T7:after{content:"";position:absolute;margin:-4px;box-sizing:inherit;width:inherit;height:inherit;border-radius:inherit;opacity:1;border:inherit;border-color:rgba(0,0,0,0);border-top-color:#fff}.wn9PyoRcUdqB4tErguAA .Ad8QhrSE3GIISryPO9T7{display:block;animation:BKrYahB8a1dyv1rM5zwt 0s linear .3s forwards}.wn9PyoRcUdqB4tErguAA .Ad8QhrSE3GIISryPO9T7:before,.wn9PyoRcUdqB4tErguAA .Ad8QhrSE3GIISryPO9T7:after{animation:G_FiHUCEH0pS_GOFLE7m 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite,juB6kt12QpEiyg0aiXuA 1.1s linear infinite}.wn9PyoRcUdqB4tErguAA .Ad8QhrSE3GIISryPO9T7:before{border-top-color:#fff}.wn9PyoRcUdqB4tErguAA .Ad8QhrSE3GIISryPO9T7:after{border-top-color:#fff;animation-delay:.44s}@keyframes BKrYahB8a1dyv1rM5zwt{to{visibility:visible}}@keyframes G_FiHUCEH0pS_GOFLE7m{100%{transform:rotate(360deg)}}@keyframes juB6kt12QpEiyg0aiXuA{0%{border-top-color:#fff}20%{border-top-color:#fff}35%{border-top-color:#fff}60%{border-top-color:#fff}100%{border-top-color:#fff}}.REl3d1_VAR8A7b7vccdK{position:absolute;top:0;left:0;right:0;display:flex;flex-direction:column;align-items:flex-start;z-index:1;padding:25px 20px;color:#fff;transition:opacity 250ms ease 0s,visibility 250ms ease 0s;opacity:.01;visibility:hidden}.REl3d1_VAR8A7b7vccdK div.ezfjx_GIDOUc2iTNUtLj{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;width:100%;font-size:18px}.REl3d1_VAR8A7b7vccdK div.F1qbAuN_fWyiu5DJ9T6P{font-size:14px}.V2GUOOkiXtNjrwoqx3bi{position:absolute;bottom:0;left:0;right:0;height:65px}._05mhNR8IvuDeKPShF6Q{position:absolute;left:20px;right:20px;bottom:56px;height:4px;cursor:pointer;background:rgba(255,255,255,.5);box-shadow:0 0 3px 0 rgba(0,0,0,.1);touch-action:none;transition:opacity 250ms ease 0s,visibility 250ms ease 0s;opacity:.01;visibility:hidden}._05mhNR8IvuDeKPShF6Q div.ZEAQM3Ac3aMIz4CxD2lj{position:absolute;left:0;height:100%;background:#fff}._05mhNR8IvuDeKPShF6Q div.bJA13Vtw9S9Ha8leReHy{position:absolute;left:0;height:100%;background:red}._05mhNR8IvuDeKPShF6Q div.bJA13Vtw9S9Ha8leReHy:before{transition-timing-function:cubic-bezier(0, 0, 0.2, 1);transition-duration:167ms;content:"";position:absolute;background-color:#fff;width:10px;height:10px;border-radius:5px;box-shadow:0 1px 1px 1px rgba(0,0,0,.4);top:50%;right:-5px;margin-top:-5px}._05mhNR8IvuDeKPShF6Q:before{content:"";width:100%;position:absolute;left:0;height:100%}._05mhNR8IvuDeKPShF6Q:hover .bJA13Vtw9S9Ha8leReHy:before{transform:scale(1.5)}.q2ybE239VmeGBKJ80hDc ._05mhNR8IvuDeKPShF6Q,._05mhNR8IvuDeKPShF6Q:hover,._05mhNR8IvuDeKPShF6Q.M95eHMAUv5CUmYBwqEl9{height:8px;bottom:54px}.SrjgM0k33V0fcCehqUDD{position:absolute;bottom:0;left:0;right:0;height:45px;display:flex;flex-direction:row;justify-content:flex-start;padding:0 20px 20px;align-items:center;z-index:10;pointer-events:all;box-sizing:border-box;color:#fff;transition:opacity 250ms ease 0s,visibility 250ms ease 0s;opacity:.01;visibility:hidden}.GLATa8hIWPCjcOXMbMd5{background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMi4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA3NTIgMTAyNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNzUyIDEwMjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iNzUyLDUxMiAwLDAgMCwxMDI0ICIvPg0KPC9zdmc+DQo=);padding:0;background-color:rgba(0,0,0,0);border:none;background-repeat:no-repeat;background-position:center center;outline:none;width:24px;height:24px;background-size:15px;cursor:pointer}.GLATa8hIWPCjcOXMbMd5.wPBrzQAzd1hcjYMR9eWJ{background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMi4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA3ODQgMTAyNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNzg0IDEwMjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01ODIuMiwwaDkuOGMzOSwwLDY4LjMsMjkuMyw2OC4zLDY4LjN2ODg3LjVjMCwzOS0yOS4zLDY4LjMtNjguMyw2OC4zaC05LjhjLTM5LDAtNjguMy0yOS4zLTY4LjMtNjguM1Y2OC4zDQoJQzUxMy45LDI5LjMsNTQzLjIsMCw1ODIuMiwwTDU4Mi4yLDB6Ii8+DQo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTkyLjEsMGg5LjhjMzksMCw2OC4zLDI5LjMsNjguMyw2OC4zdjg4Ny41YzAsMzktMjkuMyw2OC4zLTY4LjMsNjguM2gtOS44Yy0zOSwwLTY4LjMtMjkuMy02OC4zLTY4LjNWNjguMw0KCUMxMjMuOCwyOS4zLDE1My4xLDAsMTkyLjEsMEwxOTIuMSwweiIvPg0KPC9zdmc+DQo=);background-size:14px}.iHr4_Nk75VKHQ0Iv6Bhi{background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMi4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA4ODAgMTAyNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgODgwIDEwMjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik04MDAuOCwwaDkuOGMzOSwwLDY4LjMsMjkuMyw2OC4zLDY4LjN2ODg3LjVjMCwzOS0yOS4zLDY4LjMtNjguMyw2OC4zaC05LjhjLTM5LDAtNjguMy0yOS4zLTY4LjMtNjguM1Y2OC4zDQoJQzczMi42LDI5LjMsNzYxLjgsMCw4MDAuOCwwTDgwMC44LDB6Ii8+DQo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMS4xLDEwMjRjMCwwLDAtMzQxLjMsMC0xMDI0YzAsMCwyNDMuOCwxNjAuOSw3MzEuNCw0ODcuNmMwLDE5LjUsMCwyNC40LDAsNDguOA0KCUM3MzIuNiw1MjEuOCw0ODguOCw2ODIuNywxLjEsMTAyNHoiLz4NCjwvc3ZnPg0K);padding:0;background-color:rgba(0,0,0,0);border:none;background-repeat:no-repeat;background-position:center center;outline:none;width:24px;height:24px;background-size:16px;margin-left:6px;cursor:pointer}.hBjbX3lq67Lm2UFGZY4i{background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMi4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAxMjE2IDEwMjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDEyMTYgMTAyNDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9DQo8L3N0eWxlPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTAsNzExLjloMjYzLjNMNjc3LjgsMTAyNFYwTDI2My4zLDMxMi4xSDBWNzExLjl6Ii8+DQo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNODc3LjcsMzQxLjNsLTY4LjMsNjguM2M1My42LDU4LjUsNTMuNiwxNDYuMywwLDIwNC44bDY4LjMsNjguM0M5NzAuNCw1OTAsOTcwLjQsNDM0LDg3Ny43LDM0MS4zTDg3Ny43LDM0MS4zeg0KCSIvPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTEwODcuNCwyMDQuOGwtNzMuMSw3OGM2OC4zLDczLjEsMTAyLjQsMTY1LjgsMTAyLjQsMjYzLjNjMCwxMDIuNC0zNC4xLDE5NS0xMDIuNCwyNjMuM2w3My4xLDc4DQoJYzgyLjktOTIuNiwxMzEuNy0yMTQuNiwxMzEuNy0zNDEuM1MxMTcwLjMsMjk3LjQsMTA4Ny40LDIwNC44TDEwODcuNCwyMDQuOHoiLz4NCjwvc3ZnPg0K);padding:0;background-color:rgba(0,0,0,0);border:none;background-repeat:no-repeat;background-position:center center;outline:none;width:24px;height:24px;background-size:24px;cursor:pointer;margin-left:10px}.hBjbX3lq67Lm2UFGZY4i.YRd9QsvBWJhyMoJyrkXM{background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMi4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAxMjE2IDEwMjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDEyMTYgMTAyNDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9DQo8L3N0eWxlPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTAsNzExLjloMjYzLjNMNjc3LjgsMTAyNFYwTDI2My4zLDMxMi4xSDBWNzExLjl6Ii8+DQo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTE4Ny4xLDY4NC4ybC0zOC4xLDM1LjdjLTkuMyw4LjctMjMuOCw4LjItMzIuNS0xLjFMNzczLjEsMzUyLjJjLTguNy05LjMtOC4yLTIzLjgsMS4xLTMyLjVsMzguMS0zNS43DQoJYzkuMy04LjcsMjMuOC04LjIsMzIuNSwxLjFsMzQzLjUsMzY2LjZDMTE5Ni44LDY2MSwxMTk2LjMsNjc1LjYsMTE4Ny4xLDY4NC4yeiIvPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTc3NC4xLDY4NC4ybDM4LjEsMzUuN2M5LjMsOC43LDIzLjgsOC4yLDMyLjUtMS4xbDM0My41LTM2Ni42YzguNy05LjMsOC4yLTIzLjgtMS4xLTMyLjVsLTM4LjEtMzUuNw0KCWMtOS4zLTguNy0yMy44LTguMi0zMi41LDEuMUw3NzMuMSw2NTEuOEM3NjQuNCw2NjEsNzY0LjksNjc1LjYsNzc0LjEsNjg0LjJ6Ii8+DQo8L3N2Zz4NCg==)}.RV38o6lRkhp98cjLXPRY{margin-left:10px}.IszXaM3NrgI5TNOaiGik .XEsSILaeeM5KintRuPQD,.VERvBLx1_9XMjjDomCr_ .XEsSILaeeM5KintRuPQD,.IszXaM3NrgI5TNOaiGik .REl3d1_VAR8A7b7vccdK,.VERvBLx1_9XMjjDomCr_ .REl3d1_VAR8A7b7vccdK,.IszXaM3NrgI5TNOaiGik ._05mhNR8IvuDeKPShF6Q,.VERvBLx1_9XMjjDomCr_ ._05mhNR8IvuDeKPShF6Q,.IszXaM3NrgI5TNOaiGik .SrjgM0k33V0fcCehqUDD,.VERvBLx1_9XMjjDomCr_ .SrjgM0k33V0fcCehqUDD{opacity:1;visibility:visible}.WIFsZSlRUKx6W23mOuRg .SgWToQqFfGrcMwzkaW13,.WIFsZSlRUKx6W23mOuRg .XEsSILaeeM5KintRuPQD,.WIFsZSlRUKx6W23mOuRg .REl3d1_VAR8A7b7vccdK,.WIFsZSlRUKx6W23mOuRg ._05mhNR8IvuDeKPShF6Q,.WIFsZSlRUKx6W23mOuRg .SrjgM0k33V0fcCehqUDD{transition:none;opacity:0;visibility:hidden}.frB8hfiufxr29DmA9NSe{display:none}</style><iframe style="display: none;"></iframe><script type="text/javascript" async="" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script><script type="text/javascript" async="" src="https://edge.atmtd.com/pub/vntsm/afihbs.js"></script><script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script><script type="text/javascript" async="" src="https://hb.vntsm.com/v4/live/vms/assets/libs/adv-module.js"></script><script src="https://scripts.atmtd.com/js/prebid_analytics/prebid_analytics_vntsm-1-4.js" type="text/javascript"></script><script type="text/javascript" async="" src="https://d-code.liadm.com/did-006r.min.js"></script><script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script><meta http-equiv="origin-trial" content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A9nrunKdU5m96PSN1XsSGr3qOP0lvPFUB2AiAylCDlN5DTl17uDFkpQuHj1AFtgWLxpLaiBZuhrtb2WOu7ofHwEAAACKeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A93bovR+QVXNx2/38qDbmeYYf1wdte9EO37K9eMq3r+541qo0byhYU899BhPB7Cv9QqD7wIbR1B6OAc9kEfYCA4AAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A1S5fojrAunSDrFbD8OfGmFHdRFZymSM/1ss3G+NEttCLfHkXvlcF6LGLH8Mo5PakLO1sCASXU1/gQf6XGuTBgwAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><script data-ot-ignore="1" src="https://server.cpmstar.com/tag.aspx?a=0_0176D4A8&amp;group=58" async=""></script><script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-functions-compat.js"></script><script src="firebase2.js"></script><script type="text/javascript" async="" importance="high" fetchpriority="high" charset="utf-8" crossorigin="anonymous" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=21726375739"></script><meta http-equiv="origin-trial" content="AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A9nrunKdU5m96PSN1XsSGr3qOP0lvPFUB2AiAylCDlN5DTl17uDFkpQuHj1AFtgWLxpLaiBZuhrtb2WOu7ofHwEAAACKeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A93bovR+QVXNx2/38qDbmeYYf1wdte9EO37K9eMq3r+541qo0byhYU899BhPB7Cv9QqD7wIbR1B6OAc9kEfYCA4AAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A1S5fojrAunSDrFbD8OfGmFHdRFZymSM/1ss3G+NEttCLfHkXvlcF6LGLH8Mo5PakLO1sCASXU1/gQf6XGuTBgwAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><script src="https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202609100101/pubads_impl.js" async="" crossorigin="anonymous" fetchpriority="high"></script><link href="https://securepubads.g.doubleclick.net/pagead/managed/dict/m202609080101/gpt" rel="compression-dictionary"><script esp-signal="true" src="https://invstatic101.creativecdn.com/encrypted-signals/encrypted-tag-g.js"></script><meta http-equiv="origin-trial" content="A7CQXglZzTrThjGTBEn1rWTxHOEtkWivwzgea+NjyardrwlieSjVuyG44PkYgIPGs8Q9svD8sF3Yedn0BBBjXAkAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="></head>
+<body class="dark" style="background-color: black;">
+
+    <!-- Dynamic Discord SDK Loader -->
+    <script>
+        const url = window.location.href;
+        var unityLoadingIsSDKDependant = false;
+
+        if (url.includes("discord")) {
+            unityLoadingIsSDKDependant = true;
+            const sdkScript = document.createElement("script");
+            sdkScript.src = "discord_sdk.js";
+            document.head.appendChild(sdkScript);
+        }
+
+        function waitForSDKThenStart(callback) {
+            const maxWait = 10000;
+            const interval = 10;
+            let waited = 0;
+
+            if (!unityLoadingIsSDKDependant) {
+                callback();
+                return;
+            }
+
+            const check = () => {
+                if (window.SDK && typeof window.SDK.getBuildURL === "function") {
+                callback();
+                } else if (waited >= maxWait) {
+                console.warn("SDK not available in time, proceeding anyway.");
+                callback();
+                } else {
+                waited += interval;
+                setTimeout(check, interval);
+                }
+            };
+            check();
+        }
+
+    </script>
+    <!-- End Dynamic SDK Loader -->
+
+    <script>
+        if (window.sdkVersion === "CrazyGames") {
+            const script = document.createElement('script');
+            script.src = 'https://sdk.crazygames.com/crazygames-sdk-v3.js';
+            script.onload = async function() { // Make this function async
+                // Once the script loads, initialize the SDK and call sdkGameLoadingStart
+                try {
+                    if (typeof window.CrazyGames !== 'undefined' && typeof window.CrazyGames.SDK !== 'undefined') {
+                        await window.CrazyGames.SDK.init(); // Initialize the SDK here
+                        window.CrazyGames.SDK.game.loadingStart();
+
+
+                        const cgAuthlistener = (crazyUser) => {
+                            console.log("[index.html (overtide)] CrazyGames User changed:" + JSON.stringify(crazyUser));
+                            if (crazyUser){
+                                window.handleCrazyGamesUser(crazyUser);
+                            }
+                        };
+
+                        // add listener
+                        window.CrazyGames.SDK.user.addAuthListener(cgAuthlistener);
+                        console.log("[index.html (overtide)] addAuthListener(cgAuthlistener).. Listening now!");
+
+                    } else {
+                        console.error("CrazyGames SDK is not defined.");
+                    }
+                } catch (error) {
+                    console.error("Error during CrazyGames SDK initialization:", error);
+                }
+            };
+            document.head.appendChild(script);
+        }
+        else 
+        {
+            const adinplayScript = document.createElement('script');
+            adinplayScript.src = '//api.adinplay.com/libs/aiptag/pub/LGP/overtide.io/tag.min.js';
+            adinplayScript.async = true;
+            document.head.appendChild(adinplayScript);
+            const aiptagScript = document.createElement('script');
+            aiptagScript.type = 'text/javascript';
+            aiptagScript.innerHTML = `
+                window.aiptag = window.aiptag || { cmd: [] };
+                aiptag.cmd.display = aiptag.cmd.display || [];
+                aiptag.cmd.player = aiptag.cmd.player || [];
+                aiptag.cmp = {
+                    show: false,
+                    position: "centered",
+                    button: false,
+                    buttonText: "Privacy settings",
+                    buttonPosition: "bottom-left"
+                }
+                aiptag.cmd.player.push(function () {
+                    aiptag.adplayer = new aipPlayer({
+                        AD_WIDTH: 960,
+                        AD_HEIGHT: 540,
+                        AD_DISPLAY: 'center',
+                        LOADING_TEXT: 'loading advertisement',
+                        PREROLL_ELEM: function () { return document.getElementById('videoad') },
+                        AIP_COMPLETE: function (state) {
+                            console.log("Video Ad Completed: " + state);
+                            // Check for failure conditions
+                            const lowerCaseState = state.toLowerCase();
+                            if (lowerCaseState.includes("adblock") || lowerCaseState.includes("failed") || lowerCaseState.includes("error")) {
+                                console.log("triggering fallbackToStar...");
+                                window.fallbackToStar();
+                            }
+                            else {
+                                //all good
+                                unityInstanceWrapper.sendMessage('MainManager', 'OnDaReveresedFinishedJS', state.toString());
+                            }
+                        }
+                    });
+                });
+            `;
+            document.head.appendChild(aiptagScript);
+            //adinplay end.
+            //cpmstar start
+            // <!-- ZONETAG - PLACE INTO HEAD SECTION OR RUN CODE AT STARTUP -->
+            (function (zonefile) {
+                var y = "cpmstarx";
+                var drutObj = window[y] = window[y] || {};
+                function failCpmstarAPI() { var failFn = function (o) { o && typeof (o) === "object" && o.fail && o.fail(); }; drutObj && Array.isArray(drutObj.cmd) && drutObj.cmd.forEach(failFn) && (drutObj.cmd.length = 0); window.cpmstarAPI = window["_" + zonefile] = failFn; }
+                var rnd = Math.round(Math.random() * 999999);
+                var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.onerror = failCpmstarAPI;
+                var proto = document.location.protocol;
+                var host = (proto == "https:" || proto == "file:") ? "https://server" : "//cdn";
+                if (window.location.hash == "#cpmstarDev") host = "//dev.server";
+                if (window.location.hash == "#cpmstarStaging") host = "//staging.server";
+                s.src = host + ".cpmstar.com/cached/zonefiles/" + zonefile + ".js?rnd=" + rnd;
+                var s2 = document.getElementsByTagName('script')[0];
+                s2.parentNode.insertBefore(s, s2);
+                window.cpmstarAPI = function (o) { (drutObj.cmd = drutObj.cmd || []).push(o); }
+            }('1137_54105_gameapi'));
+        }
+    </script>
+    <script>
+
+        window.isMouseLocked = false;
+        document.addEventListener('keydown', function (event) {
+            if (window.isMouseLocked && (event.keyCode === 116 || event.keyCode === 82 && event.ctrlKey)) {
+                event.preventDefault();
+            }
+        });
+        function openPaymentStation(token) {
+            var options = {
+                access_token: token
+            };
+            var s = document.createElement('script');
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "//cdn.xsolla.net/embed/paystation/1.2.7/widget.min.js";
+            s.addEventListener('load', function (e) {
+                console.log("init XPayStationWidget");
+                XPayStationWidget.init(options);
+                console.log("open XPayStationWidget");
+                XPayStationWidget.open();
+
+                XPayStationWidget.on(XPayStationWidget.eventTypes.STATUS, function (event, data) {
+                    var paymentInfoAsString = JSON.stringify(data.paymentInfo);
+                    console.log("js: paymentInfoAsString: " + paymentInfoAsString);
+                    unityInstanceWrapper.sendMessage('XsollaPayments', 'OnXsollaWindowUpdate', paymentInfoAsString);
+                });
+
+                XPayStationWidget.on(XPayStationWidget.eventTypes.CLOSE, function (event, data) {
+                    unityInstanceWrapper.sendMessage('XsollaPayments', 'OnXsollaWindowUpdate', "closed");
+                });
+
+            }, false);
+            var head = document.getElementsByTagName('head')[0];
+            head.appendChild(s);
+        }
+    </script>
+    <div id="videoad"></div>
+    <div id="fullscreen-banrs" style="pointer-events: all; display: block; user-select: none; position: absolute; inset: 0px;">
+        <div id="overtide-io_300x250-parent" style="pointer-events: all; display: block; position: absolute; transform-origin: right top; top: 19%; right: 2%; z-index: 9999; width: 310px; height: 260px; padding: 5px; transform: scale(0.489375);">
+            <div id="overtide-io_300x250" style="user-select: none; width: 300px; height: 250px;">
+                <!-- ad -->
+            <span style=""><span style=""><span id="NBPlUWJ43KJj_1789669105111_413584726_71" data-google-query-id="CLCunfqc9pYDFRypUAYd5O0XFQ" style="pointer-events: auto; visibility: visible; line-height: 0;"><div id="google_ads_iframe_/21726375739,23057550467/overtide.io_14449/mpu_9758_35__container__" style="border: 0pt;"><iframe id="google_ads_iframe_/21726375739,23057550467/overtide.io_14449/mpu_9758_35" name="google_ads_iframe_/21726375739,23057550467/overtide.io_14449/mpu_9758_35" title="3rd party ad content" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" aria-label="Advertisement" tabindex="0" allow="private-state-token-redemption" data-load-complete="true" data-google-container-id="n59fm3b6cbrh" style="border: 0px; vertical-align: bottom; max-width: none; display: inline; position: static; pointer-events: auto;"></iframe></div></span></span></span></div>
+        </div>
+        <div id="overtide-io_728x90-parent" style="pointer-events: all; display: block; position: absolute; transform-origin: center bottom; bottom: 11%; left: 10px; margin-left: auto; margin-right: auto; z-index: 9999; width: 738px; height: 100px; padding: 5px; transform: scale(0.436359);">
+            <div id="overtide-io_728x90" style="user-select: none; width: 728px; height: 90px;">
+                <!-- ad -->
+            <span style=""><span style=""><span id="CzpuTSWvTeNj_1789669105237_594837435_72" data-google-query-id="CLrcsvqc9pYDFS2fUAYd9M4vcA" style="pointer-events: auto; visibility: visible; line-height: 0;"><div id="google_ads_iframe_/21726375739,23057550467/overtide.io_14449/leaderboard_9757_35__container__" style="border: 0pt;"><iframe id="google_ads_iframe_/21726375739,23057550467/overtide.io_14449/leaderboard_9757_35" name="google_ads_iframe_/21726375739,23057550467/overtide.io_14449/leaderboard_9757_35" title="3rd party ad content" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" aria-label="Advertisement" tabindex="0" allow="private-state-token-redemption" data-load-complete="true" data-google-container-id="408mk6hcsecz" style="border: 0px; vertical-align: bottom; max-width: none; display: inline; position: static; pointer-events: auto;"></iframe></div></span></span></span></div>
+        </div>
+        <div id="overtide-io_300x600-parent" style="pointer-events: all; display: none; position: absolute; transform-origin: right top; top: 19%; right: 2%; z-index: 9999; width: 310px; height: 610px; padding: 5px; transform: scale(0.489375);">
+            <div id="overtide-io_300x600" style="user-select: none; width: 300px; height: 600px;">
+                <!-- ad -->
+            <span><span style=""><span id="Jfzlfmj49BZH_1789666626948_443446680_2" data-google-query-id="CJ3o09yT9pYDFQGHUAYd9WcDNQ" style="pointer-events: auto; visibility: visible; line-height: 0; display: none;"><div id="google_ads_iframe_/21726375739,23057550467/overtide.io_14449/doublempu_9759_0__container__" style="border: 0pt; width: 120px; height: 0px;"></div></span></span></span></div>
+        </div>
+    </div>
+    <div id="rotateMessage" class="rotate-message" style="display: none;">
+        <p>Rotate to landscape mode!</p>
+        <img src="https://overtide.io/rotate.webp" alt="rotate your device to landscape mode!" style="width: 50%;">
+        <button id="usePortraitBtn">  Use Portrait Mode  </button>
+    </div>
+    <script src="rotateDevice.js"></script>
+    <script>
+        let preventUnloadActive = false;
+        var beforeUnloaded = function (e) {
+            if (preventUnloadActive) {
+                e.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', beforeUnloaded);
+        function PreventCtrlW() {preventUnloadActive = true;}
+        function AllowCtrlW() {preventUnloadActive = false;}
+        function goDeepFullscreen() {}
+        function showCrazyGamesAuthPrompt(){
+            window.showCrazyGamesAuthPrompt();
+        }
+        function handleCrazyGamesUser(){
+            window.handleCrazyGamesUser();
+        }
+        function goFullscreenMobile() {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(function () {
+                    // Ignore errors for unsupported browsers
+                });
+            }
+            window.addEventListener('resize', function () {
+            });
+            setTimeout(function () {
+                window.scrollTo(0, 1);
+            }, 100);
+        }
+        function copyCurrentURL() {
+            let currentUrl = window.location.href;
+            const el = document.createElement('textarea');
+            el.value = currentUrl;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
+        function copyString(x) {
+            const el = document.createElement('textarea');
+            el.value = x;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
+        function SetCursor(x) {
+            console.log("SetCursor - " + x);
+            document.getElementById("mainhtml").style.cursor = x;
+        }
+        function reload() {
+            location.reload();
+        }
+        function setCursor(cursorStyle) {
+            var canvas = document.getElementById('unity-canvas');
+            canvas.style.cursor = cursorStyle;
+        }
+    </script>
+    <div id="unity-container" style="position: absolute; width: 100%; height: 100%">
+        <canvas id="unity-canvas" width="783" height="440" style="width: 100%; height: 100%; user-select: none; cursor: default;"></canvas>
+    </div>
+    
+    <script>
+        // Function to ease out progress percentage
+        function easeOutQuadPercentage(percent) {
+            var t = percent / 100;
+            return (1 - Math.pow(1 - t, 3)) * 100.0;
+        }
+        function formatNumber(number) {
+            if (number < 1000) {
+                return number.toString(); // Return the original number if less than 1000
+            } else if (number < 1000000) {
+                return (number / 1000).toFixed(2) + 'k'; // Convert to 'k' format for thousands
+            } else {
+                return (number / 1000000).toFixed(2) + 'M'; // Convert to 'M' format for millions
+            }
+        }
+        function onWindowResize() {
+            var newScale = Math.min(window.innerWidth / 1920.0, window.innerHeight / 960.0);
+            var ad1 = document.getElementById("overtide-io_300x250-parent");
+            var ad2 = document.getElementById("overtide-io_728x90-parent");
+            var ad3 = document.getElementById("overtide-io_300x600-parent");
+            if (ad1) ad1.style.transform = "scale(" + (newScale * 1.2) + ")";
+            if (ad2) ad2.style.transform = "scale(" + (newScale * 1.07) + ")";
+            if (ad3) ad3.style.transform = "scale(" + (newScale * 1.2) + ")";
+        };
+        onWindowResize();
+        window.onresize = onWindowResize;
+        window.onload = onWindowResize;
+
+        // Stores last refresh timestamps for each ad banner
+        const adRefreshTimestamps = {
+            'overtide-io_300x250': 0,
+            'overtide-io_728x90': 0,
+            'overtide-io_300x600': 0
+        };
+        
+        // Minimum time between refreshes (30 seconds)
+        const MIN_REFRESH_INTERVAL = 30000;
+        
+        // Keep track of banner visibility states
+        const bannerVisibilityState = {
+            'overtide-io_300x250': false,
+            'overtide-io_728x90': false,
+            'overtide-io_300x600': false
+        };
+
+        // Function to refresh an ad banner if it is visible
+        function refreshAdBanner(tagad) {
+            var adElement = document.getElementById(`${tagad}-parent`);
+            const now = Date.now();
+            
+            // Skip refresh if it was refreshed too recently
+            if (now - (adRefreshTimestamps[tagad] || 0) < MIN_REFRESH_INTERVAL) {
+                return;
+            }
+            
+            if (adElement && adElement.style.display !== "none") {
+                if (typeof aiptag !== 'undefined' && aiptag.cmd && typeof aipDisplayTag !== 'undefined') {
+                    console.log(`[INFO] Refreshing banner: ${tagad}`);
+                    aiptag.cmd.display.push(function () {
+                        aipDisplayTag.display(`${tagad}`);
+                    });
+                    // Update refresh timestamp
+                    adRefreshTimestamps[tagad] = now;
+                } else {
+                    if (window.sdkVersion === "Vanilla") {
+                        console.error('aiptag or aipDisplayTag is not defined.');
+                    }
+                }
+            }
+        }
+        
+        // Keep track of last banner states to avoid redundant operations
+        let lastBannerStates = {
+            '728x90': '',
+            '300x600': '',
+            '300x250': ''
+        };
+        
+        function SetAds(presetName72890, presetName300600, presetName300250) {
+            // Skip if the states haven't changed since the last call
+            if (lastBannerStates['728x90'] === presetName72890 && 
+                lastBannerStates['300x600'] === presetName300600 && 
+                lastBannerStates['300x250'] === presetName300250) {
+                return;
+            }
+            
+            // Update last states
+            lastBannerStates['728x90'] = presetName72890;
+            lastBannerStates['300x600'] = presetName300600;
+            lastBannerStates['300x250'] = presetName300250;
+            
+            var ad1 = document.getElementById("overtide-io_728x90-parent");
+            var ad2 = document.getElementById("overtide-io_300x600-parent");
+            var ad3 = document.getElementById("overtide-io_300x250-parent");
+            
+            // Track visibility changes to decide if we need to refresh
+            const currentVisibility = {
+                'overtide-io_728x90': presetName72890 !== "hidden",
+                'overtide-io_300x600': presetName300600 !== "hidden",
+                'overtide-io_300x250': presetName300250 !== "hidden"
+            };
+            
+            if (ad1) {
+                const wasHidden = ad1.style.display === "none";
+                
+                if (presetName72890 === "hidden") {
+                    ad1.style.display = "none";
+                    bannerVisibilityState['overtide-io_728x90'] = false;
+                }
+                else if (presetName72890 === "bottom") {
+                    ad1.style.display = "block";
+                    
+                    // If banner was hidden and is now being shown, refresh it
+                    if (wasHidden && !bannerVisibilityState['overtide-io_728x90']) {
+                        setTimeout(() => refreshAdBanner('overtide-io_728x90'), 50);
+                    }
+                    
+                    bannerVisibilityState['overtide-io_728x90'] = true;
+                }
+            }
+            if (ad2) {
+                const wasHidden = ad2.style.display === "none";
+                
+                if (presetName300600 === "hidden") {
+                    ad2.style.display = "none";
+                    bannerVisibilityState['overtide-io_300x600'] = false;
+                } else if (presetName300600 === "left") {
+                    ad2.style.transformOrigin = "top left";
+                    ad2.style.top = "20%";
+                    ad2.style.left = "1%";
+                    ad2.style.removeProperty('right');
+                    ad2.style.display = "block";
+                    
+                    // If banner was hidden and is now being shown, refresh it
+                    if (wasHidden && !bannerVisibilityState['overtide-io_300x600']) {
+                        setTimeout(() => refreshAdBanner('overtide-io_300x600'), 50);
+                    }
+                    
+                    bannerVisibilityState['overtide-io_300x600'] = true;
+                } else if (presetName300600 === "right") {
+                    ad2.style.transformOrigin = "top right";
+                    ad2.style.top = "20%";
+                    ad2.style.right = "1%";
+                    ad2.style.removeProperty('left');
+                    ad2.style.display = "block";
+                    
+                    // If banner was hidden and is now being shown, refresh it
+                    if (wasHidden && !bannerVisibilityState['overtide-io_300x600']) {
+                        setTimeout(() => refreshAdBanner('overtide-io_300x600'), 50);
+                    }
+                    
+                    bannerVisibilityState['overtide-io_300x600'] = true;
+                }
+            }
+            if (ad3) {
+                const wasHidden = ad3.style.display === "none";
+                
+                if (presetName300250 === "hidden") {
+                    ad3.style.display = "none";
+                    bannerVisibilityState['overtide-io_300x250'] = false;
+                } else if (presetName300250 === "left") {
+                    ad3.style.transformOrigin = "top left";
+                    ad3.style.top = "30%";
+                    ad3.style.left = "1%";
+                    ad3.style.removeProperty('right');
+                    ad3.style.display = "block";
+                    
+                    // If banner was hidden and is now being shown, refresh it
+                    if (wasHidden && !bannerVisibilityState['overtide-io_300x250']) {
+                        setTimeout(() => refreshAdBanner('overtide-io_300x250'), 50);
+                    }
+                    
+                    bannerVisibilityState['overtide-io_300x250'] = true;
+                } else if (presetName300250 === "right") {
+                    ad3.style.transformOrigin = "top right";
+                    ad3.style.top = "19%";
+                    ad3.style.right = "2%";
+                    ad3.style.removeProperty('left');
+                    ad3.style.display = "block";
+                    
+                    // If banner was hidden and is now being shown, refresh it
+                    if (wasHidden && !bannerVisibilityState['overtide-io_300x250']) {
+                        setTimeout(() => refreshAdBanner('overtide-io_300x250'), 50);
+                    }
+                    
+                    bannerVisibilityState['overtide-io_300x250'] = true;
+                } else if (presetName300250 === "topleft") {
+                    ad3.style.transformOrigin = "top left";
+                    ad3.style.top = "10%";
+                    ad3.style.left = "1%";
+                    ad3.style.removeProperty('right');
+                    ad3.style.display = "block";
+                    
+                    // If banner was hidden and is now being shown, refresh it
+                    if (wasHidden && !bannerVisibilityState['overtide-io_300x250']) {
+                        setTimeout(() => refreshAdBanner('overtide-io_300x250'), 50);
+                    }
+                    
+                    bannerVisibilityState['overtide-io_300x250'] = true;
+                }
+            }
+        }
+    </script>
+    <style>
+        #words {
+            font-family: 'Fjalla One', sans-serif;
+            text-align: left;
+            justify-content: left;
+            user-select: none;
+            font-size: 37px;
+        }
+
+        #unity-logo {
+            max-width: 300px;
+        }
+
+        @media (max-width: 1200px) {
+            #words {
+                font-size: 30px;
+            }
+
+            #unity-logo {
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            #words {
+                font-size: 25px;
+            }
+
+            #unity-logo {
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #words {
+                font-size: 20px;
+            }
+
+            #unity-logo {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            #words {
+                font-size: 15px;
+            }
+
+            #unity-logo {
+                max-width: 100px;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        // Safe build URL
+        function getSafeBuildURL(isMobile) {
+            try {
+                if (typeof window.SDK?.getBuildURL === "function") 
+                {
+                    return window.SDK.getBuildURL(isMobile);
+                }
+            } catch (e) {
+                console.warn("SDK.getBuildURL failed:", e);
+            }
+            return isMobile ? "mobile/Build" : "Build"; // fallback
+        }
+
+        // Safe Streaming Assets URL
+        function getSafeStreamingAssetsUrl() {
+            try {
+                if (typeof window.SDK?.getStreamingAssetsUrl === "function") {
+                    return window.SDK.getStreamingAssetsUrl();
+                }
+            } catch (e) {
+                console.warn("SDK.getStreamingAssetsUrl failed:", e);
+            }
+            return "StreamingAssets"; // fallback
+        }
+
+        // Safe Static Resolution Scale Multi
+        function getSafeStaticResolutionScaleMulti() {
+            try {
+                if (typeof window.SDK?.getStaticResolutionScaleMulti === "function") {
+                return window.SDK.getStaticResolutionScaleMulti();
+                }
+            } catch (e) {
+                console.warn("SDK.getStaticResolutionScaleMulti failed:", e);
+            }
+            return 1.00; // fallback
+        }
+
+        function isVirtualControls() {
+            var userAgent = navigator.userAgent.toLowerCase();
+
+            if (/windows nt/.test(userAgent) && !/windows phone/.test(userAgent)) {
+                return false;
+            }
+
+            if (/CrOS/.test(userAgent)) {
+                return false;
+            }
+
+            if (/mobile/.test(userAgent)) {
+                return true;
+            }
+
+            var isIPad = /ipad|macintosh/.test(userAgent) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+            var isAndroidTablet = /android/.test(userAgent) && !/mobile/.test(userAgent);
+            if (isIPad || isAndroidTablet) {
+                return true;
+            }
+
+            return false;
+        }
+
+        window.receivedServiceWorkerMessage = false;
+        function preventZoomDuringLoading(event) {
+            if (window.gameLoading) {
+                event.preventDefault();
+            }
+        }
+        document.addEventListener('touchstart', preventZoomDuringLoading, { passive: false });
+        document.addEventListener('touchmove', preventZoomDuringLoading, { passive: false });
+        function playerPrefsSetFloat(key, value) {
+            localStorage.setItem(key, value.toString());
+        }
+        function playerPrefsGetFloat(key, defaultValue = 0.9) {
+            const storedValue = localStorage.getItem(key);
+            const parsedValue = storedValue ? parseFloat(storedValue) : defaultValue;
+            return parsedValue;
+        }
+        var container = document.querySelector("#unity-container");
+        var canvas = document.querySelector("#unity-canvas");
+        const loadingCover = document.querySelector("#loading-cover");
+        const fastLoadingAnim = document.querySelector("#unity-loading-bar-fast");
+        const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+        var progressBarFull = document.querySelector("#unity-progress-bar-full");
+        var isMobile = isVirtualControls();
+        window.isMobile = isMobile;
+
+        // Function to check if an ad has been loaded
+        function checkAdLoaded(adContainerId) {
+            const adContainer = document.getElementById(adContainerId);
+            if (adContainer && adContainer.style.display !== 'none') {
+                // Check if the ad container has children (frames, divs, etc.)
+                const adDiv = adContainer.querySelector(`#${adContainerId.replace('-parent', '')}`);
+                if (adDiv && (adDiv.innerHTML.trim() !== '' || adDiv.children.length > 0)) {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        // Function to hide ad containers if ads do not load within a timeout
+        function hideEmptyAdContainers() {
+            const adContainers = [
+                'overtide-io_300x250-parent',
+                'overtide-io_728x90-parent',
+                'overtide-io_300x600-parent'
+            ];
+            
+            adContainers.forEach((adContainerId) => {
+                const adTag = adContainerId.replace('-parent', '');
+                if (!checkAdLoaded(adContainerId)) {
+                    console.log(`[INFO] Ad container ${adContainerId} is empty, attempting retry...`);
+                    
+                    // Try to refresh the ad before hiding
+                    if (bannerVisibilityState[adTag]) {
+                        // Force refresh the ad regardless of timing
+                        aiptag.cmd.display.push(function () {
+                            aipDisplayTag.display(adTag);
+                        });
+                        
+                        // Check again after a short delay
+                        setTimeout(() => {
+                            if (!checkAdLoaded(adContainerId)) {
+                                console.log(`[INFO] Ad container ${adContainerId} still empty after retry, hiding it`);
+                                document.getElementById(adContainerId).style.display = 'none';
+                                bannerVisibilityState[adTag] = false;
+                            }
+                        }, 1000);
+                    } else {
+                        document.getElementById(adContainerId).style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Function to load ad banners and set a timeout to check ad loading status
+        function loadAdBannerScript(tagad, width, height) {
+            console.log(`[INFO] loadAdBannerScript: tagad:${tagad}, width:${width}, height:${height}`);
+            
+            let adLoaded = false;
+
+            if (hasQueryParam('cg')) {
+                //todo: later
+                /*
+                if (typeof window !== 'undefined' && window.CrazyGames) {
+                    if (height !== 600) {
+                        window.CrazyGames.SDK.banner.requestBanner({
+                            id: `${tagad}`,
+                            width: width,
+                            height: height,
+                        });
+                        adLoaded = true;
+                    }
+                } else {
+                    console.error('CrazyGames SDK is not available.');
+                }
+                */
+            } else {
+                if (typeof aiptag !== 'undefined' && aiptag.cmd && typeof aipDisplayTag !== 'undefined') {
+                    aiptag.cmd.display.push(function () {
+                        aipDisplayTag.display(`${tagad}`);
+                        adLoaded = true;
+                        // Store refresh timestamp
+                        adRefreshTimestamps[tagad] = Date.now();
+                    });
+                } else {
+                    if (window.sdkVersion === "Vanilla") {
+                        console.error('aiptag or aipDisplayTag is not defined.');
+                    }
+                }
+            }
+
+            if (adLoaded) {
+                setTimeout(hideEmptyAdContainers, 5000); // Check after 5 seconds
+            }
+
+            // Set up periodic refresh for this banner
+            setInterval(function () {
+                if (bannerVisibilityState[tagad]) {
+                    refreshAdBanner(tagad);
+                }
+            }, MIN_REFRESH_INTERVAL);
+        }
+
+        window.onGameLoaded = function() {
+            if (isMobile) {
+                // Uncomment and specify width and height if needed for mobile
+                // loadAdBannerScript('overtide-io_728x90', 728, 90);
+                // loadAdBannerScript('overtide-io_300x250', 300, 250);
+                // loadAdBannerScript('overtide-io_300x600', 300, 600);
+            } else {
+                loadAdBannerScript('overtide-io_728x90', 728, 90);
+                loadAdBannerScript('overtide-io_300x250', 300, 250);
+                loadAdBannerScript('overtide-io_300x600', 300, 600);
+                
+                // Set up progressive refresh rates to maximize fill rate
+                // Start with more frequent refreshes early in the session
+                const refreshSchedule = [
+                    { delay: 5000, interval: 15000, cycles: 3 },   // Every 15s for the first 45s
+                    { delay: 60000, interval: 30000, cycles: 4 },  // Every 30s for the next 2m
+                    { delay: 180000, interval: 60000, cycles: 0 }  // Every 60s thereafter
+                ];
+                
+                let currentScheduleIndex = 0;
+                let currentCycle = 0;
+                
+                function scheduleNextRefresh() {
+                    const schedule = refreshSchedule[currentScheduleIndex];
+                    
+                    setTimeout(() => {
+                        // Refresh all visible ad slots
+                        Object.keys(bannerVisibilityState).forEach(adTag => {
+                            if (bannerVisibilityState[adTag]) {
+                                // Force refresh - bypass the timing check
+                                const adElement = document.getElementById(`${adTag}-parent`);
+                                if (adElement && adElement.style.display !== "none") {
+                                    if (typeof aiptag !== 'undefined' && aiptag.cmd && typeof aipDisplayTag !== 'undefined') {
+                                        console.log(`[SCHEDULED] Refreshing banner: ${adTag}`);
+                                        aiptag.cmd.display.push(function () {
+                                            aipDisplayTag.display(adTag);
+                                        });
+                                        // Update refresh timestamp
+                                        adRefreshTimestamps[adTag] = Date.now();
+                                    }
+                                }
+                            }
+                        });
+                        
+                        // Move to next schedule if needed
+                        currentCycle++;
+                        if (schedule.cycles > 0 && currentCycle >= schedule.cycles) {
+                            currentCycle = 0;
+                            if (currentScheduleIndex < refreshSchedule.length - 1) {
+                                currentScheduleIndex++;
+                            }
+                        }
+                        
+                        // Schedule next refresh
+                        scheduleNextRefresh();
+                    }, currentCycle === 0 ? schedule.delay : schedule.interval);
+                }
+                
+                // Start the progressive refresh schedule
+                scheduleNextRefresh();
+            }
+        };
+
+        waitForSDKThenStart(() => {
+        
+            console.log("[INFO] index.html: starting to load game files");
+
+            var buildUrl = getSafeBuildURL(isMobile);
+
+        var loaderUrl = buildUrl + "/c69b7b2c0cd89a8f0a8983829a14f4e5.loader.js";
+        var config = {
+            dataUrl: buildUrl + "/309b2ec14a70d7dfe85d2f3215ba99ef.data.br",
+            frameworkUrl: buildUrl + "/fc0404ea8e3ae46326b9da00720426a1.framework.js.br",
+            codeUrl: buildUrl + "/6bb51fbde1e87f0e5679d3d55976855c.wasm.br",
+            streamingAssetsUrl: getSafeStreamingAssetsUrl(),
+            companyName: "LEGiONPlatforms",
+            productName: "Overtide.io",
+            productVersion: "8.3",
+            devicePixelRatio: getSafeStaticResolutionScaleMulti()
+        };
+        if (isMobile) {
+            var meta = document.createElement('meta');
+            meta.name = 'viewport';
+            meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+            document.getElementsByTagName('head')[0].appendChild(meta);
+        }
+        config.devicePixelRatio *= playerPrefsGetFloat("renderScaleWeb", 1);
+
+        var tips = [
+            "Downloading Models",
+            "Installing Menu",
+            "Downloading Maps",
+            "Downloading Buttons",
+            "Installing 3D Objects",
+            "Downloading Characters",
+            "Installing Animations",
+            "Downloading Graphics",
+            "Downloading Gradients",
+            "Installing Shop",
+            "Installing Servers",
+            "Downloading Lobbies",
+            "Installing Shaders",
+            "Downloading Game Modes",
+            "Downloading Enemy Profiles",
+            "Installing Weapon Upgrades",
+            "Downloading Armor Enhancements",
+            "Installing Soundtracks",
+            "Downloading Voice Packs",
+            "Downloading Multiplayer Modes",
+            "Installing Special Effects",
+            "Downloading Achievements",
+            "Downloading Replay Data",
+            "Downloading Leaderboard Information",
+            "Installing Custom Skins",
+            "Installing Environmental Details"
+        ];
+        function updateLoadingTextWithTip() {
+            var randomTip = tips[Math.floor(Math.random() * tips.length)];
+            if (!window.receivedServiceWorkerMessage)
+                loadingTxt.innerHTML = randomTip;
+            var longerDuration = Math.random() < 0.2;
+            var rnd2 = Math.random() < 0.5;
+            var nextTipTimeout = longerDuration ? 1000 : (rnd2 ? 250 : 500);
+            clearTimeout(tipInterval);
+            tipInterval = setTimeout(updateLoadingTextWithTip, nextTipTimeout);
+        }
+        
+
+
+        // Function to clamp a number within a range
+        function clamp(num, min, max) {
+            return num <= min ? min : num >= max ? max : num;
+        }
+
+        
+
+        // Simulate loading progress after 89%
+        let simulatedProgress = 89;
+        let simulationInterval;
+
+        function simulateProgress() {
+            if (simulatedProgress < 100) {
+                simulatedProgress++;
+                updateProgressUI(simulatedProgress);
+            } else {
+                clearInterval(simulationInterval);
+            }
+        }
+
+        // Function to update the UI based on progress
+        function updateProgressUI(percent) {
+            if (window.unityInstance){
+                clearInterval(simulationInterval);
+                return;
+            }
+            const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+            const progressBarFull = document.querySelector("#unity-progress-bar-full");
+            const loadingTxt = document.querySelector("#loadingTxt");
+            const loadingTxtMinimal = document.querySelector("#loadingTxtMinimal");
+            const fastLoadingAnim = document.querySelector("#unity-loading-bar-fast");
+
+            if (percent < 99) {
+                progressBarEmpty.style.display = "";
+                progressBarFull.style.width = `${percent}%`;
+                progressBarFull.style.display = "block";
+                fastLoadingAnim.style.display = "none";
+                loadingTxtMinimal.innerHTML = `Loaded ${percent.toFixed(2)}%`;
+            } else {
+                progressBarEmpty.style.display = "none";
+                progressBarFull.style.display = "none";
+                fastLoadingAnim.style.display = "block";
+                loadingTxtMinimal.innerHTML = "Almost There! (Decompressing...)";
+            }
+
+            if (loadingTxt) {
+                loadingTxt.innerHTML = `Downloading Game Files ${percent.toFixed(2)}%`;
+            }
+        }
+        var startedSimulation = false;
+        var initialAliveMessage = false;
+        function onProgressUnity(progress) {
+
+            if (!initialAliveMessage) {
+                initialAliveMessage = true;
+                const spinner = document.querySelector('.spinner');
+                spinner.style.display = "none";
+            }
+
+            if (startedSimulation){
+                return;
+            }
+            let percent = easeOutQuadPercentage(progress * 100);
+            if (percent >= 89) {
+                startedSimulation = true;
+                clearInterval(simulationInterval); // Stop any ongoing simulation
+                simulationInterval = setInterval(simulateProgress, 600); // Start simulating after 89%
+            } else {
+                updateProgressUI(percent);
+            }
+        }
+
+            var tipInterval;
+          loadingCover.style.display = "";
+          const _script = document.createElement("script");
+          _script.type = 'text/javascript';
+          _script.src = loaderUrl;
+          window.gameLoading = true;
+          reportLoadingStart();
+          var reachedLastLoadingStep = false;
+          
+          _script.onload = () => {
+              createUnityInstance(canvas, config, (progress) => {
+                  onProgressUnity(progress);
+              }).then((unityInstance) => {
+                  clearInterval(tipInterval);
+                  window.unityInstance = unityInstance;
+                  window.onGameLoaded();
+                  setTimeout(function () {
+                      var animDuration = 200;
+                      loadingCover.animate([
+                          { opacity: '1' },
+                          { opacity: '0' }
+                      ], {
+                          duration: animDuration,
+                          fill: 'forwards'
+                      });
+                      loadingCover.animate([
+                          { transform: 'scale(1)', opacity: '1' },
+                          { transform: 'scale(2)', opacity: '0' }
+                      ], {
+                          duration: animDuration,
+                          fill: 'forwards'
+                      });
+                      setTimeout(function () {
+                          if (loadingCover) {
+                              loadingCover.remove();
+                          }
+                      }, animDuration);
+                  }, 100);
+                  window.gameLoading = false;
+                  reportLoadingFinished();
+                  console.log('%cWARNING: Do not paste any scripts into this console. Pasting script/code can compromise your device and may lead to a ban.', 'color: red; font-weight: bold;');
+              }).catch((error) => {
+                  let errorMessage = (error.message ? error.message : error.toString()).toLowerCase();
+                  customOnError(errorMessage);
+              });
+            };
+            (function () {
+                const originalConsoleError = console.error;
+                console.error = function (...args) {
+                    const errorMessage = args.join(' ');
+                    if (errorMessage.includes("extra work")) {
+                        return;
+                    }
+                    customOnError(errorMessage);
+                    originalConsoleError.apply(console, args);
+                };
+            })();
+            function customOnError(message) {
+                var isFileDownloadError = message.toLowerCase().includes('failed to download file') && (message.includes('.data') || message.includes('.wasm') || message.includes('.br'));
+                var isWasmError = message.toLowerCase().includes('both async and sync fetching of the wasm failed');
+                var isUnableToLoadFileError = message.toLowerCase().includes("unable to load file") && (message.includes('.js') || message.includes('.br') || message.includes('.framework'));
+                if (isFileDownloadError || isWasmError) {
+                    showRetryPopup("Failed Downloading Game Files. <br>Click to try again.", true, true);
+                    gtag('event', "downloadGameFilesFailedErrorCatched", {
+                        'event_category': 'error',
+                        'event_label': message
+                    });
+                }
+                else if (isUnableToLoadFileError) {
+                    showRetryPopup("Failed Downloading Game Files. <br>Click to try again.", true, false);
+                    gtag('event', "downloadGameFilesFailedErrorCatched", {
+                        'event_category': 'error',
+                        'event_label': message
+                    });
+                }
+            }
+            window.addEventListener('offline', function () {
+                if (window.gameLoading)
+                    showRetryPopup("You are Offline. Please Connect to the internet. <br>Click to try again", true, false);
+            });
+            var totalRetryTimes = 0;
+            const retryUnityLoad = () => {
+                console.log("Retrying to load the unity instance (retryUnityLoad)");
+                if (!navigator.onLine) {
+                    console.log("You are not online! Abort retryUnityLoad.");
+                    return;
+                }
+                var popup = document.getElementById('unityRetryPopup');
+                if (popup != null)
+                    document.body.removeChild(popup);
+                if (window.unityInstance)
+                {
+                    console.log("unityInstance exists! Abort retryUnityLoad.");
+                    return;
+                }
+                removeScriptBySrc(loaderUrl);
+                const _newScript = document.createElement("script");
+                _newScript.src = loaderUrl;
+                window.gameLoading = true;
+                reportLoadingStart();
+                var reachedLastLoadingStep = false;
+                _newScript.onload = () => {
+                    createUnityInstance(canvas, config, (progress) => {
+                        onProgressUnity(progress);
+                    }).then((unityInstance) => {
+                        clearInterval(tipInterval);
+                        window.unityInstance = unityInstance;
+                        window.onGameLoaded();
+                        setTimeout(function () {
+                            var animDuration = 200;
+                            loadingCover.animate([
+                                { opacity: '1' },
+                                { opacity: '0' }
+                            ], {
+                                duration: animDuration,
+                                fill: 'forwards'
+                            });
+                            loadingCover.animate([
+                                { transform: 'scale(1)', opacity: '1' },
+                                { transform: 'scale(2)', opacity: '0' }
+                            ], {
+                                duration: animDuration,
+                                fill: 'forwards'
+                            });
+                            setTimeout(function () {
+                                if (loadingCover) {
+                                    loadingCover.remove();
+                                }
+                            }, animDuration);
+                        }, 100);
+                        window.gameLoading = false;
+                        reportLoadingFinished();
+                        console.log('%cWARNING: Do not paste any scripts into this console. Pasting script/code can compromise your device and may lead to a ban.', 'color: red; font-weight: bold;');
+                    }).catch((error) => {
+                        let errorMessage = (error.message ? error.message : error.toString()).toLowerCase();
+                        customOnError(errorMessage);
+                    });
+                };
+                document.body.appendChild(_newScript);
+            };
+            function showRetryPopup(message, retry, retryRn) {
+                if (!window.gameLoading)
+                    return;
+                if (window.unityInstance)
+                    return;
+                if (retryRn && totalRetryTimes <= 3) {
+                    retryUnityLoad();
+                    return;
+                }
+                var existingPopup = document.getElementById('unityRetryPopup');
+                if (existingPopup) {
+                    existingPopup.querySelector('.popup-content').innerHTML = message;
+                    return;
+                }
+                var popup = document.createElement("div");
+                popup.id = 'unityRetryPopup';
+                popup.style.position = "fixed";
+                popup.style.left = "0";
+                popup.style.top = "0";
+                popup.style.width = "100%";
+                popup.style.height = "100%";
+                popup.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+                popup.style.display = "flex";
+                popup.style.alignItems = "center";
+                popup.style.justifyContent = "center";
+                popup.style.userSelect = "none";
+                popup.style.zIndex = "1000";
+                var content = document.createElement("div");
+                content.style.padding = "20px";
+                content.style.backgroundColor = "#333"; // Dark background for the content
+                content.style.color = "#fff"; // White text color
+                content.style.borderRadius = "15px"; // Rounded corners
+                content.style.textAlign = "center";
+                content.style.maxWidth = "80%";
+                content.style.fontSize = "18px";
+                content.innerHTML = message;
+                content.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+                content.style.boxShadow = "0 10px 10px rgba(0, 0, 0, 0.2)";
+                content.style.cursor = "pointer"; // Change cursor on hover
+                content.style.userSelect = "none";
+                popup.appendChild(content);
+                document.body.appendChild(popup);
+                if (retry) {
+                    popup.addEventListener("click", retryUnityLoad);
+                    popup.addEventListener("touchstart", retryUnityLoad, { passive: true });
+                }
+                else {
+                    popup.addEventListener("click", () => {
+                        document.body.removeChild(popup);
+                    });
+                    popup.addEventListener("touchstart", () => {
+                        document.body.removeChild(popup);
+                    }, { passive: true });
+                }
+            }
+            document.body.appendChild(_script);
+            function removeScriptBySrc(src) {
+                let scripts = document.getElementsByTagName('script');
+                for (let i = 0; i < scripts.length; i++) {
+                    if (scripts[i].src === src) {
+                        scripts[i].parentNode.removeChild(scripts[i]);
+                    }
+                }
+            }
+        });
+    </script><script type="text/javascript" src="Build/c69b7b2c0cd89a8f0a8983829a14f4e5.loader.js"></script>
+    <script>
+        const firebaseBase = isDiscord
+            ? '/.proxy/gstatic/firebasejs/10.8.0/'
+            : 'https://www.gstatic.com/firebasejs/10.8.0/';
+
+        const firebaseScripts = [
+            'firebase-app-compat.js',   // MUST come first — initializeApp lives here
+            'firebase-auth-compat.js',
+            'firebase-database-compat.js',
+            'firebase-functions-compat.js'
+        ];
+
+        // Dynamically-injected <script> tags are async regardless of script.defer = true.
+        // firebase2.js calls firebase.initializeApp() at top level, so the SDK chunks
+        // MUST finish loading before firebase2.js executes. Chain via onload.
+        (function loadFirebaseSequentially(i) {
+            if (i >= firebaseScripts.length) {
+                const fb2 = document.createElement('script');
+                fb2.src = 'firebase2.js';
+                document.head.appendChild(fb2);
+                return;
+            }
+            const s = document.createElement('script');
+            s.src = firebaseBase + firebaseScripts[i];
+            s.onload = () => loadFirebaseSequentially(i + 1);
+            s.onerror = () => {
+                console.error('Failed to load Firebase script: ' + firebaseScripts[i]);
+                loadFirebaseSequentially(i + 1);
+            };
+            document.head.appendChild(s);
+        })(0);
+    </script>
+    <script type="text/javascript">
+        function testDevice() {
+            try {
+                navigator.getBattery().then(function (battery) {
+                    if (battery.charging && battery.chargingTime === 0) {
+                        unityInstanceWrapper.sendMessage('MainManager', 'OnGotDevice', "Desktop");
+                    } else {
+                        unityInstanceWrapper.sendMessage('MainManager', 'OnGotDevice', "Laptop");
+                    }
+                }).catch(function (error) {
+                    unityInstanceWrapper.sendMessage('MainManager', 'OnGotDevice', "Unknown");
+                });
+            } catch (error) {
+                unityInstanceWrapper.sendMessage('MainManager', 'OnGotDevice', "Unknown");
+            }
+        }
+        function SetPaypalPaymentWindow(x) {
+            document.getElementById('paypalPaymentWindow').style.display = x;
+        }
+        function CancelPaypalProcess() {
+            document.getElementById('paypalPaymentWindow').style.display = "none";
+            unityInstanceWrapper.sendMessage('Payments', 'OnPayPalPurchaseFinished', "0");
+        }
+        function Purchase(amount) {
+            window.currentPaymentPrice = amount;
+            document.getElementById('paypalPaymentWindow').style.display = 'block';
+        }
+        function SetURL(add) {
+            var currentURL = window.location.protocol + "//" + window.location.host + window.location.pathname + add;
+            window.history.pushState({ path: currentURL }, '', currentURL);
+        }
+        function copyCurrentURL() {
+            var u = window.location.href;
+            setClipboard(u);
+        }
+
+        //v5
+        function LockCursor(enableAcceleration) {
+            if (!canvas) {
+                console.error("Canvas element not found.");
+                return;
+            }
+
+            // Safari detection
+            function isSafari() {
+                return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            }
+
+            // Determine if unadjusted movement should be used
+            const useUnadjustedMovement = enableAcceleration === "0";
+            console.log(`LockCursor called with enableAcceleration: ${enableAcceleration}`);
+            console.log(`useUnadjustedMovement set to: ${useUnadjustedMovement}`);
+
+            try {
+                if (isSafari()) {
+                    console.log("Safari detected - using webkitRequestPointerLock without options");
+                    if (canvas.webkitRequestPointerLock) {
+                        canvas.webkitRequestPointerLock();
+                    } else {
+                        console.warn("webkitRequestPointerLock not supported, falling back.");
+                        canvas.requestPointerLock();
+                    }
+                    return;
+                }
+
+                // Non-Safari browsers
+                const promise = canvas.requestPointerLock({ unadjustedMovement: useUnadjustedMovement });
+                console.log("Pointer lock request initiated.");
+
+                if (promise) {
+                    promise.then(() => {
+                        console.log("Pointer lock successfully acquired.");
+                    }).catch((error) => {
+                        console.error("Pointer lock request failed:", error);
+                        if (error.name === "NotSupportedError") {
+                            console.warn("Unadjusted movement not supported, falling back to standard pointer lock.");
+                            canvas.requestPointerLock().then(() => {
+                                console.log("Standard pointer lock successfully acquired.");
+                            }).catch((err) => {
+                                console.error("Standard pointer lock request failed:", err);
+                            });
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Error during pointer lock request:", error);
+                canvas.requestPointerLock().then(() => {
+                    console.log("Standard pointer lock successfully acquired after catching error.");
+                }).catch((err) => {
+                    console.error("Standard pointer lock request failed after catching error:", err);
+                });
+            }
+        }
+
+
+        function handlePointerLockError(error) {
+            if (error.name === "NotSupportedError") {
+                console.error("Unadjusted movement not supported, attempting to lock pointer without it.");
+                canvas.requestPointerLock(); // Fallback to basic pointer lock
+            } else {
+                console.error("Failed to lock pointer:", error);
+            }
+        }
+
+        // Setup event listeners for pointer lock state changes
+        document.addEventListener('pointerlockchange', lockChangeAlert, false);
+        document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
+        document.addEventListener('webkitpointerlockchange', lockChangeAlert, false);
+
+        function lockChangeAlert() {
+            if (document.pointerLockElement === canvas || document.mozPointerLockElement === canvas) {
+                // Pointer was successfully locked
+                //console.log("Pointer locked successfully.");
+                window.isMouseLocked = true;
+            } else {
+                // Pointer was unlocked
+                window.isMouseLocked = false;
+                unityInstanceWrapper.sendMessage('MainManager', 'OnEscapeJS');
+            }
+        }
+
+
+        function toggleFullscreen() {
+            if (document.fullscreenElement === null) {
+                openFullscreen();
+                return;
+            }
+            exitFullscreen();
+        }
+        function openFullscreen() {
+            document.documentElement.requestFullscreen();
+        }
+        function exitFullscreen() {
+            document.exitFullscreen();
+        }
+        async function setClipboard(stringToSetAsClipboard) {
+            try {
+                await navigator.clipboard.writeText(stringToSetAsClipboard);
+                console.log('Text copied to clipboard successfully!');
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        }
+        function getClipboard() {
+            navigator.clipboard.readText()
+                .then((clipboardContent) => {
+                    unityInstanceWrapper.sendMessage('MainManager', 'OnGotClipboard', clipboardContent);
+                })
+                .catch((error) => {
+                    console.error('Clipboard access error:', error);
+                });
+        }
+        canvas.addEventListener("webglcontextlost", function (event) {
+            event.preventDefault();
+            retryUnityLoad();
+        }, false);
+
+        const scriptSrc = hasQueryParam('cg') ? 'sdkManager_cg.js' : 'sdkManager.js';
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.defer = true;
+        document.head.appendChild(script);
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+    <script>
+        // Add refresh on page visibility change
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                // Page is visible again, refresh visible banners
+                setTimeout(() => {
+                    if (bannerVisibilityState['overtide-io_728x90']) {
+                        refreshAdBanner('overtide-io_728x90');
+                    }
+                    if (bannerVisibilityState['overtide-io_300x250']) {
+                        refreshAdBanner('overtide-io_300x250');
+                    }
+                    if (bannerVisibilityState['overtide-io_300x600']) {
+                        refreshAdBanner('overtide-io_300x600');
+                    }
+                }, 500);
+            }
+        });
+    </script>
+
+
+<iframe marginwidth="0" marginheight="0" scrolling="no" frameborder="0" id="16ae5e477d40bc8" width="0" height="0" src="about:blank" name="__pb_locator__" style="display: none; height: 0px; width: 0px; border: 0px;"></iframe><div id="cmpPersistentLink" class="cmp-persistent-link mI58Gi15PAe8fqsHDOMI jbj_rARHnqU1Oj35bbgQ" style="display: none;">
+                    <a class="oSAXb5qPKj78_Sp8Oz9A" href="#" tabindex="0" aria-haspopup="dialog" role="button" draggable="false" aria-label="Privacy settings">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368">
+                            <path d="m438-339 220-221-51-51-169 170-85-85-51 51 136 136Zm42 243q-135-33-223.5-152.84Q168-368.69 168-515v-229l312-120 312 120v229q0 146.31-88.5 266.16Q615-129 480-96Zm0-75q104-32.25 172-129t68-215v-180l-240-92-240 92v180q0 118.25 68 215t172 129Zm0-308Z"></path>
+                        </svg>
+                        <span class="ciHgxN1orEDdqQlZUIRO">Privacy settings</span>
+                    </a>
+                    </div><script src="Build/fc0404ea8e3ae46326b9da00720426a1.framework.js.br"></script></body></html>
